@@ -93,7 +93,7 @@ export default function Home() {
 
           {/* Overline */}
           <p className="mt-4 sm:mt-5 text-[10px] sm:text-[11px] tracking-[0.28em] uppercase text-[#EFE3D0]">
-            Handcrafted&nbsp;&nbsp;·&nbsp;&nbsp;Sustainable&nbsp;&nbsp;·&nbsp;&nbsp;Slow
+            Natural&nbsp;&nbsp;·&nbsp;&nbsp;Ethical&nbsp;&nbsp;·&nbsp;&nbsp;Timeless
           </p>
 
           {/* Hero headline */}
