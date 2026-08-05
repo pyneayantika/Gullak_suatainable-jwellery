@@ -337,6 +337,25 @@ class GullakAPITester:
             headers={"Authorization": f"Bearer {self.admin_token}"}
         )
     
+    # ========== HEALTH CHECK ==========
+    
+    def test_health_endpoint(self):
+        """Test GET /api/ returns 200"""
+        def check(data):
+            if 'service' not in data or 'status' not in data:
+                self.log("Missing service or status key", "ERROR")
+                return False
+            if data.get('status') != 'ok':
+                self.log(f"Expected status 'ok', got {data.get('status')}", "ERROR")
+                return False
+            return True
+        
+        return self.run_test(
+            "GET /api/ - health check",
+            "GET", "", 200,
+            check_fn=check
+        )
+    
     # ========== CUSTOMER AUTH TESTS (without token) ==========
     
     def test_auth_me_without_token(self):
@@ -344,6 +363,13 @@ class GullakAPITester:
         return self.run_test(
             "GET /api/auth/me - 401 without token",
             "GET", "auth/me", 401
+        )
+    
+    def test_auth_logout(self):
+        """Test POST /api/auth/logout returns 200"""
+        return self.run_test(
+            "POST /api/auth/logout - 200",
+            "POST", "auth/logout", 200
         )
     
     def test_wishlist_requires_auth(self):
@@ -358,6 +384,13 @@ class GullakAPITester:
         return self.run_test(
             "GET /api/cart - 401 without auth",
             "GET", "cart", 401
+        )
+    
+    def test_orders_me_requires_auth(self):
+        """Test GET /api/orders/me returns 401 without token"""
+        return self.run_test(
+            "GET /api/orders/me - 401 without auth",
+            "GET", "orders/me", 401
         )
     
     # ========== IMAGE UPLOAD TESTS ==========
@@ -655,6 +688,10 @@ def main():
     tester = GullakAPITester()
     
     # Run all tests in order
+    print("\n🏥 HEALTH CHECK")
+    print("-"*60)
+    tester.test_health_endpoint()
+    
     print("\n📦 PUBLIC CATALOG TESTS")
     print("-"*60)
     tester.test_home_endpoint()
@@ -683,8 +720,10 @@ def main():
     print("\n🔒 CUSTOMER AUTH TESTS (without token)")
     print("-"*60)
     tester.test_auth_me_without_token()
+    tester.test_auth_logout()
     tester.test_wishlist_requires_auth()
     tester.test_cart_requires_auth()
+    tester.test_orders_me_requires_auth()
     
     print("\n📤 IMAGE UPLOAD TESTS")
     print("-"*60)
