@@ -1,22 +1,18 @@
 [
   {
-    "content": "Backend: StudioMoment model + public/admin endpoints + seed",
+    "content": "Add Jost font to Google Fonts import in index.html",
     "status": "completed"
   },
   {
-    "content": "Frontend: Home page dynamic Studio Diary grid",
+    "content": "Update --font-sans to Jost in index.css",
     "status": "completed"
   },
   {
-    "content": "Frontend: Admin Studio Diary page",
+    "content": "Update Header.jsx - logo uppercase + larger, nav items Jost uppercase",
     "status": "completed"
   },
   {
-    "content": "Frontend: Sidebar + dashboard for Studio Diary",
-    "status": "completed"
-  },
-  {
-    "content": "Frontend: Hero CTA copy - 'Shop Now'",
+    "content": "Screenshot and verify",
     "status": "completed"
   }
 ]

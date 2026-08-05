@@ -31,20 +31,28 @@ export default function Header() {
   return (
     <header
       data-testid={TID.header.root}
-      className={`sticky top-0 z-40 backdrop-blur transition-colors ${
-        scrolled ? "bg-[rgba(247,241,230,0.92)] border-b border-[color:var(--border-subtle)]" : "bg-[rgba(247,241,230,0.72)]"
+      className={`sticky top-0 z-40 backdrop-blur-[6px] transition-colors ${
+        scrolled ? "bg-[rgba(250,246,239,0.95)] border-b border-[#E8DCC8]" : "bg-[rgba(250,246,239,0.80)]"
       }`}
     >
-      <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 h-16 flex items-center justify-between gap-6">
-        <Link data-testid={TID.header.logo} to="/" className="serif text-2xl tracking-tight text-[color:var(--ink-1)]">Gullak</Link>
-        <nav className="hidden md:flex items-center gap-8">
+      <div className="mx-auto max-w-[1240px] px-4 sm:px-8 lg:px-14 min-h-[72px] flex items-center justify-between gap-6">
+        <Link
+          data-testid={TID.header.logo}
+          to="/"
+          className="font-serif text-[28px] sm:text-[30px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-1)] leading-none"
+        >
+          Gullak
+        </Link>
+        <nav className="hidden md:flex items-center gap-10">
           {navItems.map(item => (
             <NavLink
               key={item.to}
               to={item.to}
               data-testid={item.testid}
               className={({ isActive }) =>
-                `link-underline text-sm ${isActive ? "text-[color:var(--brand)]" : "text-[color:var(--ink-2)] hover:text-[color:var(--ink-1)]"}`
+                `font-sans text-[13px] uppercase tracking-[0.06em] font-normal transition-colors duration-200 ${
+                  isActive ? "text-[color:var(--brand)]" : "text-[#5A4433] hover:text-[color:var(--brand)]"
+                }`
               }
             >
               {item.label}
@@ -93,14 +101,16 @@ export default function Header() {
         </div>
       </div>
       {mobileOpen && (
-        <div className="md:hidden border-t border-[color:var(--border-subtle)] bg-[color:var(--bg)]">
+      <div className="md:hidden border-t border-[#E8DCC8] bg-[rgba(250,246,239,0.98)]">
           <nav className="flex flex-col p-4 gap-1">
             {navItems.map(item => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 onClick={() => setMobileOpen(false)}
-                className={({ isActive }) => `py-3 px-2 text-base ${isActive ? "text-[color:var(--brand)]" : "text-[color:var(--ink-1)]"}`}
+                className={({ isActive }) =>
+                  `py-3 px-2 text-[13px] uppercase tracking-[0.06em] font-normal ${isActive ? "text-[color:var(--brand)]" : "text-[#5A4433]"}`
+                }
               >
                 {item.label}
               </NavLink>
