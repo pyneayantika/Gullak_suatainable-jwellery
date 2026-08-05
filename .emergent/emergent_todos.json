@@ -1,14 +1,14 @@
 [
   {
-    "content": "Update Logo.jsx — add style prop for color override (white on dark bg)",
+    "content": "Add Cormorant Garamond weight 700 to font import",
     "status": "completed"
   },
   {
-    "content": "Rewrite hero section in Home.jsx — full-bleed 92vh, dark image, large centred logo + headline",
+    "content": "Rewrite pot SVG to exactly match reference — wide mouth, straight neck, collar ring, round body, 2 white body bands",
     "status": "completed"
   },
   {
-    "content": "Verify build + screenshot",
-    "status": "completed"
+    "content": "Test with testing agent",
+    "status": "in_progress"
   }
 ]

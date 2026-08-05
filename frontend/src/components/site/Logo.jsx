@@ -2,86 +2,100 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 /**
- * PotIcon — SVG of a traditional Indian gullak/lota
+ * PotIcon — hand-traced from the reference brand image.
  *
- * Shape (matching the reference image exactly):
- *  ┌─────────┐  ← small oval mouth
- *  │  NECK   │  ← straight cylindrical, clearly defined
- *  │─────────│  ← collar band (2 horizontal lines)
- *  │         │  \
- *  │  BODY   │   round, 2.5× neck width
- *  │─────────│  ← body band 1
- *  │─────────│  ← body band 2
- *  └─────────┘  ← base
+ * Exact anatomy (matching the attached logo):
+ *
+ *   ╔══════╗        wide oval mouth with interior shadow
+ *   ║ NECK ║        straight cylindrical sides
+ *   ╠══════╣  ──    collar ring line 1
+ *   ║      ║  ──    collar ring line 2 (ring is wider than neck)
+ *   ║      ║
+ *   ║ BODY ║  ──    body band 1  (white horizontal stripe)
+ *   ║      ║  ──    body band 2  (white horizontal stripe)
+ *   ╚══╧══╝        narrow flat base
  */
 function PotIcon() {
   return (
     <svg
-      viewBox="0 0 46 66"
+      viewBox="0 0 50 64"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       aria-hidden="true"
       style={{
         display: "inline-block",
-        height: "0.85em",
+        /* match cap-height of Cormorant Garamond bold */
+        height: "0.82em",
         width: "auto",
-        // drop so pot base aligns with text baseline
-        verticalAlign: "-0.10em",
-        margin: "0 0.03em",
+        /* drop so pot base sits on text baseline */
+        verticalAlign: "-0.08em",
+        margin: "0 0.04em",
       }}
     >
-      {/* ── Main pot silhouette ──
-          Clockwise path:
-            top arc (mouth) → straight right neck down →
-            collar expands → round body → base →
-            left body → collar narrows → Z closes left neck straight up
+      {/* ── Main pot silhouette ──────────────────────────────────────────
+          Clockwise from mouth top-left:
+            arc over mouth → right neck straight down →
+            right collar ring expands out → right body → base →
+            left body → left collar ring → left neck
+            Z closes: draws straight line back to M = left neck ✓
       */}
       <path d="
-        M 17,5
-        A 6,2.5 0 0 1 29,5
-        L 29,22
-        C 32,23 36,26 39,30
-        C 42,35 43,41 43,46
-        C 43,55 38,61 30,63
-        L 16,63
-        C 8,61 3,55 3,46
-        C 3,41 4,35 7,30
-        C 10,26 14,23 17,22
+        M 17,4
+        A 8,4 0 0 1 33,4
+        L 33,16
+        C 34,17 36,17 37,20
+        C 39,22 41,24 42,28
+        C 44,33 45,39 45,45
+        C 45,54 40,60 31,62
+        L 19,62
+        C 10,60 5,54 5,45
+        C 5,39 6,33 8,28
+        C 9,24 11,22 13,20
+        C 14,17 16,17 17,16
         Z
       " />
 
-      {/* ── Mouth opening — hollow shadow at top ── */}
+      {/* ── Mouth interior shadow ─────────────────────────────────────────
+          Dark ellipse shows the hollow opening at the top of the pot
+      */}
       <ellipse
-        cx="23" cy="6"
-        rx="4.5" ry="1.8"
-        fill="rgba(250,246,239,0.30)"
+        cx="25" cy="5"
+        rx="6" ry="2.2"
+        fill="rgba(20,17,16,0.28)"
       />
 
-      {/* ── Collar ring — 2 horizontal lines at base of neck ──
-          Extends slightly wider than neck (17→29) to hint at the ring protrusion
+      {/* ── Collar ring ───────────────────────────────────────────────────
+          Two horizontal lines at the neck-body junction.
+          They extend wider than the neck (17→33) to show the ring flange.
+          Line 1 sits at the bottom of the neck (y≈17).
+          Line 2 sits at the bottom of the collar ring (y≈26).
       */}
       <line
-        x1="14" y1="22.5" x2="32" y2="22.5"
-        stroke="rgba(250,246,239,0.60)" strokeWidth="1.8" strokeLinecap="round"
+        x1="13" y1="17.5" x2="37" y2="17.5"
+        stroke="rgba(250,246,239,0.70)" strokeWidth="2.2" strokeLinecap="round"
       />
       <line
-        x1="12" y1="27" x2="34" y2="27"
-        stroke="rgba(250,246,239,0.60)" strokeWidth="1.8" strokeLinecap="round"
+        x1="11" y1="26.5" x2="39" y2="26.5"
+        stroke="rgba(250,246,239,0.70)" strokeWidth="2.2" strokeLinecap="round"
       />
 
-      {/* ── Body decorative bands — two curved ridges on the belly ── */}
+      {/* ── Body bands ────────────────────────────────────────────────────
+          Two white curved stripes across the belly, matching the clay-ring
+          ridges visible in the reference image.
+          Curved with Q (quadratic bezier) to follow the round pot belly.
+      */}
       <path
-        d="M 5,46 Q 23,50 41,46"
+        d="M 7,45 Q 25,50 43,45"
         fill="none"
-        stroke="rgba(250,246,239,0.55)"
-        strokeWidth="2"
+        stroke="rgba(250,246,239,0.70)"
+        strokeWidth="2.5"
         strokeLinecap="round"
       />
       <path
-        d="M 6,54 Q 23,58 40,54"
+        d="M 8,53 Q 25,58 42,53"
         fill="none"
-        stroke="rgba(250,246,239,0.55)"
-        strokeWidth="2"
+        stroke="rgba(250,246,239,0.70)"
+        strokeWidth="2.5"
         strokeLinecap="round"
       />
     </svg>
@@ -89,12 +103,13 @@ function PotIcon() {
 }
 
 /**
- * GullakLogo — "G" + clay-pot icon + "llak"
+ * GullakLogo — "G" + clay-pot icon (replacing 'u') + "llak"
  *
- * @param {string}  className  — extra Tailwind classes (e.g. font-size)
- * @param {string}  testId     — data-testid attribute
- * @param {object}  style      — inline style overrides
- *                               e.g. { color: '#FAF6EF' } for light-on-dark
+ * Font: Cormorant Garamond 700 (bold) — matches the heavy serif in the reference
+ *
+ * @param {string} className  — e.g. font-size override
+ * @param {string} testId     — data-testid attribute
+ * @param {object} style      — color override, e.g. { color: '#FAF6EF' } for hero
  */
 export function GullakLogo({ className = "", testId = "", style = {} }) {
   return (
@@ -105,7 +120,8 @@ export function GullakLogo({ className = "", testId = "", style = {} }) {
       style={{ color: "var(--brand)", ...style }}
       className={[
         "inline-flex items-end leading-none select-none",
-        "font-serif font-semibold tracking-[0.01em]",
+        /* bold weight matches the heavy serif in the reference logo */
+        "font-serif font-bold tracking-[0.01em]",
         "hover:opacity-90 transition-opacity duration-200",
         className,
       ]
