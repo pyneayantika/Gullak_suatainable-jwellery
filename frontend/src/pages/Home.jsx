@@ -111,9 +111,6 @@ export default function Home() {
         {/* ── Main content — left-aligned to match the open terracotta space on image left ── */}
         <div className="text-on-dark relative z-10 flex-1 flex flex-col items-start justify-center px-8 sm:px-16 lg:px-24 py-16 w-full max-w-[680px]">
 
-          {/* Thin vertical separator */}
-          <div className="mt-5 sm:mt-7 w-px h-10 bg-[rgba(250,246,239,0.25)]" />
-
           {/* Overline */}
           <p className="mt-4 sm:mt-5 text-[13px] sm:text-[15px] tracking-[0.32em] uppercase text-[#EFE3D0] font-medium drop-shadow-md">
             {H.tagline}
