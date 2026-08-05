@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { Link } from "react-router-dom";
-import { Package, Layers, BookOpen, Users, ScrollText, Bell } from "lucide-react";
+import { Package, Layers, BookOpen, Users, ScrollText, Bell, Camera } from "lucide-react";
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({ products: 0, collections: 0, journal: 0, artisans: 0, orders: 0, notifications: 0 });
+  const [stats, setStats] = useState({ products: 0, collections: 0, journal: 0, artisans: 0, orders: 0, notifications: 0, moments: 0 });
   useEffect(() => {
     (async () => {
       try {
-        const [p, c, j, a, o, n] = await Promise.all([
+        const [p, c, j, a, o, n, m] = await Promise.all([
           api.get("/admin/products"),
           api.get("/admin/collections"),
           api.get("/admin/journal"),
           api.get("/admin/artisans"),
           api.get("/admin/orders"),
           api.get("/admin/notifications"),
+          api.get("/admin/studio-moments"),
         ]);
-        setStats({ products: p.data.length, collections: c.data.length, journal: j.data.length, artisans: a.data.length, orders: o.data.length, notifications: n.data.length });
+        setStats({ products: p.data.length, collections: c.data.length, journal: j.data.length, artisans: a.data.length, orders: o.data.length, notifications: n.data.length, moments: m.data.length });
       } catch(_) {}
     })();
   }, []);
@@ -25,6 +26,7 @@ export default function AdminDashboard() {
     { label: "Products", value: stats.products, to: "/admin/products", Icon: Package },
     { label: "Collections", value: stats.collections, to: "/admin/collections", Icon: Layers },
     { label: "Journal posts", value: stats.journal, to: "/admin/journal", Icon: BookOpen },
+    { label: "Studio Diary", value: stats.moments, to: "/admin/studio-diary", Icon: Camera },
     { label: "Artisans", value: stats.artisans, to: "/admin/artisans", Icon: Users },
     { label: "Orders", value: stats.orders, to: "/admin/orders", Icon: ScrollText },
     { label: "Notify-me", value: stats.notifications, to: "/admin/notifications", Icon: Bell },

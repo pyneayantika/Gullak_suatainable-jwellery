@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
 import { api } from "@/lib/api";
 import { TID } from "@/lib/testIds";
-import { LayoutDashboard, Package, BookOpen, Layers, Users, ScrollText, Bell, LogOut } from "lucide-react";
+import { LayoutDashboard, Package, BookOpen, Layers, Users, ScrollText, Bell, Camera, LogOut } from "lucide-react";
 
 export default function AdminLayout() {
   const [admin, setAdmin] = useState(null);
@@ -34,6 +34,7 @@ export default function AdminLayout() {
     { to: "/admin/products", label: "Products", Icon: Package },
     { to: "/admin/collections", label: "Collections", Icon: Layers },
     { to: "/admin/journal", label: "Journal", Icon: BookOpen },
+    { to: "/admin/studio-diary", label: "Studio Diary", Icon: Camera },
     { to: "/admin/artisans", label: "Artisans", Icon: Users },
     { to: "/admin/orders", label: "Orders", Icon: ScrollText },
     { to: "/admin/notifications", label: "Notify-me", Icon: Bell },

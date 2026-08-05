@@ -39,13 +39,15 @@ const PROCESS_STEPS = [
 
 export default function Home() {
   const [data, setData] = useState({ featured_products: [], collections: [], testimonials: [], artisans: [], journal: [] });
+  const [moments, setMoments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
-        const r = await api.get("/home");
+        const [r, m] = await Promise.all([api.get("/home"), api.get("/studio-moments?limit=12")]);
         setData(r.data);
+        setMoments(m.data || []);
       } catch(_) {} finally { setLoading(false); }
     })();
   }, []);
@@ -72,7 +74,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link data-testid={TID.home.heroCta} to="/collections/terracotta" className="press-btn inline-flex items-center gap-2 rounded-full bg-[color:var(--brand)] text-[color:var(--surface)] px-7 py-3.5 text-sm hover:bg-[color:var(--brand-2)]">
-                Shop Terracotta <ArrowRight className="h-4 w-4" />
+                Shop Now <ArrowRight className="h-4 w-4" />
               </Link>
               <Link data-testid={TID.home.heroStoryCta} to="/craftsmanship" className="press-btn inline-flex items-center gap-2 rounded-full border border-[color:var(--border-subtle)] bg-[color:var(--surface)] px-7 py-3.5 text-sm text-[color:var(--ink-1)] hover:bg-[color:var(--surface-2)]">
                 Discover the Craft
@@ -294,21 +296,41 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* INSTAGRAM */}
+      {/* STUDIO DIARY */}
       <Section wide>
-        <div className="flex items-end justify-between mb-8 gap-4">
+        <div className="flex items-end justify-between mb-8 gap-4 flex-wrap">
           <div>
-            <Overline>@gullakstudio</Overline>
+            <Overline>Studio Diary</Overline>
             <h2 className="mt-3 serif text-3xl sm:text-4xl tracking-[-0.02em]">Small moments from the studio.</h2>
+            <p className="mt-3 text-sm text-[color:var(--ink-3)] max-w-md">Kiln fires, hands at work, and the light that visits Molela each afternoon.</p>
           </div>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-          {IG_IMAGES.map((src, i) => (
-            <a key={i} href="#" className="group aspect-square overflow-hidden rounded-lg">
-              <img src={src} alt="Studio moment" className="h-full w-full object-cover pcard-img" />
-            </a>
-          ))}
-        </div>
+        {moments.length === 0 ? (
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+            {IG_IMAGES.map((src, i) => (
+              <div key={i} className="aspect-square overflow-hidden rounded-lg bg-[color:var(--surface-2)]">
+                <img src={src} alt="Studio moment" className="h-full w-full object-cover pcard-img" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div data-testid="studio-diary-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+            {moments.map((m, i) => {
+              const CardEl = m.link ? "a" : "div";
+              const props = m.link ? { href: m.link, target: "_blank", rel: "noreferrer" } : {};
+              return (
+                <CardEl key={m.id || i} {...props} className="group relative aspect-square overflow-hidden rounded-lg bg-[color:var(--surface-2)]">
+                  <img src={resolveImg(m.image)} alt={m.caption || "Studio moment"} className="h-full w-full object-cover pcard-img" loading="lazy" />
+                  {m.caption && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(20,17,16,0.7)] to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <p className="text-xs text-white leading-snug line-clamp-2">{m.caption}</p>
+                    </div>
+                  )}
+                </CardEl>
+              );
+            })}
+          </div>
+        )}
       </Section>
 
       {/* JOURNAL TEASER */}

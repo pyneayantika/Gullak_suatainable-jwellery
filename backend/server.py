@@ -782,6 +782,41 @@ async def admin_delete_notification(nid: str, _admin = Depends(require_admin)):
     await db.notify_requests.delete_one({"id": nid})
     return {"ok": True}
 
+# ---------- Studio Diary (studio_moments) ----------
+@api.get("/studio-moments")
+async def list_studio_moments(limit: int = 24):
+    docs = await db.studio_moments.find({"published": True}, {"_id": 0}).sort("created_at", -1).limit(limit).to_list(limit)
+    return [clean_doc(d) for d in docs]
+
+@api.get("/admin/studio-moments")
+async def admin_list_studio_moments(_admin = Depends(require_admin)):
+    docs = await db.studio_moments.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
+    return [clean_doc(d) for d in docs]
+
+@api.post("/admin/studio-moments")
+async def admin_create_studio_moment(payload: Dict[str, Any] = Body(...), _admin = Depends(require_admin)):
+    if not payload.get("image"):
+        raise HTTPException(status_code=400, detail="Image is required")
+    payload.setdefault("id", f"mom_{uuid.uuid4().hex[:12]}")
+    payload.setdefault("published", True)
+    payload.setdefault("caption", "")
+    payload.setdefault("link", "")
+    payload["created_at"] = iso(now_utc())
+    await db.studio_moments.insert_one(payload)
+    return clean_doc(payload)
+
+@api.put("/admin/studio-moments/{mid}")
+async def admin_update_studio_moment(mid: str, payload: Dict[str, Any] = Body(...), _admin = Depends(require_admin)):
+    payload.pop("_id", None); payload.pop("id", None)
+    await db.studio_moments.update_one({"id": mid}, {"$set": payload})
+    doc = await db.studio_moments.find_one({"id": mid}, {"_id": 0})
+    return clean_doc(doc)
+
+@api.delete("/admin/studio-moments/{mid}")
+async def admin_delete_studio_moment(mid: str, _admin = Depends(require_admin)):
+    await db.studio_moments.delete_one({"id": mid})
+    return {"ok": True}
+
 # ---------- Seed (idempotent) ----------
 from seed_data import SEED
 
@@ -831,6 +866,12 @@ async def ensure_seed():
             for t in SEED["testimonials"]:
                 await db.testimonials.insert_one(t)
             logger.info(f"Seeded {len(SEED['testimonials'])} testimonials")
+
+        # Studio moments
+        if await db.studio_moments.count_documents({}) == 0:
+            for m in SEED.get("studio_moments", []):
+                await db.studio_moments.insert_one({**m, "created_at": iso(now_utc())})
+            logger.info(f"Seeded {len(SEED.get('studio_moments', []))} studio moments")
     except Exception as e:
         logger.exception(f"Seed failed: {e}")
 

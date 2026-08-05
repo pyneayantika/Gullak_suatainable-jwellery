@@ -305,4 +305,13 @@ SEED = {
         {"id": "t5", "author": "Sara J.", "location": "Kolkata", "quote": "Gullak has changed how I think about jewellery. Fewer pieces. More meaning.", "product_name": "Aangan Bangle"},
         {"id": "t6", "author": "Ishani P.", "location": "Pune", "quote": "The story of the artisan on the tag made me pause. It's rare to buy something and know exactly who made it.", "product_name": "Mitti Ring"},
     ],
+
+    "studio_moments": [
+        {"id": "mom_seed_1", "image": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=1000&q=80", "caption": "Fresh from the kiln \u2014 a batch of Saanjh drops resting.", "link": "", "published": True},
+        {"id": "mom_seed_2", "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=80", "caption": "Meera mixing ochre with river silt.", "link": "", "published": True},
+        {"id": "mom_seed_3", "image": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1000&q=80", "caption": "Detail: hand-painted rim on a Bhoomi bead.", "link": "", "published": True},
+        {"id": "mom_seed_4", "image": "https://images.unsplash.com/photo-1531995811006-35cb42e1a022?auto=format&fit=crop&w=1000&q=80", "caption": "Winter light in Kavita's courtyard.", "link": "", "published": True},
+        {"id": "mom_seed_5", "image": "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=1000&q=80", "caption": "A slow morning with Dhoop pendants drying.", "link": "", "published": True},
+        {"id": "mom_seed_6", "image": "https://images.unsplash.com/photo-1594736797933-d0d3a4a1e40d?auto=format&fit=crop&w=1000&q=80", "caption": "Styling notes \u2014 terracotta on linen, always.", "link": "", "published": True},
+    ],
 }

@@ -1,30 +1,22 @@
 [
   {
-    "content": "Backend: Image upload endpoint + /api/uploads static serving",
+    "content": "Backend: StudioMoment model + public/admin endpoints + seed",
     "status": "completed"
   },
   {
-    "content": "Backend: Restock notification endpoints",
+    "content": "Frontend: Home page dynamic Studio Diary grid",
     "status": "completed"
   },
   {
-    "content": "Frontend: ImageUploader in all admin forms",
+    "content": "Frontend: Admin Studio Diary page",
     "status": "completed"
   },
   {
-    "content": "Frontend: Notify-me form on coming-soon collections",
+    "content": "Frontend: Sidebar + dashboard for Studio Diary",
     "status": "completed"
   },
   {
-    "content": "Frontend: Admin Notifications page",
-    "status": "completed"
-  },
-  {
-    "content": "Frontend: resolveImg wrapper across display components",
-    "status": "completed"
-  },
-  {
-    "content": "Testing: pass on both features (97% backend, UI bug fixed)",
+    "content": "Frontend: Hero CTA copy - 'Shop Now'",
     "status": "completed"
   }
 ]
