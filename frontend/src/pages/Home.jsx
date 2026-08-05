@@ -347,9 +347,11 @@ export default function Home() {
             { key: "wool", label: "Wool" },
             { key: "cork", label: "Cork" },
           ].map((m) => (
-            <div key={m.key} className="rounded-xl overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--surface)]">
-              <div className="aspect-square overflow-hidden">
+            <div key={m.key} className="rounded-xl overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--surface)] card-earthy">
+              <div className="aspect-square overflow-hidden relative">
                 <img src={MATERIAL_IMG[m.key]} alt={m.label} className="h-full w-full object-cover pcard-img" />
+                {/* Clay grain overlay — makes each swatch feel like a real tactile material sample */}
+                <div className="grain-img-overlay" aria-hidden="true" />
               </div>
               <div className="p-3 flex items-center justify-between">
                 <span className="serif text-base">{m.label}</span>
@@ -377,7 +379,8 @@ export default function Home() {
       </Section>
 
       {/* TESTIMONIALS */}
-      <Section wide className="bg-[color:var(--surface-2)]">
+      <Section wide className="bg-[color:var(--surface-2)] relative overflow-hidden">
+        <DustParticles variant="section" />
         <div className="max-w-2xl">
           <Overline>What people say</Overline>
           <h2 className="mt-3 serif text-4xl sm:text-5xl tracking-[-0.02em]">Small words. Long lives.</h2>

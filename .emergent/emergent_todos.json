@@ -1,18 +1,18 @@
 [
   {
-    "content": "Read current index.css, Home.jsx, ProductCard.jsx, design_guidelines.md",
+    "content": "Add .grain-img-overlay CSS class to index.css",
     "status": "completed"
   },
   {
-    "content": "Add global grain texture + dust float animations to index.css",
+    "content": "Add grain + DustParticles to CollectionDetail page hero",
     "status": "completed"
   },
   {
-    "content": "Create DustParticles component for hero, Our Promise, collections sections",
+    "content": "Add DustParticles to Testimonials section in Home.jsx",
     "status": "completed"
   },
   {
-    "content": "Apply warm earthy 3D card shadows + integrate DustParticles in Home.jsx & ProductCard.jsx",
+    "content": "Apply clay grain texture overlay on Material Library cards in Home.jsx",
     "status": "completed"
   },
   {

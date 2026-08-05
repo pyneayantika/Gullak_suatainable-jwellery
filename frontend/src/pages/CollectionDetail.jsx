@@ -7,6 +7,7 @@ import ProductCard from "@/components/site/ProductCard";
 import NotifyMeForm from "@/components/site/NotifyMeForm";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TID } from "@/lib/testIds";
+import { DustParticles } from "@/components/site/DustParticles";
 
 export default function CollectionDetail() {
   const { slug } = useParams();
@@ -34,7 +35,9 @@ export default function CollectionDetail() {
     <div>
       {c && (
         <section className="relative overflow-hidden grain-bg">
-          <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Earthy dust atmosphere */}
+          <DustParticles variant="section" />
+          <div className="relative z-[5] mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-6">
               <Overline>Collection</Overline>
               <h1 className="mt-3 serif text-5xl sm:text-6xl tracking-[-0.02em]">{c.name}</h1>
