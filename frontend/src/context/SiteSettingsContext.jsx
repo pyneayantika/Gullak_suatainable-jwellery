@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { api } from "@/lib/api";
 
-const SiteSettingsContext = createContext({ header_logo_size: 72 });
+const SiteSettingsContext = createContext({ header_logo_size: 36 });
 
 export function SiteSettingsProvider({ children }) {
-  const [settings, setSettings] = useState({ header_logo_size: 72 });
+  const [settings, setSettings] = useState({ header_logo_size: 36 });
 
   useEffect(() => {
     api.get("/site-content")

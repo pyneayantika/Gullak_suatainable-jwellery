@@ -171,10 +171,10 @@ export default function AdminSiteContent() {
                 <input
                   data-testid="logo-size-slider"
                   type="range"
-                  min={36}
-                  max={140}
+                  min={24}
+                  max={44}
                   step={2}
-                  value={content.header_logo_size || 72}
+                  value={content.header_logo_size || 36}
                   onChange={e => setLogoSize(Number(e.target.value))}
                   className="flex-1 accent-[color:var(--brand)] h-2 cursor-pointer"
                 />
@@ -197,7 +197,7 @@ export default function AdminSiteContent() {
                   ))}
                 </div>
               </div>
-              <p className="text-xs text-[color:var(--ink-3)]">Tip: 44–80px looks best for most screens. Save to apply across the site.</p>
+              <p className="text-xs text-[color:var(--ink-3)]">Tip: 32–44px is the professional sweet spot for a 64px header bar.</p>
             </CardContent>
           </Card>
 
