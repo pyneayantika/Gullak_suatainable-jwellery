@@ -407,8 +407,9 @@ export default function Home() {
         {moments.length === 0 ? (
           <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
             {IG_IMAGES.map((src, i) => (
-              <div key={i} className="aspect-square overflow-hidden rounded-lg bg-[color:var(--surface-2)]">
+              <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-[color:var(--surface-2)] print-tile">
                 <img src={src} alt="Studio moment" className="h-full w-full object-cover pcard-img" />
+                <div className="grain-img-overlay" aria-hidden="true" />
               </div>
             ))}
           </div>
@@ -418,10 +419,11 @@ export default function Home() {
               const CardEl = m.link ? "a" : "div";
               const props = m.link ? { href: m.link, target: "_blank", rel: "noreferrer" } : {};
               return (
-                <CardEl key={m.id || i} {...props} className="group relative aspect-square overflow-hidden rounded-lg bg-[color:var(--surface-2)]">
+                <CardEl key={m.id || i} {...props} className="group relative aspect-square overflow-hidden rounded-lg bg-[color:var(--surface-2)] print-tile">
                   <img src={resolveImg(m.image)} alt={m.caption || "Studio moment"} className="h-full w-full object-cover pcard-img" loading="lazy" />
+                  <div className="grain-img-overlay" aria-hidden="true" />
                   {m.caption && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(20,17,16,0.7)] to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(20,17,16,0.7)] to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity" style={{ zIndex: 3 }}>
                       <p className="text-xs text-white leading-snug line-clamp-2">{m.caption}</p>
                     </div>
                   )}

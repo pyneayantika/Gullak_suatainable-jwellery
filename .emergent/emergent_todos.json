@@ -1,18 +1,14 @@
 [
   {
-    "content": "Add .grain-img-overlay CSS class to index.css",
+    "content": "Add pinned-print shadow to Studio Diary image tiles",
     "status": "completed"
   },
   {
-    "content": "Add grain + DustParticles to CollectionDetail page hero",
+    "content": "Add grain + DustParticles to ArtisanDetail page",
     "status": "completed"
   },
   {
-    "content": "Add DustParticles to Testimonials section in Home.jsx",
-    "status": "completed"
-  },
-  {
-    "content": "Apply clay grain texture overlay on Material Library cards in Home.jsx",
+    "content": "Add DustParticles to ProductDetail hero image area",
     "status": "completed"
   },
   {

@@ -209,6 +209,30 @@
   border-radius: inherit;
 }
 
+/* Studio Diary — pinned-print photo tiles */
+.print-tile {
+  box-shadow:
+    0 3px 12px  rgba(138, 63, 43, 0.18),
+    0 1px 4px   rgba(74, 52, 46, 0.12),
+    0 0 0 1px   rgba(74, 52, 46, 0.05);
+  transition: transform 260ms ease-out, box-shadow 260ms ease-out, z-index 0ms;
+  position: relative;
+}
+/* Slight random rotations per position — mimics photos casually pinned to a board */
+.print-tile:nth-child(6n+1) { transform: rotate(-0.8deg); }
+.print-tile:nth-child(6n+2) { transform: rotate(0.7deg); }
+.print-tile:nth-child(6n+3) { transform: rotate(1.3deg); }
+.print-tile:nth-child(6n+4) { transform: rotate(-1.1deg); }
+.print-tile:nth-child(6n+5) { transform: rotate(0.5deg); }
+.print-tile:nth-child(6n+6) { transform: rotate(-1.4deg); }
+.print-tile:hover {
+  transform: rotate(0) scale(1.05) !important;
+  box-shadow:
+    0 10px 28px rgba(138, 63, 43, 0.24),
+    0 3px 8px   rgba(74, 52, 46, 0.15);
+  z-index: 10;
+}
+
 /* Scrollbar (subtle) */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb { background: rgba(74, 52, 46, 0.20); border-radius: 999px; }

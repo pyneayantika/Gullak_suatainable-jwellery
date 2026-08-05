@@ -9,6 +9,7 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { Heart, Minus, Plus, ShieldCheck, Truck, Sparkles } from "lucide-react";
 import { TID } from "@/lib/testIds";
+import { DustParticles } from "@/components/site/DustParticles";
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -51,8 +52,10 @@ export default function ProductDetail() {
                   </button>
                 ))}
               </div>
-              <div className="order-1 md:order-2 rounded-2xl overflow-hidden bg-[color:var(--surface-2)] aspect-[4/5]">
+              <div className="order-1 md:order-2 rounded-2xl overflow-hidden bg-[color:var(--surface-2)] aspect-[4/5] relative">
                 <img src={images[activeImg]} alt={p.name} className="h-full w-full object-cover" />
+                {/* Subtle earthy dust atmosphere over the product image */}
+                <DustParticles variant="product" />
               </div>
             </div>
           </div>

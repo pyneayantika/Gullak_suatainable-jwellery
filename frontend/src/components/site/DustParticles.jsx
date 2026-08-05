@@ -33,14 +33,31 @@ const SECTION_MIST = [
   { id: 2, color: "rgba(220,180,130,0.07)", size: 62, x: "70%", y: "45%", dur: "22s", delay: "5.0s", blur: 22 },
 ];
 
+// ── Product variant: very subtle warm-neutral particles for any image background ──
+const PRODUCT_DUST = [
+  { id: 1, color: "rgba(200,165,120,0.42)", size: 3, x: "5%",  y: "78%", anim: "dustRise3", dur: "10s",  delay: "0s" },
+  { id: 2, color: "rgba(180,140,100,0.36)", size: 2, x: "90%", y: "84%", anim: "dustRise1", dur: "12s",  delay: "2.0s" },
+  { id: 3, color: "rgba(220,190,155,0.32)", size: 3, x: "12%", y: "91%", anim: "dustRise2", dur: "9.5s", delay: "4.0s" },
+  { id: 4, color: "rgba(155,115,80,0.38)",  size: 2, x: "85%", y: "73%", anim: "dustRise3", dur: "11s",  delay: "1.5s" },
+  { id: 5, color: "rgba(230,205,175,0.30)", size: 4, x: "7%",  y: "62%", anim: "dustRise1", dur: "8.5s", delay: "3.0s" },
+];
+const PRODUCT_MIST = [
+  { id: 1, color: "rgba(200,165,120,0.08)", size: 55, x: "3%",  y: "58%", dur: "18s", delay: "0s",   blur: 22 },
+  { id: 2, color: "rgba(180,140,100,0.06)", size: 45, x: "74%", y: "64%", dur: "20s", delay: "6.0s", blur: 18 },
+];
+
 /**
  * Decorative ambient dust + mist layer.
- * @param {"hero" | "section"} variant  — "hero" for dark backgrounds, "section" for light
+ * @param {"hero" | "section" | "product"} variant
+ *   "hero"    — cream/ivory specks visible on dark hero backgrounds
+ *   "section" — clay/terracotta specks visible on light cream sections
+ *   "product" — subtle warm-neutral specks for product image overlays
  */
 export function DustParticles({ variant = "hero" }) {
-  const isHero = variant === "hero";
-  const dust = isHero ? HERO_DUST : SECTION_DUST;
-  const mist = isHero ? HERO_MIST : SECTION_MIST;
+  const dustMap = { hero: HERO_DUST, section: SECTION_DUST, product: PRODUCT_DUST };
+  const mistMap = { hero: HERO_MIST, section: SECTION_MIST, product: PRODUCT_MIST };
+  const dust = dustMap[variant] ?? SECTION_DUST;
+  const mist = mistMap[variant] ?? SECTION_MIST;
 
   return (
     <div
