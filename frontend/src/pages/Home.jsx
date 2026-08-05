@@ -84,7 +84,7 @@ export default function Home() {
             {/* brightness-0 invert renders the black-ink transparent logo as white on the dark hero */}
             <GullakLogo
               testId="hero-brand-logo"
-              className="h-20 sm:h-28 lg:h-36 brightness-0 invert"
+              className="h-32 sm:h-44 lg:h-60 brightness-0 invert"
             />
           </motion.div>
 
@@ -145,11 +145,7 @@ export default function Home() {
               <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">3</div>
               <div className="mt-0.5 text-[10px] tracking-[0.12em] uppercase text-[rgba(239,227,208,0.65)]">Artisan families</div>
             </div>
-            <div className="w-px h-8 bg-[rgba(250,246,239,0.15)]" />
-            <div className="text-center">
-              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">0</div>
-              <div className="mt-0.5 text-[10px] tracking-[0.12em] uppercase text-[rgba(239,227,208,0.65)]">Plastic in packaging</div>
-            </div>
+
           </div>
         </div>
 
