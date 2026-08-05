@@ -56,24 +56,24 @@ export default function Home() {
   return (
     <div>
       {/* ── HERO — full-bleed cinematic ── */}
-      <section className="relative h-[92vh] min-h-[640px] flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col overflow-hidden">
 
         {/* Background image */}
         <img
           src={HERO_IMG}
           alt="Artisan hands crafting jewellery in a warm studio"
           className="absolute inset-0 h-full w-full object-cover object-center"
-          fetchpriority="high"
+          fetchPriority="high"
         />
 
         {/* Dark gradient overlay — lighter top → darker base */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(180deg, rgba(43,36,32,0.20) 0%, rgba(43,36,32,0.68) 100%)" }}
+          style={{ background: "linear-gradient(180deg, rgba(43,36,32,0.18) 0%, rgba(43,36,32,0.72) 100%)" }}
         />
 
-        {/* ── Main content ── */}
-        <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-8 w-full max-w-[960px] mx-auto">
+        {/* ── Main content — fills space, vertically centered ── */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-8 py-16 w-full max-w-[960px] mx-auto">
 
           {/* Large brand logo — the statement piece */}
           <motion.div
@@ -81,7 +81,6 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* brightness-0 invert renders the black-ink transparent logo as white on the dark hero */}
             <GullakLogo
               testId="hero-brand-logo"
               className="h-32 sm:h-44 lg:h-60 brightness-0 invert"
@@ -133,19 +132,23 @@ export default function Home() {
 
         </div>
 
-        {/* ── Stats strip pinned to bottom ── */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-[rgba(250,246,239,0.10)]">
-          <div className="mx-auto max-w-[1240px] px-4 sm:px-10 py-5 flex items-center justify-center gap-8 sm:gap-16">
+        {/* ── Stats strip — sits naturally below content, no overlap ── */}
+        <div className="relative z-10 border-t border-[rgba(250,246,239,0.12)] bg-[rgba(20,17,16,0.40)] backdrop-blur-sm">
+          <div className="mx-auto max-w-[1240px] px-4 sm:px-10 py-6 flex items-center justify-center gap-12 sm:gap-20">
             <div className="text-center">
               <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">100%</div>
-              <div className="mt-0.5 text-[10px] tracking-[0.12em] uppercase text-[rgba(239,227,208,0.65)]">Handcrafted</div>
+              <div className="mt-1 text-[10px] tracking-[0.15em] uppercase text-[rgba(239,227,208,0.70)]">Handcrafted</div>
             </div>
-            <div className="w-px h-8 bg-[rgba(250,246,239,0.15)]" />
+            <div className="w-px h-10 bg-[rgba(250,246,239,0.15)]" />
             <div className="text-center">
               <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">3</div>
-              <div className="mt-0.5 text-[10px] tracking-[0.12em] uppercase text-[rgba(239,227,208,0.65)]">Artisan families</div>
+              <div className="mt-1 text-[10px] tracking-[0.15em] uppercase text-[rgba(239,227,208,0.70)]">Artisan families</div>
             </div>
-
+            <div className="w-px h-10 bg-[rgba(250,246,239,0.15)]" />
+            <div className="text-center">
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">7</div>
+              <div className="mt-1 text-[10px] tracking-[0.15em] uppercase text-[rgba(239,227,208,0.70)]">Steps per piece</div>
+            </div>
           </div>
         </div>
 
