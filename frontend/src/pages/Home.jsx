@@ -102,14 +102,14 @@ export default function Home() {
           fetchPriority="high"
         />
 
-        {/* Dark gradient overlay — lighter top → darker base */}
+        {/* Dark gradient — stronger on left where text lives, fades right to show artisan */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(180deg, rgba(30,18,10,0.45) 0%, rgba(30,18,10,0.78) 60%, rgba(20,12,6,0.88) 100%)" }}
+          style={{ background: "linear-gradient(100deg, rgba(25,14,8,0.80) 0%, rgba(25,14,8,0.55) 45%, rgba(25,14,8,0.18) 100%)" }}
         />
 
-        {/* ── Main content — fills space, vertically centered ── */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 sm:px-8 py-16 w-full max-w-[960px] mx-auto">
+        {/* ── Main content — left-aligned to match the open terracotta space on image left ── */}
+        <div className="relative z-10 flex-1 flex flex-col items-start justify-center px-8 sm:px-16 lg:px-24 py-16 w-full max-w-[680px]">
 
           {/* Large brand logo — the statement piece */}
           <motion.div
@@ -136,7 +136,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-4 sm:mt-5 font-serif font-medium text-[44px] sm:text-[62px] lg:text-[82px] leading-[1.04] tracking-[-0.02em] text-[#FAF6EF]"
+            className="mt-4 sm:mt-5 font-serif font-medium text-[44px] sm:text-[62px] lg:text-[72px] leading-[1.04] tracking-[-0.02em] text-[#FAF6EF]"
           >
             {H.headline_line1}<br />
             <em style={{ color: "#D49570" }}>{H.headline_line2}</em><br />
@@ -148,7 +148,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 justify-center"
+            className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4"
           >
             <Link
               data-testid={TID.home.heroCta}
