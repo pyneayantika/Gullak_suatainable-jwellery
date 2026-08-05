@@ -48,13 +48,13 @@ export default function Header() {
       }`}
     >
       {/* Single row: logo left | nav center | icons right — fixed 72px height */}
-      <div className="w-full px-6 sm:px-10 lg:px-16 h-[72px] grid grid-cols-3 items-center">
+      <div className="w-full px-6 sm:px-10 lg:px-16 h-[100px] grid grid-cols-3 items-center">
 
         {/* LEFT — Logo constrained to header height */}
         <div className="flex items-center">
           <GullakLogo
             testId={TID.header.logo}
-            className={`h-11 w-auto transition-all duration-500 ${
+            className={`h-[72px] w-auto transition-all duration-500 ${
               isTransparent ? "brightness-0 invert" : ""
             }`}
           />
