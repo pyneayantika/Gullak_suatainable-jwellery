@@ -36,19 +36,26 @@ export default function Header() {
         scrolled ? "bg-[rgba(250,246,239,0.95)] border-b border-[#E8DCC8]" : "bg-[rgba(250,246,239,0.80)]"
       }`}
     >
-      <div className="mx-auto max-w-[900px] px-4 sm:px-8 lg:px-14 min-h-[112px] flex items-center justify-between gap-6">
-        <GullakLogo
-          testId={TID.header.logo}
-          className="h-28"
-        />
-        <nav className="hidden md:flex items-center gap-10">
+      {/* 3-column layout: logo left | nav center | icons right */}
+      <div className="w-full px-6 sm:px-10 lg:px-16 h-[68px] grid grid-cols-3 items-center">
+
+        {/* LEFT — Logo */}
+        <div className="flex items-center">
+          <GullakLogo
+            testId={TID.header.logo}
+            className="h-14"
+          />
+        </div>
+
+        {/* CENTER — Nav links */}
+        <nav className="hidden md:flex items-center justify-center gap-8">
           {navItems.map(item => (
             <NavLink
               key={item.to}
               to={item.to}
               data-testid={item.testid}
               className={({ isActive }) =>
-                `font-sans text-[13px] uppercase tracking-[0.06em] font-normal transition-colors duration-200 ${
+                `font-sans text-[12px] uppercase tracking-[0.08em] font-normal transition-colors duration-200 ${
                   isActive ? "text-[color:var(--brand)]" : "text-[#5A4433] hover:text-[color:var(--brand)]"
                 }`
               }
@@ -57,14 +64,17 @@ export default function Header() {
             </NavLink>
           ))}
         </nav>
-        <div className="flex items-center gap-1">
+        <div className="md:hidden" />
+
+        {/* RIGHT — Actions */}
+        <div className="flex items-center justify-end gap-0.5">
           <Link
             data-testid={TID.header.wishlist}
             to="/wishlist"
             aria-label="Wishlist"
-            className="relative h-10 w-10 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors"
+            className="relative h-9 w-9 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors"
           >
-            <Heart className="h-[18px] w-[18px] text-[color:var(--ink-1)]" />
+            <Heart className="h-[17px] w-[17px] text-[color:var(--ink-1)]" />
             {ids.length > 0 && (
               <span className="absolute -top-0.5 -right-0.5 h-4 min-w-4 rounded-full bg-[color:var(--brand)] text-[color:var(--surface)] text-[10px] font-medium px-1 flex items-center justify-center">{ids.length}</span>
             )}
@@ -73,9 +83,9 @@ export default function Header() {
             data-testid={TID.header.cart}
             onClick={() => setOpen(true)}
             aria-label="Cart"
-            className="relative h-10 w-10 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors"
+            className="relative h-9 w-9 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors"
           >
-            <ShoppingBag className="h-[18px] w-[18px] text-[color:var(--ink-1)]" />
+            <ShoppingBag className="h-[17px] w-[17px] text-[color:var(--ink-1)]" />
             {count > 0 && (
               <span className="absolute -top-0.5 -right-0.5 h-4 min-w-4 rounded-full bg-[color:var(--brand)] text-[color:var(--surface)] text-[10px] font-medium px-1 flex items-center justify-center">{count}</span>
             )}
@@ -84,33 +94,30 @@ export default function Header() {
             data-testid={TID.header.account}
             onClick={() => navigate(user ? "/account" : "/login")}
             aria-label="Account"
-            className="h-10 w-10 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors overflow-hidden"
+            className="h-9 w-9 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors overflow-hidden"
           >
             {user?.picture ? (
-              <img
-                src={user.picture}
-                alt={user.name || "Account"}
-                className="h-8 w-8 rounded-full object-cover ring-2 ring-[color:var(--border-subtle)]"
-              />
+              <img src={user.picture} alt={user.name || "Account"} className="h-7 w-7 rounded-full object-cover ring-2 ring-[color:var(--border-subtle)]" />
             ) : user ? (
-              <div className="h-8 w-8 rounded-full bg-[color:var(--brand)] flex items-center justify-center">
-                <span className="font-serif text-sm font-semibold text-[color:var(--paper-white)]">
+              <div className="h-7 w-7 rounded-full bg-[color:var(--brand)] flex items-center justify-center">
+                <span className="font-serif text-xs font-semibold text-[color:var(--paper-white)]">
                   {(user.name || user.email || "G")[0].toUpperCase()}
                 </span>
               </div>
             ) : (
-              <User className="h-[18px] w-[18px] text-[color:var(--ink-1)]" />
+              <User className="h-[17px] w-[17px] text-[color:var(--ink-1)]" />
             )}
           </button>
           <button
             data-testid={TID.header.mobileMenu}
             onClick={() => setMobileOpen(v => !v)}
             aria-label="Menu"
-            className="md:hidden h-10 w-10 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors"
+            className="md:hidden h-9 w-9 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
+
       </div>
       {mobileOpen && (
       <div className="md:hidden border-t border-[#E8DCC8] bg-[rgba(250,246,239,0.98)]">
