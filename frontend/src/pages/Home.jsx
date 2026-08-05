@@ -9,8 +9,32 @@ import { GullakLogo } from "@/components/site/Logo";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf, Hand, Flame, Feather, Sparkles, Heart } from "lucide-react";
 
-const HERO_IMG = "https://images.unsplash.com/photo-1771573391500-64cc1cbb3e7b?auto=format&fit=crop&w=2400&q=85";
-const STORY_IMG = "https://customer-assets-0z36b82j.emergentagent.net/job_gullak-studio/artifacts/29q6zbc0_Screenshot%202026-08-06%20003310.png";
+const HERO_IMG = "/hero-bg.jpg";
+
+const DEFAULT_SITE_CONTENT = {
+  hero: {
+    tagline: "Natural  ·  Ethical  ·  Timeless",
+    headline_line1: "Wear Nature.",
+    headline_line2: "Wear Stories.",
+    headline_line3: "Wear Craft.",
+    cta_primary_text: "Shop Now",
+    cta_primary_link: "/collections/terracotta",
+    cta_secondary_text: "Discover the Craft",
+    cta_secondary_link: "/craftsmanship",
+    stat1_value: "100%", stat1_label: "Handcrafted",
+    stat2_value: "3",    stat2_label: "Artisan families",
+    stat3_value: "7",    stat3_label: "Steps per piece",
+  },
+  promise: {
+    overline: "Our promise",
+    heading: "A quieter kind of luxury.",
+    body1: "At Gullak, luxury is not measured in metals or excess. It's measured in the hours a craftsman held a piece, in the seasons its clay dried, in the story it will carry from one wrist to another.",
+    body2: "Every piece is handmade, packaged in paper box and cotton, and shipped in kraft — zero plastic, from earth to earlobe.",
+    promise1_key: "Handmade",    promise1_value: "By artisan families",
+    promise2_key: "Zero-plastic", promise2_value: "Paper box + immense love",
+    promise3_key: "Fair-trade",  promise3_value: "Direct to makers",
+  },
+};
 const MATERIAL_IMG = {
   terracotta: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1200&q=80",
   wood: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1200&q=80",
@@ -41,17 +65,29 @@ const PROCESS_STEPS = [
 export default function Home() {
   const [data, setData] = useState({ featured_products: [], collections: [], testimonials: [], artisans: [], journal: [] });
   const [moments, setMoments] = useState([]);
+  const [siteContent, setSiteContent] = useState(DEFAULT_SITE_CONTENT);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
-        const [r, m] = await Promise.all([api.get("/home"), api.get("/studio-moments?limit=12")]);
+        const [r, m, sc] = await Promise.all([
+          api.get("/home"),
+          api.get("/studio-moments?limit=12"),
+          api.get("/site-content"),
+        ]);
         setData(r.data);
         setMoments(m.data || []);
+        if (sc.data) setSiteContent({
+          hero:    { ...DEFAULT_SITE_CONTENT.hero,    ...sc.data.hero },
+          promise: { ...DEFAULT_SITE_CONTENT.promise, ...sc.data.promise },
+        });
       } catch(_) {} finally { setLoading(false); }
     })();
   }, []);
+
+  const H = siteContent.hero;
+  const P = siteContent.promise;
 
   return (
     <div>
@@ -69,7 +105,7 @@ export default function Home() {
         {/* Dark gradient overlay — lighter top → darker base */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "linear-gradient(180deg, rgba(43,36,32,0.18) 0%, rgba(43,36,32,0.72) 100%)" }}
+          style={{ background: "linear-gradient(180deg, rgba(30,18,10,0.45) 0%, rgba(30,18,10,0.78) 60%, rgba(20,12,6,0.88) 100%)" }}
         />
 
         {/* ── Main content — fills space, vertically centered ── */}
@@ -92,7 +128,7 @@ export default function Home() {
 
           {/* Overline */}
           <p className="mt-4 sm:mt-5 text-[13px] sm:text-[15px] tracking-[0.32em] uppercase text-[#EFE3D0] font-medium drop-shadow-md">
-            Natural&nbsp;&nbsp;·&nbsp;&nbsp;Ethical&nbsp;&nbsp;·&nbsp;&nbsp;Timeless
+            {H.tagline}
           </p>
 
           {/* Hero headline */}
@@ -102,9 +138,9 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="mt-4 sm:mt-5 font-serif font-medium text-[44px] sm:text-[62px] lg:text-[82px] leading-[1.04] tracking-[-0.02em] text-[#FAF6EF]"
           >
-            Wear Nature.<br />
-            <em style={{ color: "#D49570" }}>Wear Stories.</em><br />
-            Wear Craft.
+            {H.headline_line1}<br />
+            <em style={{ color: "#D49570" }}>{H.headline_line2}</em><br />
+            {H.headline_line3}
           </motion.h1>
 
           {/* CTA buttons */}
@@ -116,17 +152,17 @@ export default function Home() {
           >
             <Link
               data-testid={TID.home.heroCta}
-              to="/collections/terracotta"
+              to={H.cta_primary_link}
               className="press-btn inline-flex items-center gap-2 rounded-full bg-[#B5502D] text-[#FAF6EF] px-7 py-3.5 text-[12px] sm:text-[13px] tracking-[0.08em] uppercase hover:bg-[#9B3D20] transition-colors duration-200"
             >
-              Shop Now <ArrowRight className="h-4 w-4" />
+              {H.cta_primary_text} <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               data-testid={TID.home.heroStoryCta}
-              to="/craftsmanship"
+              to={H.cta_secondary_link}
               className="press-btn inline-flex items-center gap-2 rounded-full border border-[rgba(250,246,239,0.40)] text-[#FAF6EF] px-7 py-3.5 text-[12px] sm:text-[13px] tracking-[0.08em] uppercase hover:bg-[rgba(250,246,239,0.10)] transition-colors duration-200 backdrop-blur-sm"
             >
-              Discover the Craft
+              {H.cta_secondary_text}
             </Link>
           </motion.div>
 
@@ -135,20 +171,19 @@ export default function Home() {
         {/* ── Stats strip — sits naturally below content, no overlap ── */}
         <div className="relative z-10 border-t border-[rgba(250,246,239,0.12)] bg-[rgba(20,17,16,0.40)] backdrop-blur-sm">
           <div className="mx-auto max-w-[1240px] px-4 sm:px-10 py-6 flex items-center justify-center gap-12 sm:gap-20">
-            <div className="text-center">
-              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">100%</div>
-              <div className="mt-1 text-[10px] tracking-[0.15em] uppercase text-[rgba(239,227,208,0.70)]">Handcrafted</div>
-            </div>
-            <div className="w-px h-10 bg-[rgba(250,246,239,0.15)]" />
-            <div className="text-center">
-              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">3</div>
-              <div className="mt-1 text-[10px] tracking-[0.15em] uppercase text-[rgba(239,227,208,0.70)]">Artisan families</div>
-            </div>
-            <div className="w-px h-10 bg-[rgba(250,246,239,0.15)]" />
-            <div className="text-center">
-              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">7</div>
-              <div className="mt-1 text-[10px] tracking-[0.15em] uppercase text-[rgba(239,227,208,0.70)]">Steps per piece</div>
-            </div>
+            {[
+              { v: H.stat1_value, l: H.stat1_label },
+              { v: H.stat2_value, l: H.stat2_label },
+              { v: H.stat3_value, l: H.stat3_label },
+            ].map((s, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <div className="w-px h-10 bg-[rgba(250,246,239,0.15)]" />}
+                <div className="text-center">
+                  <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">{s.v}</div>
+                  <div className="mt-1 text-[10px] tracking-[0.15em] uppercase text-[rgba(239,227,208,0.70)]">{s.l}</div>
+                </div>
+              </React.Fragment>
+            ))}
           </div>
         </div>
 
@@ -167,19 +202,15 @@ export default function Home() {
             </div>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <Overline>Our promise</Overline>
-            <h2 className="mt-4 serif text-4xl sm:text-5xl leading-[1.06] tracking-[-0.02em]">A quieter kind of luxury.</h2>
-            <p className="mt-6 text-[15px] leading-[1.85] text-[color:var(--ink-2)]">
-              At Gullak, luxury is not measured in metals or excess. It's measured in the hours a craftsman held a piece, in the seasons its clay dried, in the story it will carry from one wrist to another.
-            </p>
-            <p className="mt-4 text-[15px] leading-[1.85] text-[color:var(--ink-2)]">
-              Every piece is handmade, packaged in paper box and cotton, and shipped in kraft — zero plastic, from earth to earlobe.
-            </p>
+            <Overline>{P.overline}</Overline>
+            <h2 className="mt-4 serif text-4xl sm:text-5xl leading-[1.06] tracking-[-0.02em]">{P.heading}</h2>
+            <p className="mt-6 text-[15px] leading-[1.85] text-[color:var(--ink-2)]">{P.body1}</p>
+            <p className="mt-4 text-[15px] leading-[1.85] text-[color:var(--ink-2)]">{P.body2}</p>
             <div className="mt-8 grid grid-cols-3 gap-4">
               {[
-                { k: "Handmade", v: "By artisan families" },
-                { k: "Zero-plastic", v: "Paper box + cotton" },
-                { k: "Fair-trade", v: "Direct to makers" },
+                { k: P.promise1_key, v: P.promise1_value },
+                { k: P.promise2_key, v: P.promise2_value },
+                { k: P.promise3_key, v: P.promise3_value },
               ].map(x => (
                 <div key={x.k} className="rounded-xl border border-[color:var(--border-subtle)] bg-[color:var(--surface)] p-4">
                   <div className="serif text-lg">{x.k}</div>
