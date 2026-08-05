@@ -7,6 +7,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans:   ["Manrope", "system-ui", "sans-serif"],
+        serif:  ["Cormorant Garamond", "Georgia", "serif"],
+        accent: ["Italiana", "Cormorant Garamond", "serif"],
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
