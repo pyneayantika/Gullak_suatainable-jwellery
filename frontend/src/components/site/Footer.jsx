@@ -27,7 +27,7 @@ export default function Footer() {
     <footer className="mt-24 bg-[color:var(--surface-2)] border-t border-[color:var(--border-subtle)]">
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
-          <GullakLogo className="text-[28px]" />
+          <GullakLogo className="h-10" />
           <p className="mt-3 max-w-md text-sm text-[color:var(--ink-2)] leading-relaxed">
             Wear Nature. Wear Stories. Wear Craft. Handcrafted terracotta jewellery, made slowly in India, meant to be treasured for years.
           </p>

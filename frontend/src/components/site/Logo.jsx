@@ -2,44 +2,30 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 /**
- * LogoPlaceholder — swap this entire component with your own logo.
+ * GullakLogo — renders the brand logo image.
  *
- * Sizing is em-based so the box scales automatically:
- *   Header  (font 30px)  →  ~156px × ~39px
- *   Footer  (font 28px)  →  ~146px × ~36px
- *   Hero    (font 96px)  →  ~499px × ~125px
+ * Sizing is controlled entirely via the `className` prop (height class):
+ *   Header / Footer : className="h-10"   (40 px)
+ *   Hero            : className="h-20 sm:h-24 lg:h-32"  (80 → 96 → 128 px)
  *
- * To replace:
- *   1. Delete this file (or clear its contents)
- *   2. Export a new `GullakLogo` component from this file
- *      that renders your actual logo image / SVG
+ * To swap the logo file, replace /app/frontend/public/logo.png
+ * and no other code needs changing.
  */
-
 export function GullakLogo({ className = "", testId = "", style = {} }) {
   return (
     <Link
       to="/"
       data-testid={testId}
-      aria-label="Logo — home"
-      style={{ color: style.color ?? "var(--brand)", ...style }}
-      className={[
-        // em-based dimensions scale with the font-size from parent className
-        "inline-flex items-center justify-center",
-        "w-[5.2em] h-[1.3em]",
-        "border border-dashed rounded",
-        "opacity-50 hover:opacity-75 transition-opacity duration-200",
-        "select-none flex-shrink-0",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      aria-label="Gullak — home"
+      style={style}
+      className="inline-flex items-center select-none hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
     >
-      <span
-        style={{ fontSize: "11px", letterSpacing: "0.2em" }}
-        className="uppercase font-medium"
-      >
-        your logo
-      </span>
+      <img
+        src="/logo.png"
+        alt="Gullak"
+        className={["w-auto object-contain", className].filter(Boolean).join(" ")}
+        draggable={false}
+      />
     </Link>
   );
 }

@@ -81,10 +81,10 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
+            {/* brightness-0 invert renders the black-ink transparent logo as white on the dark hero */}
             <GullakLogo
               testId="hero-brand-logo"
-              style={{ color: "#FAF6EF" }}
-              className="text-[52px] sm:text-[70px] lg:text-[96px]"
+              className="h-20 sm:h-28 lg:h-36 brightness-0 invert"
             />
           </motion.div>
 

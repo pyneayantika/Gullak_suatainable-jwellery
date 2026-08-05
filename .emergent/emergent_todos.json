@@ -1,14 +1,22 @@
 [
   {
-    "content": "Add Cormorant Garamond weight 700 to font import",
+    "content": "Retrieve and analyze the newly uploaded WhatsApp logo image",
     "status": "completed"
   },
   {
-    "content": "Rewrite pot SVG to exactly match reference — wide mouth, straight neck, collar ring, round body, 2 white body bands",
+    "content": "Install rembg/Pillow and process logo to transparent PNG",
     "status": "completed"
   },
   {
-    "content": "Test with testing agent",
+    "content": "Place transparent logo.png in /app/frontend/public/",
+    "status": "completed"
+  },
+  {
+    "content": "Update Logo.jsx for transparent logo in header, footer, hero",
+    "status": "completed"
+  },
+  {
+    "content": "Compile frontend and run testing agent",
     "status": "in_progress"
   }
 ]
