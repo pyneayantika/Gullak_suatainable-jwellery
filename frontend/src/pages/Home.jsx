@@ -111,18 +111,6 @@ export default function Home() {
         {/* ── Main content — left-aligned to match the open terracotta space on image left ── */}
         <div className="text-on-dark relative z-10 flex-1 flex flex-col items-start justify-center px-8 sm:px-16 lg:px-24 py-16 w-full max-w-[680px]">
 
-          {/* Large brand logo — the statement piece */}
-          <motion.div
-            initial={{ opacity: 0, y: -14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <GullakLogo
-              testId="hero-brand-logo"
-              className="h-32 sm:h-44 lg:h-60 brightness-0 invert"
-            />
-          </motion.div>
-
           {/* Thin vertical separator */}
           <div className="mt-5 sm:mt-7 w-px h-10 bg-[rgba(250,246,239,0.25)]" />
 
