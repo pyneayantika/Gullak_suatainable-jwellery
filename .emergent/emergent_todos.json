@@ -1,22 +1,14 @@
 [
   {
-    "content": "Retrieve and analyze the newly uploaded WhatsApp logo image",
-    "status": "completed"
-  },
-  {
-    "content": "Install rembg/Pillow and process logo to transparent PNG",
-    "status": "completed"
-  },
-  {
-    "content": "Place transparent logo.png in /app/frontend/public/",
-    "status": "completed"
-  },
-  {
-    "content": "Update Logo.jsx for transparent logo in header, footer, hero",
-    "status": "completed"
-  },
-  {
-    "content": "Compile frontend and run testing agent",
+    "content": "Hero parallax — background drifts at half scroll speed",
     "status": "in_progress"
+  },
+  {
+    "content": "Section scroll-reveal with perspective depth",
+    "status": "pending"
+  },
+  {
+    "content": "Product & collection card 3D tilt on hover",
+    "status": "pending"
   }
 ]

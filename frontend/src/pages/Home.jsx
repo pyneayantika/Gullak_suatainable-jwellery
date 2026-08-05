@@ -91,7 +91,7 @@ export default function Home() {
           <div className="mt-5 sm:mt-7 w-px h-10 bg-[rgba(250,246,239,0.25)]" />
 
           {/* Overline */}
-          <p className="mt-4 sm:mt-5 text-[10px] sm:text-[11px] tracking-[0.28em] uppercase text-[#EFE3D0]">
+          <p className="mt-4 sm:mt-5 text-[13px] sm:text-[15px] tracking-[0.32em] uppercase text-[#EFE3D0] font-medium drop-shadow-md">
             Natural&nbsp;&nbsp;·&nbsp;&nbsp;Ethical&nbsp;&nbsp;·&nbsp;&nbsp;Timeless
           </p>
 
