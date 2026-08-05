@@ -875,6 +875,55 @@ async def ensure_seed():
     except Exception as e:
         logger.exception(f"Seed failed: {e}")
 
+
+# ---------- Site Content ----------
+class HeroContentModel(BaseModel):
+    tagline: str = "Natural  ·  Ethical  ·  Timeless"
+    headline_line1: str = "Wear Nature."
+    headline_line2: str = "Wear Stories."
+    headline_line3: str = "Wear Craft."
+    cta_primary_text: str = "Shop Now"
+    cta_primary_link: str = "/collections/terracotta"
+    cta_secondary_text: str = "Discover the Craft"
+    cta_secondary_link: str = "/craftsmanship"
+    stat1_value: str = "100%"
+    stat1_label: str = "Handcrafted"
+    stat2_value: str = "3"
+    stat2_label: str = "Artisan families"
+    stat3_value: str = "7"
+    stat3_label: str = "Steps per piece"
+
+class PromiseContentModel(BaseModel):
+    overline: str = "Our promise"
+    heading: str = "A quieter kind of luxury."
+    body1: str = "At Gullak, luxury is not measured in metals or excess. It's measured in the hours a craftsman held a piece, in the seasons its clay dried, in the story it will carry from one wrist to another."
+    body2: str = "Every piece is handmade, packaged in seed paper and cotton, and shipped in kraft — zero plastic, from earth to earlobe."
+    promise1_key: str = "Handmade"
+    promise1_value: str = "By artisan families"
+    promise2_key: str = "Zero-plastic"
+    promise2_value: str = "Seed paper + cotton"
+    promise3_key: str = "Fair-trade"
+    promise3_value: str = "Direct to makers"
+
+class SiteContentModel(BaseModel):
+    hero: HeroContentModel = Field(default_factory=HeroContentModel)
+    promise: PromiseContentModel = Field(default_factory=PromiseContentModel)
+    updated_at: Optional[str] = None
+
+@api.get("/site-content")
+async def get_site_content():
+    doc = await db.site_content.find_one({}, {"_id": 0})
+    if not doc:
+        return SiteContentModel().dict()
+    return clean_doc(doc)
+
+@api.put("/admin/site-content")
+async def save_site_content(content: SiteContentModel, admin=Depends(require_admin)):
+    data = content.dict()
+    data["updated_at"] = iso(now_utc())
+    await db.site_content.replace_one({}, data, upsert=True)
+    return clean_doc(data)
+
 app.include_router(api)
 
 app.add_middleware(

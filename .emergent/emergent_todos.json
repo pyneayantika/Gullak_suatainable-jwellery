@@ -1,14 +1,18 @@
 [
   {
-    "content": "Hero parallax — background drifts at half scroll speed",
+    "content": "Backend: Add SiteContent model + GET/PUT /api/site-content endpoints",
+    "status": "completed"
+  },
+  {
+    "content": "Frontend: Create AdminSiteContent.jsx editor (Hero Banner + Our Promise tabs)",
     "status": "in_progress"
   },
   {
-    "content": "Section scroll-reveal with perspective depth",
+    "content": "Update Home.jsx to fetch and render content from API",
     "status": "pending"
   },
   {
-    "content": "Product & collection card 3D tilt on hover",
+    "content": "Wire route + admin sidebar link",
     "status": "pending"
   }
 ]

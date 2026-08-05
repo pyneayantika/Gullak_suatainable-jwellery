@@ -159,7 +159,11 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5">
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
-              <img src={STORY_IMG} alt="Studio still life" className="absolute inset-0 h-full w-full object-cover" />
+              <img
+                src="/promise-jewel.jpg"
+                alt="Gullak terracotta necklace"
+                className="absolute inset-0 h-full w-full object-cover object-center"
+              />
             </div>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
