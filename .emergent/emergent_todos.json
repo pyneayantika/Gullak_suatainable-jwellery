@@ -1,18 +1,22 @@
 [
   {
-    "content": "Add header_logo_size field to backend SiteContentModel",
+    "content": "Read current index.css, Home.jsx, ProductCard.jsx, design_guidelines.md",
     "status": "completed"
   },
   {
-    "content": "Create SiteSettingsContext to share logo size app-wide",
+    "content": "Add global grain texture + dust float animations to index.css",
     "status": "completed"
   },
   {
-    "content": "Wire Header to use dynamic logo size from context",
+    "content": "Create DustParticles component for hero, Our Promise, collections sections",
     "status": "completed"
   },
   {
-    "content": "Add logo size slider to AdminSiteContent panel",
+    "content": "Apply warm earthy 3D card shadows + integrate DustParticles in Home.jsx & ProductCard.jsx",
+    "status": "completed"
+  },
+  {
+    "content": "Build check + screenshot verification",
     "status": "completed"
   }
 ]

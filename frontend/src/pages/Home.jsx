@@ -8,6 +8,7 @@ import Overline from "@/components/site/Overline";
 import { GullakLogo } from "@/components/site/Logo";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf, Hand, Flame, Feather, Sparkles, Heart } from "lucide-react";
+import { DustParticles } from "@/components/site/DustParticles";
 
 const HERO_IMG = "/hero-bg.jpg";
 
@@ -92,7 +93,7 @@ export default function Home() {
   return (
     <div>
       {/* ── HERO — full-bleed cinematic ── */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden">
+      <section className="grain-bg relative min-h-screen flex flex-col overflow-hidden">
 
         {/* Background image */}
         <img
@@ -107,6 +108,9 @@ export default function Home() {
           className="absolute inset-0 pointer-events-none"
           style={{ background: "linear-gradient(100deg, rgba(25,14,8,0.80) 0%, rgba(25,14,8,0.55) 45%, rgba(25,14,8,0.18) 100%)" }}
         />
+
+        {/* Earthy dust + mist atmosphere */}
+        <DustParticles variant="hero" />
 
         {/* ── Main content — left-aligned to match the open terracotta space on image left ── */}
         <div className="text-on-dark relative z-10 flex-1 flex flex-col items-start justify-center px-8 sm:px-16 lg:px-24 py-16 w-full max-w-[680px]">
@@ -197,7 +201,8 @@ export default function Home() {
       </section>
 
       {/* SUSTAINABILITY STORY */}
-      <Section wide>
+      <Section wide className="relative overflow-hidden">
+        <DustParticles variant="section" />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5">
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
@@ -230,7 +235,8 @@ export default function Home() {
       </Section>
 
       {/* FEATURED COLLECTIONS */}
-      <Section wide className="bg-[color:var(--surface-2)]">
+      <Section wide className="bg-[color:var(--surface-2)] relative overflow-hidden">
+        <DustParticles variant="section" />
         <div className="flex items-end justify-between mb-10 gap-4">
           <div>
             <Overline>Collections</Overline>
@@ -240,7 +246,7 @@ export default function Home() {
         </div>
         <div data-testid={TID.home.collectionsGrid} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {(data.collections || []).slice(0, 3).map((c) => (
-            <Link key={c.id} to={c.status === "active" ? `/collections/${c.slug}` : "/collections"} className="group block rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
+            <Link key={c.id} to={c.status === "active" ? `/collections/${c.slug}` : "/collections"} className="group block rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy">
               <div className="aspect-[4/5] overflow-hidden">
                 <img src={resolveImg(c.hero_image)} alt={c.name} className="pcard-img h-full w-full object-cover" />
               </div>
@@ -309,7 +315,7 @@ export default function Home() {
         </div>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
           {(data.artisans || []).slice(0, 2).map((a) => (
-            <Link key={a.id} to={`/artisans/${a.slug}`} className="group grid grid-cols-2 gap-6 rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
+            <Link key={a.id} to={`/artisans/${a.slug}`} className="group grid grid-cols-2 gap-6 rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy">
               <div className="aspect-[3/4] overflow-hidden">
                 <img src={resolveImg(a.portrait)} alt={a.name} className="pcard-img h-full w-full object-cover" />
               </div>
@@ -362,7 +368,7 @@ export default function Home() {
             { title: "Slow by design", body: "We don't do seasonal drops. We do heirlooms that grow slower and softer with time." },
             { title: "Earth, honestly", body: "River clay. Cotton cord. Beeswax finish. Nothing hidden, nothing shortcut." },
           ].map((w) => (
-            <div key={w.title} className="rounded-2xl p-8 border border-[color:var(--border-subtle)] bg-[color:var(--surface)]">
+            <div key={w.title} className="rounded-2xl p-8 border border-[color:var(--border-subtle)] bg-[color:var(--surface)] card-earthy">
               <div className="serif text-2xl leading-tight">{w.title}</div>
               <p className="mt-3 text-sm text-[color:var(--ink-2)] leading-relaxed">{w.body}</p>
             </div>
@@ -378,7 +384,7 @@ export default function Home() {
         </div>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
           {(data.testimonials || []).slice(0, 6).map((t) => (
-            <blockquote key={t.id} className="rounded-2xl p-6 bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
+            <blockquote key={t.id} className="rounded-2xl p-6 bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy">
               <p className="serif text-lg leading-snug italic text-[color:var(--ink-1)]">“{t.quote}”</p>
               <footer className="mt-4 text-xs overline">— {t.author}, {t.location}</footer>
             </blockquote>
@@ -435,7 +441,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {(data.journal || []).slice(0, 3).map((j) => (
-              <Link key={j.id} to={`/journal/${j.slug}`} className="group block rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
+              <Link key={j.id} to={`/journal/${j.slug}`} className="group block rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy">
                 <div className="aspect-[4/3] overflow-hidden">
                   <img src={resolveImg(j.cover_image)} alt={j.title} className="h-full w-full object-cover pcard-img" />
                 </div>

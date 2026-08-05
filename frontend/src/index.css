@@ -148,9 +148,50 @@
 }
 .link-underline:hover::after { transform: scaleX(1); }
 
+/* ── Dust & mist particle animations ── */
+@keyframes dustRise1 {
+  0%   { transform: translateY(0)      translateX(0)    scale(1);    opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(-130px) translateX(22px) scale(0.58); opacity: 0; }
+}
+@keyframes dustRise2 {
+  0%   { transform: translateY(0)    translateX(0)     scale(1);    opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-95px) translateX(-16px) scale(0.70); opacity: 0; }
+}
+@keyframes dustRise3 {
+  0%   { transform: translateY(0)    translateX(0)    scale(1);    opacity: 0; }
+  14%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { transform: translateY(-78px) translateX(12px) scale(0.62); opacity: 0; }
+}
+@keyframes mistDrift {
+  0%   { transform: translateX(0)    translateY(0)    scale(1);     opacity: 0; }
+  18%  { opacity: 1; }
+  82%  { opacity: 1; }
+  100% { transform: translateX(48px) translateY(-26px) scale(1.38); opacity: 0; }
+}
+
+/* Earthy 3D card shadows — warm terracotta-tinted depth */
+.card-earthy {
+  box-shadow:
+    0 8px 28px  rgba(138, 63, 43, 0.11),
+    0 2px 8px   rgba(74, 52, 46, 0.07);
+  transition: box-shadow 300ms ease-out, transform 300ms ease-out;
+}
+.card-earthy:hover {
+  box-shadow:
+    0 18px 48px rgba(138, 63, 43, 0.17),
+    0 4px  14px rgba(74, 52, 46, 0.11);
+  transform: translateY(-3px);
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .pcard-img, .press-btn, .link-underline::after { transition: none !important; }
+  .dust-particle, .dust-layer { animation: none !important; opacity: 0 !important; }
   * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
 }
 

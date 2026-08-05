@@ -10,7 +10,7 @@ export default function ProductCard({ product, priority = false }) {
   const wished = has(product.id);
 
   return (
-    <div data-testid={TID.productCard.root} className="group relative rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
+    <div data-testid={TID.productCard.root} className="group relative rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy">
       <Link data-testid={TID.productCard.open} to={`/products/${product.slug}`} className="block">
         <div className="aspect-[4/5] w-full overflow-hidden bg-[color:var(--surface-2)]">
           <img

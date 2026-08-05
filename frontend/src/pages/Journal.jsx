@@ -23,7 +23,7 @@ export default function Journal() {
           <p className="mt-5 text-[15px] leading-[1.85] text-[color:var(--ink-2)]">Essays on craft, care, and living slower.</p>
         </div>
 
-        <Link to={`/journal/${featured.slug}`} className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-8 rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
+        <Link to={`/journal/${featured.slug}`} className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-8 rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy">
           <div className="aspect-[4/3] overflow-hidden">
             <img src={resolveImg(featured.cover_image)} alt={featured.title} className="h-full w-full object-cover pcard-img" />
           </div>
@@ -37,7 +37,7 @@ export default function Journal() {
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {rest.map((p) => (
-            <Link key={p.id} to={`/journal/${p.slug}`} className="group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
+            <Link key={p.id} to={`/journal/${p.slug}`} className="group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy">
               <div className="aspect-[4/3] overflow-hidden">
                 <img src={resolveImg(p.cover_image)} alt={p.title} className="h-full w-full object-cover pcard-img" />
               </div>

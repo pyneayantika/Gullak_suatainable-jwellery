@@ -1,11 +1,16 @@
 # plan.md — Gullak (Editorial Ecommerce v1)
 
 ## 1) Objectives
-- Deliver a premium, calm, editorial storefront for Gullak with scalable data model (materials/collections).
+- Deliver a premium, calm, editorial storefront for Gullak with a scalable data model (materials/collections).
 - Enable core commerce loop (browse → PDP → wishlist/cart → mock checkout → order record) backed by MongoDB.
-- Customer auth via **Emergent Google Auth**; admin auth via **email/password + JWT**.
+- Customer auth via **Emergent Google Auth** (implementation present but external provider config/flow may still need real-world verification); admin auth via **email/password + JWT**.
 - Provide an Admin panel to manage products/collections/journal/artisans and view orders.
 - Seed high-quality placeholder content (products, collections, journal posts, artisans, testimonials).
+- Maintain strict brand fidelity: use user-supplied logo assets as-is (no recreation), premium typography (Cormorant Garamond + Manrope), warm earthy palette.
+- Add premium *tactile* polish via subtle texture + atmospheric motion + grounded elevation:
+  - **Global grain/noise overlay** on key surfaces
+  - **Selective dust + warm mist layers** (“mus” interpreted as mist/haze)
+  - **Warm terracotta-tinted 3D card shadows** across storefront cards
 
 ## 2) Implementation Steps (Phased)
 
@@ -20,6 +25,8 @@
 - Create a minimal React page with a single “Continue with Google” button + `me` display.
 - Verify: login, session persistence, logout, and MongoDB user upsert.
 
+**Phase 1 status:** *Implemented previously; external OAuth/provider configuration and end-to-end browser verification may still be required depending on environment.*
+
 **Phase 1 user stories (POC):**
 1. As a user, I can click “Continue with Google” and successfully sign in.
 2. As a user, after refresh, I remain logged in.
@@ -30,7 +37,7 @@
 ### Phase 2 — V1 App Development (MVP end-to-end, minimal auth dependencies)
 **Core build (backend + frontend in one go):**
 - Backend (FastAPI + Motor + MongoDB)
-  - Collections: `products`, `collections`, `journal_posts`, `artisans`, `orders`, `users`, `wishlists`, `carts`, `testimonials`, `newsletter`.
+  - Collections: `products`, `collections`, `journal_posts`, `artisans`, `orders`, `users`, `wishlists`, `carts`, `testimonials`, `newsletter`, **site_content** (homepage + settings).
   - Public read endpoints:
     - `GET /api/home` (home sections data)
     - `GET /api/collections`, `GET /api/collections/{slug}`
@@ -38,6 +45,7 @@
     - `GET /api/journal`, `GET /api/journal/{slug}`
     - `GET /api/artisans`, `GET /api/testimonials`
     - `POST /api/newsletter`
+    - `GET /api/site-content` (dynamic homepage content/settings)
   - Cart/Wishlist:
     - Guest: localStorage only (frontend)
     - Authed: `GET/POST/DELETE /api/cart`, `GET/POST/DELETE /api/wishlist`
@@ -64,6 +72,16 @@
     - Cart drawer + wishlist heart, toasts, skeleton loaders
     - Search modal (MVP: local client-side search over fetched products)
   - SEO/accessibility basics: semantic headings, alt text, focus states.
+  - **Brand polish shipped (earthy 3D ambience):**
+    - Subtle **grain texture overlay** (`.grain-bg`) applied to hero (and available for other large surfaces)
+    - **DustParticles component** (hero + section variants) placed selectively “here and there”:
+      - Home hero
+      - Our Promise section
+      - Featured Collections strip
+    - Warm **terracotta-tinted 3D card shadows** (`.card-earthy`) applied to key cards:
+      - Product cards, collection cards, journal cards, testimonials, “Why Gullak” cards
+      - Additional coverage added on `/collections` and `/journal` pages
+    - Motion respects `prefers-reduced-motion`
 
 **Conclude Phase 2:** run testing_agent_v3 end-to-end on browse → cart → mock checkout → order confirmation (logged-in).
 
@@ -83,10 +101,15 @@
   - `/api/admin/journal` (CRUD; markdown/portable text)
   - `/api/admin/artisans` (CRUD)
   - `/api/admin/orders` (list/detail; status updates optional)
+  - `/api/admin/site-content` (edit homepage content/settings)
+  - `/api/admin/upload` (local uploads) and `/api/uploads/*` serving
 - Admin UI:
   - `/admin/login`, `/admin` dashboard, tables + forms (shadcn DataTable)
   - Product editor: slug, pricing, images, material tags, inventory flag, featured, SEO fields
   - Journal editor: cover image, body, tags, publish toggle
+  - **Theme-adjacent controls (partial):**
+    - Admin Site Content page for homepage hero + Our Promise
+    - Admin Logo Size page for header logo sizing
 - Polish: role separation (admin-only routes), error handling, optimistic UI.
 
 **Conclude Phase 3:** testing_agent_v3 on admin login → create product → appears in storefront → edit journal → visible.
@@ -103,6 +126,10 @@
 - Accessibility pass (WCAG AA basics): keyboard nav, contrast, labels, focus rings.
 - Performance/SEO: image sizing, lazy-loading, meta tags, OpenGraph.
 - Robustness: API validation (Pydantic), consistent error envelopes, rate-limit newsletter.
+- **Atmosphere performance safeguards:**
+  - Keep dust/mist layers subtle and selective (avoid clutter)
+  - Ensure only `transform`/`opacity` animate; no `transition: all`
+  - Ensure reduced-motion mode disables decorative animation layers
 
 **Conclude Phase 4:** testing_agent_v3 full regression (guest + authed + admin) + fix until green.
 
@@ -114,14 +141,22 @@
 5. As an admin, I can recover from validation errors with clear inline messages.
 
 ## 3) Next Actions (Immediate)
-1. Call design_agent for brand UI rules (tokens, components, page layout guidance).
-2. Implement Phase 1 Google Auth POC (FastAPI + minimal React page) and verify session.
-3. Implement Phase 2 core data model + seed + storefront core routes.
-4. Run testing_agent_v3; fix issues before moving to admin.
+1. Run **testing_agent_v3 regression** focused on:
+   - Home (dust/grain layers + readability)
+   - Collections grid (card-earthy + hover)
+   - Journal listing (card-earthy)
+   - Reduced motion behavior
+2. Confirm “mus” interpretation with user (currently implemented as **warm mist/haze**, not moss).
+3. Ensure dust/grain layers remain selective and do not interfere with CTAs/legibility; tune opacity if requested.
+4. Continue hardening admin flows (site-content save/load, logo-size persistence) with end-to-end verification.
 
 ## 4) Success Criteria
 - Customer Google login works reliably (login → session persists → logout) and user is stored in MongoDB.
 - Guests can browse, add to cart; signed-in users can wishlist/cart with DB persistence and merge-on-login.
 - Mock checkout creates an `order` record and order confirmation page renders correctly.
 - Admin JWT login works; admin can CRUD products/collections/journal/artisans and view orders.
-- Site matches editorial, warm, premium brand direction; mobile-first responsive and accessible.
+- Site matches editorial, warm, premium brand direction with tactile depth:
+  - Grain texture present but subtle
+  - Dust/mist ambience selective and non-distracting
+  - Card shadows consistent, warm, and premium
+  - Mobile-first responsive and accessible

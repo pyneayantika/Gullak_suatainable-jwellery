@@ -31,7 +31,7 @@ export default function CollectionsList() {
               <CardTag
                 key={c.id}
                 {...cardProps}
-                className={`group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] block ${isComingSoon ? "" : ""}`}
+                className={`group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] card-earthy block ${isComingSoon ? "" : ""}`}
               >
                 <div className="aspect-[4/5] overflow-hidden relative">
                   <img src={resolveImg(c.hero_image)} alt={c.name} className="pcard-img h-full w-full object-cover" />
