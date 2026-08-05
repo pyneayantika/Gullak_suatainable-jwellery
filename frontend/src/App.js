@@ -3,6 +3,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { SiteSettingsProvider } from "@/context/SiteSettingsContext";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import MarketingLayout from "@/layouts/MarketingLayout";
@@ -92,6 +93,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
+          <SiteSettingsProvider>
           <WishlistProvider>
             <CartProvider>
               <Suspense fallback={<div className="p-10 text-center overline">Loading…</div>}>
@@ -100,6 +102,7 @@ function App() {
               <Toaster position="bottom-right" theme="light" richColors closeButton />
             </CartProvider>
           </WishlistProvider>
+          </SiteSettingsProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>

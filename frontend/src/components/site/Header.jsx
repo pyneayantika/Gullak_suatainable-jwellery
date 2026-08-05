@@ -6,6 +6,7 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
 import { GullakLogo } from "@/components/site/Logo";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 const navItems = [
   { to: "/", label: "Home", testid: TID.header.navHome },
@@ -22,6 +23,8 @@ export default function Header() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { settings } = useSiteSettings();
+  const logoSize = settings.header_logo_size || 72;
 
   const isHome = location.pathname === "/";
   const isTransparent = isHome && !scrolled;
@@ -48,15 +51,14 @@ export default function Header() {
       }`}
     >
       {/* Single row: logo left | nav center | icons right — fixed 72px height */}
-      <div className="w-full px-6 sm:px-10 lg:px-16 h-[100px] grid grid-cols-3 items-center">
+      <div className="w-full px-6 sm:px-10 lg:px-16 grid grid-cols-3 items-center" style={{ height: `${Math.max(logoSize + 28, 72)}px` }}>
 
         {/* LEFT — Logo constrained to header height */}
         <div className="flex items-center">
           <GullakLogo
             testId={TID.header.logo}
-            className={`h-[72px] w-auto transition-all duration-500 ${
-              isTransparent ? "brightness-0 invert" : ""
-            }`}
+            className={`w-auto transition-all duration-500 ${isTransparent ? "brightness-0 invert" : ""}`}
+            style={{ height: `${logoSize}px` }}
           />
         </div>
 

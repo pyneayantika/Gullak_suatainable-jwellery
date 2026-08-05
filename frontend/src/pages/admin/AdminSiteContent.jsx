@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { toast } from "sonner";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -52,10 +53,11 @@ function Field({ label, hint, children }) {
 }
 
 export default function AdminSiteContent() {
-  const [content, setContent] = useState(DEFAULTS);
+  const [content, setContent] = useState({ ...DEFAULTS, header_logo_size: 72 });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
+  const { setSettings } = useSiteSettings();
 
   useEffect(() => {
     api.get("/site-content")
@@ -64,6 +66,7 @@ export default function AdminSiteContent() {
         setContent({
           hero: { ...DEFAULTS.hero, ...data.hero },
           promise: { ...DEFAULTS.promise, ...data.promise },
+          header_logo_size: data.header_logo_size || 72,
         });
         if (data.updated_at) setLastSaved(new Date(data.updated_at).toLocaleString());
       })
@@ -73,12 +76,15 @@ export default function AdminSiteContent() {
 
   const setHero = (key, val) => setContent(c => ({ ...c, hero: { ...c.hero, [key]: val } }));
   const setPromise = (key, val) => setContent(c => ({ ...c, promise: { ...c.promise, [key]: val } }));
+  const setLogoSize = (val) => setContent(c => ({ ...c, header_logo_size: val }));
 
   const handleSave = async () => {
     setSaving(true);
     try {
       const r = await api.put("/admin/site-content", content);
       if (r.data.updated_at) setLastSaved(new Date(r.data.updated_at).toLocaleString());
+      // Push logo size live to the header without page reload
+      setSettings(s => ({ ...s, header_logo_size: content.header_logo_size || 72 }));
       toast.success("Site content saved! Changes are live.");
     } catch {
       toast.error("Failed to save. Please try again.");
@@ -153,6 +159,47 @@ export default function AdminSiteContent() {
 
         {/* ── HERO BANNER TAB ── */}
         <TabsContent value="hero" className="space-y-6">
+
+          {/* Logo Size */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Header Logo Size</CardTitle>
+              <CardDescription>Drag to resize the Gullak logo in the header bar.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center gap-4">
+                <input
+                  data-testid="logo-size-slider"
+                  type="range"
+                  min={36}
+                  max={140}
+                  step={2}
+                  value={content.header_logo_size || 72}
+                  onChange={e => setLogoSize(Number(e.target.value))}
+                  className="flex-1 accent-[color:var(--brand)] h-2 cursor-pointer"
+                />
+                <div className="w-16 text-center rounded-lg border border-[color:var(--border-subtle)] bg-[color:var(--surface)] py-1.5 text-sm font-semibold text-[color:var(--ink-1)]">
+                  {content.header_logo_size || 72}px
+                </div>
+              </div>
+              {/* Live preview */}
+              <div className="rounded-xl bg-[#FAF6EF] border border-[color:var(--border-subtle)] px-6 flex items-center gap-6"
+                style={{ height: `${Math.max((content.header_logo_size || 72) + 28, 72)}px` }}>
+                <img
+                  src="/logo.png"
+                  alt="Gullak"
+                  style={{ height: `${content.header_logo_size || 72}px`, width: "auto" }}
+                  className="object-contain"
+                />
+                <div className="flex gap-7">
+                  {["Home","Collection","About","Journal"].map(l => (
+                    <span key={l} className="text-[11px] uppercase tracking-[0.14em] font-semibold text-[#4A3728]">{l}</span>
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-[color:var(--ink-3)]">Tip: 44–80px looks best for most screens. Save to apply across the site.</p>
+            </CardContent>
+          </Card>
 
           {/* Tagline + Headline */}
           <Card>

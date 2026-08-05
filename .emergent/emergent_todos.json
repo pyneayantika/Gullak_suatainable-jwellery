@@ -1,14 +1,18 @@
 [
   {
-    "content": "Wire AdminSiteContent: App.js route + admin sidebar link",
+    "content": "Add header_logo_size field to backend SiteContentModel",
     "status": "completed"
   },
   {
-    "content": "Update Home.jsx to fetch /api/site-content and render dynamically",
-    "status": "in_progress"
+    "content": "Create SiteSettingsContext to share logo size app-wide",
+    "status": "completed"
   },
   {
-    "content": "Hero parallax + section scroll-reveal + product card 3D tilt",
-    "status": "pending"
+    "content": "Wire Header to use dynamic logo size from context",
+    "status": "completed"
+  },
+  {
+    "content": "Add logo size slider to AdminSiteContent panel",
+    "status": "completed"
   }
 ]

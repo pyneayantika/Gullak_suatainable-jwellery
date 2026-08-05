@@ -908,6 +908,7 @@ class PromiseContentModel(BaseModel):
 class SiteContentModel(BaseModel):
     hero: HeroContentModel = Field(default_factory=HeroContentModel)
     promise: PromiseContentModel = Field(default_factory=PromiseContentModel)
+    header_logo_size: int = 72
     updated_at: Optional[str] = None
 
 @api.get("/site-content")
