@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 
@@ -24,7 +24,7 @@ export default function Artisans() {
             <div key={a.id} className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               <div className={`md:col-span-5 ${i % 2 === 1 ? "md:order-2" : ""}`}>
                 <div className="aspect-[3/4] rounded-2xl overflow-hidden">
-                  <img src={a.portrait} alt={a.name} className="h-full w-full object-cover" />
+                  <img src={resolveImg(a.portrait)} alt={a.name} className="h-full w-full object-cover" />
                 </div>
               </div>
               <div className={`md:col-span-7 ${i % 2 === 1 ? "md:order-1" : ""}`}>

@@ -1,30 +1,26 @@
 [
   {
-    "content": "Phase 1: POC (skipped)",
-    "status": "completed"
+    "content": "Backend: Add image upload endpoint + static serving under /api/uploads",
+    "status": "in_progress"
   },
   {
-    "content": "Phase 2: Design guidelines",
-    "status": "completed"
+    "content": "Backend: Add restock notification endpoints (customer signup + admin list)",
+    "status": "pending"
   },
   {
-    "content": "Phase 2: Backend",
-    "status": "completed"
+    "content": "Frontend: ImageUploader component + integrate into all admin forms (products, collections, journal, artisans)",
+    "status": "pending"
   },
   {
-    "content": "Phase 2: Frontend storefront",
-    "status": "completed"
+    "content": "Frontend: Notify-me form on coming-soon collections (list + detail)",
+    "status": "pending"
   },
   {
-    "content": "Phase 2: Admin panel",
-    "status": "completed"
+    "content": "Frontend: Admin Notifications page",
+    "status": "pending"
   },
   {
-    "content": "Phase 2: Fix broken hero images",
-    "status": "completed"
-  },
-  {
-    "content": "Phase 2: End-to-end testing via testing_agent_v3 (100% backend, 100% public frontend, 100% admin)",
-    "status": "completed"
+    "content": "Testing: run testing_agent_v3 on the two new features",
+    "status": "pending"
   }
 ]

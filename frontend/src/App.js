@@ -33,6 +33,7 @@ import AdminJournal from "@/pages/admin/AdminJournal";
 import AdminCollections from "@/pages/admin/AdminCollections";
 import AdminArtisans from "@/pages/admin/AdminArtisans";
 import AdminOrders from "@/pages/admin/AdminOrders";
+import AdminNotifications from "@/pages/admin/AdminNotifications";
 
 function ProtectedCustomer({ children }) {
   const { user, loading } = useAuth();
@@ -75,6 +76,7 @@ function AppRouter() {
         <Route path="/admin/collections" element={<AdminCollections />} />
         <Route path="/admin/artisans" element={<AdminArtisans />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/admin/notifications" element={<AdminNotifications />} />
       </Route>
       <Route path="*" element={<div className="mx-auto max-w-md p-20 text-center serif text-3xl">Not found</div>} />
     </Routes>

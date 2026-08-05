@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import ImageUploader from "@/components/site/ImageUploader";
 
 const empty = { title: "", slug: "", subtitle: "", category: "Journal", excerpt: "", body: "", cover_image: "", author: "Gullak Studio", read_time: "4 min read", published: true };
 
@@ -44,7 +45,7 @@ export default function AdminJournal() {
       <div className="mt-8 rounded-2xl bg-[color:var(--surface)] border border-[color:var(--border-subtle)] overflow-hidden">
         {items.map(p => (
           <div key={p.id} className="grid grid-cols-[80px_1.5fr_1fr_100px_100px] gap-4 px-4 py-3 items-center border-b border-[color:var(--border-subtle)] last:border-0">
-            <img src={p.cover_image} alt={p.title} className="h-14 w-14 rounded-lg object-cover bg-[color:var(--surface-2)]" />
+            <img src={resolveImg(p.cover_image)} alt={p.title} className="h-14 w-14 rounded-lg object-cover bg-[color:var(--surface-2)]" />
             <div>
               <div className="serif text-lg leading-tight">{p.title}</div>
               <div className="text-xs text-[color:var(--ink-3)]">/{p.slug}</div>
@@ -68,7 +69,7 @@ export default function AdminJournal() {
             <F label="Slug (optional)" value={form.slug} onChange={(v) => setForm({ ...form, slug: v })} placeholder="auto-generated" />
             <F label="Subtitle" value={form.subtitle || ""} onChange={(v) => setForm({ ...form, subtitle: v })} />
             <F label="Category" value={form.category} onChange={(v) => setForm({ ...form, category: v })} />
-            <F label="Cover image URL" value={form.cover_image} onChange={(v) => setForm({ ...form, cover_image: v })} />
+            <ImageUploader label="Cover image" value={form.cover_image} onChange={(v) => setForm({ ...form, cover_image: v })} />
             <F label="Read time" value={form.read_time} onChange={(v) => setForm({ ...form, read_time: v })} />
             <TA label="Excerpt" value={form.excerpt} onChange={(v) => setForm({ ...form, excerpt: v })} rows={2} />
             <TA label="Body" value={form.body} onChange={(v) => setForm({ ...form, body: v })} rows={8} />

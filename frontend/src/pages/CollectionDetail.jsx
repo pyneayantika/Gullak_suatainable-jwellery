@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 import ProductCard from "@/components/site/ProductCard";
+import NotifyMeForm from "@/components/site/NotifyMeForm";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TID } from "@/lib/testIds";
 
@@ -39,10 +40,16 @@ export default function CollectionDetail() {
               <h1 className="mt-3 serif text-5xl sm:text-6xl tracking-[-0.02em]">{c.name}</h1>
               <p className="mt-4 text-lg text-[color:var(--ink-2)] max-w-xl">{c.subtitle}</p>
               <p className="mt-4 text-[15px] leading-[1.85] text-[color:var(--ink-2)] max-w-xl">{c.description}</p>
+              {c.status !== "active" && (
+                <div className="mt-6">
+                  <div className="inline-flex items-center rounded-full bg-[color:var(--surface-2)] text-[color:var(--ink-2)] px-3 py-1 text-[11px] uppercase tracking-widest">Coming soon</div>
+                  <NotifyMeForm slug={c.slug} name={c.name} variant="hero" />
+                </div>
+              )}
             </div>
             <div className="lg:col-span-6">
               <div className="aspect-[5/4] rounded-2xl overflow-hidden">
-                <img src={c.hero_image} alt={c.name} className="h-full w-full object-cover" />
+                <img src={resolveImg(c.hero_image)} alt={c.name} className="h-full w-full object-cover" />
               </div>
             </div>
           </div>

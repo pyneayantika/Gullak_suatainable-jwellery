@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import { TID } from "@/lib/testIds";
 import ProductCard from "@/components/site/ProductCard";
 import Section from "@/components/site/Section";
@@ -150,7 +150,7 @@ export default function Home() {
           {(data.collections || []).slice(0, 3).map((c) => (
             <Link key={c.id} to={c.status === "active" ? `/collections/${c.slug}` : "/collections"} className="group block rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
               <div className="aspect-[4/5] overflow-hidden">
-                <img src={c.hero_image} alt={c.name} className="pcard-img h-full w-full object-cover" />
+                <img src={resolveImg(c.hero_image)} alt={c.name} className="pcard-img h-full w-full object-cover" />
               </div>
               <div className="p-5">
                 <div className="flex items-center justify-between">
@@ -219,7 +219,7 @@ export default function Home() {
           {(data.artisans || []).slice(0, 2).map((a) => (
             <Link key={a.id} to={`/artisans/${a.slug}`} className="group grid grid-cols-2 gap-6 rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
               <div className="aspect-[3/4] overflow-hidden">
-                <img src={a.portrait} alt={a.name} className="pcard-img h-full w-full object-cover" />
+                <img src={resolveImg(a.portrait)} alt={a.name} className="pcard-img h-full w-full object-cover" />
               </div>
               <div className="p-6 flex flex-col justify-center">
                 <Overline>{a.craft}</Overline>
@@ -325,7 +325,7 @@ export default function Home() {
             {(data.journal || []).slice(0, 3).map((j) => (
               <Link key={j.id} to={`/journal/${j.slug}`} className="group block rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
                 <div className="aspect-[4/3] overflow-hidden">
-                  <img src={j.cover_image} alt={j.title} className="h-full w-full object-cover pcard-img" />
+                  <img src={resolveImg(j.cover_image)} alt={j.title} className="h-full w-full object-cover pcard-img" />
                 </div>
                 <div className="p-6">
                   <div className="overline">{j.category}</div>

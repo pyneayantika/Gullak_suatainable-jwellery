@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { api, formatINR } from "@/lib/api";
+import { api, formatINR, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 import ProductCard from "@/components/site/ProductCard";
@@ -47,7 +47,7 @@ export default function ProductDetail() {
                     onClick={() => setActiveImg(i)}
                     className={`h-20 w-16 md:h-24 md:w-20 rounded-lg overflow-hidden flex-shrink-0 border ${activeImg === i ? "border-[color:var(--brand)]" : "border-[color:var(--border-subtle)]"}`}
                   >
-                    <img src={img} alt={`Thumb ${i+1}`} className="h-full w-full object-cover" />
+                    <img src={resolveImg(img)} alt={`Thumb ${i+1}`} className="h-full w-full object-cover" />
                   </button>
                 ))}
               </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 
@@ -33,7 +33,7 @@ export default function ArtisanDetail() {
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
             {a.workshop_images.map((img, i) => (
               <div key={i} className="aspect-[4/3] rounded-2xl overflow-hidden">
-                <img src={img} alt={`Workshop ${i + 1}`} className="h-full w-full object-cover" />
+                <img src={resolveImg(img)} alt={`Workshop ${i + 1}`} className="h-full w-full object-cover" />
               </div>
             ))}
           </div>

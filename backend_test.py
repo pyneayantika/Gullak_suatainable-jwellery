@@ -360,6 +360,271 @@ class GullakAPITester:
             "GET", "cart", 401
         )
     
+    # ========== IMAGE UPLOAD TESTS ==========
+    
+    def test_upload_requires_admin_auth(self):
+        """Test POST /api/admin/upload returns 401 without admin token"""
+        return self.run_test(
+            "POST /api/admin/upload - 401 without admin auth",
+            "POST", "admin/upload", 401
+        )
+    
+    def test_upload_valid_image(self):
+        """Test POST /api/admin/upload with valid image file"""
+        if not self.admin_token:
+            self.log("Skipping - no admin token", "WARN")
+            return False, {}
+        
+        # Create a minimal 1x1 PNG image
+        import io
+        from PIL import Image
+        img = Image.new('RGB', (1, 1), color='red')
+        img_bytes = io.BytesIO()
+        img.save(img_bytes, format='PNG')
+        img_bytes.seek(0)
+        
+        url = f"{self.base_url}/admin/upload"
+        files = {'file': ('test.png', img_bytes, 'image/png')}
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        self.tests_run += 1
+        self.log(f"\n🔍 Test {self.tests_run}: POST /api/admin/upload - valid image")
+        
+        try:
+            response = requests.post(url, files=files, headers=headers, timeout=10)
+            success = response.status_code == 200
+            
+            if success:
+                data = response.json()
+                if 'url' in data and 'filename' in data and 'size' in data:
+                    self.uploaded_filename = data['filename']
+                    self.tests_passed += 1
+                    self.log(f"✅ PASSED - Image uploaded: {data['filename']}", "SUCCESS")
+                    return True, data
+                else:
+                    self.log(f"❌ FAILED - Missing required fields in response", "ERROR")
+                    self.failed_tests.append({"test": "Upload valid image", "reason": "Missing url/filename/size"})
+                    return False, {}
+            else:
+                self.log(f"❌ FAILED - Expected 200, got {response.status_code}", "ERROR")
+                self.log(f"Response: {response.text[:200]}", "DEBUG")
+                self.failed_tests.append({"test": "Upload valid image", "reason": f"Expected 200, got {response.status_code}"})
+                return False, {}
+        except Exception as e:
+            self.log(f"❌ FAILED - Error: {str(e)}", "ERROR")
+            self.failed_tests.append({"test": "Upload valid image", "reason": str(e)})
+            return False, {}
+    
+    def test_serve_uploaded_file(self):
+        """Test GET /api/uploads/<filename> serves the uploaded file"""
+        if not hasattr(self, 'uploaded_filename'):
+            self.log("Skipping - no uploaded file", "WARN")
+            return False, {}
+        
+        url = f"{self.base_url}/uploads/{self.uploaded_filename}"
+        self.tests_run += 1
+        self.log(f"\n🔍 Test {self.tests_run}: GET /api/uploads/{self.uploaded_filename}")
+        
+        try:
+            response = requests.get(url, timeout=10)
+            success = response.status_code == 200 and 'image' in response.headers.get('content-type', '')
+            
+            if success:
+                self.tests_passed += 1
+                self.log(f"✅ PASSED - File served correctly", "SUCCESS")
+                return True, {}
+            else:
+                self.log(f"❌ FAILED - Expected 200 with image content-type, got {response.status_code}", "ERROR")
+                self.failed_tests.append({"test": "Serve uploaded file", "reason": f"Status {response.status_code}"})
+                return False, {}
+        except Exception as e:
+            self.log(f"❌ FAILED - Error: {str(e)}", "ERROR")
+            self.failed_tests.append({"test": "Serve uploaded file", "reason": str(e)})
+            return False, {}
+    
+    def test_upload_rejects_non_image(self):
+        """Test POST /api/admin/upload rejects non-image files"""
+        if not self.admin_token:
+            self.log("Skipping - no admin token", "WARN")
+            return False, {}
+        
+        url = f"{self.base_url}/admin/upload"
+        files = {'file': ('test.txt', b'This is not an image', 'text/plain')}
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        self.tests_run += 1
+        self.log(f"\n🔍 Test {self.tests_run}: POST /api/admin/upload - reject non-image")
+        
+        try:
+            response = requests.post(url, files=files, headers=headers, timeout=10)
+            success = response.status_code == 400
+            
+            if success:
+                self.tests_passed += 1
+                self.log(f"✅ PASSED - Non-image rejected with 400", "SUCCESS")
+                return True, {}
+            else:
+                self.log(f"❌ FAILED - Expected 400, got {response.status_code}", "ERROR")
+                self.failed_tests.append({"test": "Reject non-image", "reason": f"Expected 400, got {response.status_code}"})
+                return False, {}
+        except Exception as e:
+            self.log(f"❌ FAILED - Error: {str(e)}", "ERROR")
+            self.failed_tests.append({"test": "Reject non-image", "reason": str(e)})
+            return False, {}
+    
+    def test_upload_rejects_invalid_image(self):
+        """Test POST /api/admin/upload rejects invalid image data"""
+        if not self.admin_token:
+            self.log("Skipping - no admin token", "WARN")
+            return False, {}
+        
+        url = f"{self.base_url}/admin/upload"
+        files = {'file': ('fake.png', b'Not a real PNG file', 'image/png')}
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        self.tests_run += 1
+        self.log(f"\n🔍 Test {self.tests_run}: POST /api/admin/upload - reject invalid image")
+        
+        try:
+            response = requests.post(url, files=files, headers=headers, timeout=10)
+            success = response.status_code == 400
+            
+            if success:
+                self.tests_passed += 1
+                self.log(f"✅ PASSED - Invalid image rejected with 400", "SUCCESS")
+                return True, {}
+            else:
+                self.log(f"❌ FAILED - Expected 400, got {response.status_code}", "ERROR")
+                self.failed_tests.append({"test": "Reject invalid image", "reason": f"Expected 400, got {response.status_code}"})
+                return False, {}
+        except Exception as e:
+            self.log(f"❌ FAILED - Error: {str(e)}", "ERROR")
+            self.failed_tests.append({"test": "Reject invalid image", "reason": str(e)})
+            return False, {}
+    
+    def test_serve_nonexistent_file(self):
+        """Test GET /api/uploads/<nonexistent> returns 404"""
+        return self.run_test(
+            "GET /api/uploads/nonexistent.jpg - 404",
+            "GET", "uploads/nonexistent.jpg", 404
+        )
+    
+    def test_path_traversal_protection(self):
+        """Test GET /api/uploads with path traversal attempt"""
+        return self.run_test(
+            "GET /api/uploads/..%2Fetc%2Fpasswd - path traversal blocked",
+            "GET", "uploads/..%2Fetc%2Fpasswd", 400
+        )
+    
+    # ========== NOTIFICATION TESTS ==========
+    
+    def test_notify_signup_valid(self):
+        """Test POST /api/collections/{slug}/notify with valid email"""
+        test_email = f"notify_test_{int(datetime.now().timestamp())}@example.com"
+        
+        def check(data):
+            if not data.get('ok'):
+                self.log("Response ok field is not True", "ERROR")
+                return False
+            if 'message' not in data:
+                self.log("Missing message field", "ERROR")
+                return False
+            return True
+        
+        success, response = self.run_test(
+            "POST /api/collections/wood/notify - valid email signup",
+            "POST", "collections/wood/notify", 200,
+            data={"email": test_email},
+            check_fn=check
+        )
+        
+        if success:
+            self.test_notify_email = test_email
+        return success, response
+    
+    def test_notify_signup_duplicate(self):
+        """Test POST /api/collections/{slug}/notify with duplicate email"""
+        if not hasattr(self, 'test_notify_email'):
+            self.log("Skipping - no test email", "WARN")
+            return False, {}
+        
+        def check(data):
+            if not data.get('ok'):
+                self.log("Response ok field is not True", "ERROR")
+                return False
+            if not data.get('already'):
+                self.log("Expected 'already' field to be True for duplicate", "ERROR")
+                return False
+            return True
+        
+        return self.run_test(
+            "POST /api/collections/wood/notify - duplicate email",
+            "POST", "collections/wood/notify", 200,
+            data={"email": self.test_notify_email},
+            check_fn=check
+        )
+    
+    def test_notify_invalid_slug(self):
+        """Test POST /api/collections/unknown-slug/notify returns 404"""
+        return self.run_test(
+            "POST /api/collections/unknown-slug/notify - 404",
+            "POST", "collections/unknown-slug/notify", 404,
+            data={"email": "test@example.com"}
+        )
+    
+    def test_notify_invalid_email(self):
+        """Test POST /api/collections/{slug}/notify with invalid email"""
+        return self.run_test(
+            "POST /api/collections/wood/notify - invalid email",
+            "POST", "collections/wood/notify", 400,
+            data={"email": "not-an-email"}
+        )
+    
+    def test_admin_notifications_requires_auth(self):
+        """Test GET /api/admin/notifications requires admin auth"""
+        return self.run_test(
+            "GET /api/admin/notifications - 401 without admin auth",
+            "GET", "admin/notifications", 401
+        )
+    
+    def test_admin_list_notifications(self):
+        """Test GET /api/admin/notifications returns list"""
+        if not self.admin_token:
+            self.log("Skipping - no admin token", "WARN")
+            return False, {}
+        
+        def check(data):
+            if not isinstance(data, list):
+                self.log("Response is not a list", "ERROR")
+                return False
+            # Should have at least our test signup
+            if len(data) == 0:
+                self.log("Expected at least 1 notification", "ERROR")
+                return False
+            # Store first notification ID for delete test
+            if len(data) > 0:
+                self.test_notification_id = data[0].get('id')
+            return True
+        
+        return self.run_test(
+            "GET /api/admin/notifications - list notifications",
+            "GET", "admin/notifications", 200,
+            headers={"Authorization": f"Bearer {self.admin_token}"},
+            check_fn=check
+        )
+    
+    def test_admin_delete_notification(self):
+        """Test DELETE /api/admin/notifications/{nid}"""
+        if not self.admin_token or not hasattr(self, 'test_notification_id'):
+            self.log("Skipping - no admin token or notification ID", "WARN")
+            return False, {}
+        
+        return self.run_test(
+            f"DELETE /api/admin/notifications/{self.test_notification_id}",
+            "DELETE", f"admin/notifications/{self.test_notification_id}", 200,
+            headers={"Authorization": f"Bearer {self.admin_token}"}
+        )
+    
     # ========== SUMMARY ==========
     
     def print_summary(self):
@@ -420,6 +685,26 @@ def main():
     tester.test_auth_me_without_token()
     tester.test_wishlist_requires_auth()
     tester.test_cart_requires_auth()
+    
+    print("\n📤 IMAGE UPLOAD TESTS")
+    print("-"*60)
+    tester.test_upload_requires_admin_auth()
+    tester.test_upload_valid_image()
+    tester.test_serve_uploaded_file()
+    tester.test_upload_rejects_non_image()
+    tester.test_upload_rejects_invalid_image()
+    tester.test_serve_nonexistent_file()
+    tester.test_path_traversal_protection()
+    
+    print("\n🔔 NOTIFICATION TESTS")
+    print("-"*60)
+    tester.test_notify_signup_valid()
+    tester.test_notify_signup_duplicate()
+    tester.test_notify_invalid_slug()
+    tester.test_notify_invalid_email()
+    tester.test_admin_notifications_requires_auth()
+    tester.test_admin_list_notifications()
+    tester.test_admin_delete_notification()
     
     # Print summary and exit
     return tester.print_summary()

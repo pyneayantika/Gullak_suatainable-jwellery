@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { api, formatINR } from "@/lib/api";
+import { api, formatINR, resolveImg } from "@/lib/api";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { TID } from "@/lib/testIds";
+import ImageUploader from "@/components/site/ImageUploader";
 
 const empty = {
   name: "", slug: "", subtitle: "", price: 0, currency: "INR", collection_slug: "terracotta", material: "Terracotta",
@@ -73,7 +74,7 @@ export default function AdminProducts() {
         </div>
         {items.map(p => (
           <div key={p.id} className="grid grid-cols-[80px_1.5fr_1fr_1fr_100px_100px] gap-4 px-4 py-3 items-center border-b border-[color:var(--border-subtle)] last:border-0">
-            <img src={p.images?.[0]} alt={p.name} className="h-14 w-14 rounded-lg object-cover bg-[color:var(--surface-2)]" />
+            <img src={resolveImg(p.images?.[0])} alt={p.name} className="h-14 w-14 rounded-lg object-cover bg-[color:var(--surface-2)]" />
             <div>
               <div className="serif text-lg leading-tight">{p.name}</div>
               <div className="text-xs text-[color:var(--ink-3)]">/{p.slug} {p.featured && <span className="ml-2 text-[color:var(--brand)]">★ Featured</span>}</div>
@@ -117,8 +118,8 @@ export default function AdminProducts() {
               <Field label="Weight" value={form.weight} onChange={(v) => setForm({ ...form, weight: v })} />
             </Row>
             <Textarea label="Packaging" value={form.packaging} onChange={(v) => setForm({ ...form, packaging: v })} />
-            <Field label="Images (comma-separated URLs)" value={(form.images || []).join(", ")} onChange={(v) => setForm({ ...form, images: v.split(",").map(s => s.trim()).filter(Boolean) })} />
-            <Field label="Lifestyle images (comma-separated URLs)" value={(form.lifestyle_images || []).join(", ")} onChange={(v) => setForm({ ...form, lifestyle_images: v.split(",").map(s => s.trim()).filter(Boolean) })} />
+            <ImageUploader label="Product images" multi max={8} value={form.images} onChange={(v) => setForm({ ...form, images: v })} hint="First image is the cover • drag to reorder" />
+            <ImageUploader label="Lifestyle images (optional)" multi max={4} value={form.lifestyle_images} onChange={(v) => setForm({ ...form, lifestyle_images: v })} />
             <div className="flex items-center gap-4">
               <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} /> Featured</label>
               <label className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={form.in_stock} onChange={(e) => setForm({ ...form, in_stock: e.target.checked })} /> In stock</label>

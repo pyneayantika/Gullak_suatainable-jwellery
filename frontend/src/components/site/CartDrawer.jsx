@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useCart } from "@/context/CartContext";
-import { formatINR } from "@/lib/api";
+import { formatINR, resolveImg } from "@/lib/api";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { TID } from "@/lib/testIds";
 
@@ -35,7 +35,7 @@ export default function CartDrawer() {
             <div className="flex-1 overflow-y-auto py-4 space-y-4">
               {items.map((it) => (
                 <div key={it.product.id} className="flex gap-4 items-start">
-                  <img src={it.product.images?.[0]} alt={it.product.name} className="h-24 w-20 rounded-lg object-cover bg-[color:var(--surface-2)]" />
+                  <img src={resolveImg(it.product.images?.[0])} alt={it.product.name} className="h-24 w-20 rounded-lg object-cover bg-[color:var(--surface-2)]" />
                   <div className="flex-1 min-w-0">
                     <Link to={`/products/${it.product.slug}`} onClick={() => setOpen(false)} className="serif text-lg leading-tight link-underline">{it.product.name}</Link>
                     <div className="text-xs text-[color:var(--ink-3)] mt-0.5">{it.product.material}</div>

@@ -1,0 +1,65 @@
+{
+  "summary": "Completed testing of two new features: (1) Admin image upload to /api/admin/upload with file serving via /api/uploads/<filename>, and (2) Launch notification signups via /api/collections/<slug>/notify with admin dashboard at /admin/notifications. Backend tests: 32/33 passed (97%). Frontend tests: All major flows working correctly.",
+  "backend_issues": {
+    "minor_bugs": [
+      {
+        "endpoint": "/api/uploads/..%2Fetc%2Fpasswd",
+        "issue": "Path traversal test returns 404 instead of expected 400",
+        "impact": "Very low - path traversal is still blocked, just with different status code",
+        "fix_priority": "LOW"
+      }
+    ],
+    "critical_bugs": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "NotifyMeForm (card variant)",
+        "issue": "On collections list page, after submitting notify form on coming-soon cards, the confirmation message 'We'll write when [Collection] launches' does not appear to replace the form. The API call succeeds (verified in backend tests and admin dashboard), but the UI state doesn't update to show the confirmation.",
+        "affected_pages": ["/collections"],
+        "fix_priority": "MEDIUM",
+        "workaround": "The notification is successfully saved in the backend. The hero variant on collection detail pages (/collections/bamboo) works correctly and shows the confirmation message."
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "Backend: POST /api/admin/upload requires admin auth (401 without token)",
+    "Backend: POST /api/admin/upload with valid image returns {url, filename, size}",
+    "Backend: GET /api/uploads/<filename> serves uploaded file with correct content-type",
+    "Backend: POST /api/admin/upload rejects non-image files with 400",
+    "Backend: POST /api/admin/upload rejects invalid image data with 400",
+    "Backend: GET /api/uploads/nonexistent returns 404",
+    "Backend: POST /api/collections/<slug>/notify creates notification successfully",
+    "Backend: POST /api/collections/<slug>/notify handles duplicate emails correctly (returns already:true)",
+    "Backend: POST /api/collections/unknown-slug/notify returns 404",
+    "Backend: POST /api/collections/<slug>/notify with invalid email returns 400",
+    "Backend: GET /api/admin/notifications requires admin auth (401 without token)",
+    "Backend: GET /api/admin/notifications returns list of signups sorted by created_at desc",
+    "Backend: DELETE /api/admin/notifications/{nid} deletes notification successfully",
+    "Backend regression: All previously-passing endpoints still work (home, collections, products, journal, artisans, admin CRUD)",
+    "Frontend: Guest user can submit email on coming-soon collection detail page (Bamboo) - toast and confirmation message appear correctly",
+    "Frontend: Collections list page shows notify forms only on coming-soon collections (4 forms for Wood, Bamboo, Fabric, Wool)",
+    "Frontend: Terracotta (Available) collection does NOT show notify form",
+    "Frontend: Admin dashboard shows 'Notify-me' count card with correct number",
+    "Frontend: Admin sidebar includes 'Notify-me' menu item",
+    "Frontend: Admin products page has ImageUploader component with 'Upload images' button",
+    "Frontend: Admin notifications page shows correct title, filter dropdown, and Export CSV button",
+    "Frontend: Admin notifications page displays email entries grouped by collection with delete buttons",
+    "Frontend: Filter dropdown includes 'All collections' and individual collection options with counts"
+  ],
+  "test_report_links": [
+    "/app/backend_test.py"
+  ],
+  "success_percentage": {
+    "backend": "97% (32/33 tests passed)",
+    "frontend": "95% (1 minor UI state issue on collections list cards)"
+  },
+  "action_item_for_main_agent": "Fix NotifyMeForm confirmation message display on collections list page cards. The form submission works correctly (API call succeeds), but the React state doesn't update to show the confirmation message. The hero variant on collection detail pages works correctly. Investigate why the card variant's 'done' state isn't persisting or rendering the confirmation message.",
+  "updated_files": [
+    "/app/backend_test.py"
+  ],
+  "should_call_test_agent_after_fix": "false",
+  "should_main_agent_test_itself": "true"
+}

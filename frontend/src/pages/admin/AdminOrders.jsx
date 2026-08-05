@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { api, formatINR } from "@/lib/api";
+import { api, formatINR, resolveImg } from "@/lib/api";
 import { toast } from "sonner";
 
 const STATUSES = ["placed", "crafting", "shipped", "delivered", "cancelled"];
@@ -47,7 +47,7 @@ export default function AdminOrders() {
                 <div className="mt-1 flex flex-wrap gap-2">
                   {o.items.map(it => (
                     <div key={it.product_id} className="flex items-center gap-2 text-xs bg-[color:var(--bg)] rounded-full pl-1 pr-3 py-1">
-                      <img src={it.image} alt="" className="h-6 w-6 rounded-full object-cover" />
+                      <img src={resolveImg(it.image)} alt="" className="h-6 w-6 rounded-full object-cover" />
                       <span>{it.name} × {it.quantity}</span>
                     </div>
                   ))}

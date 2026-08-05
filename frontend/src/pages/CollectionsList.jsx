@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
+import NotifyMeForm from "@/components/site/NotifyMeForm";
 
 export default function CollectionsList() {
   const [collections, setCollections] = useState([]);
@@ -22,27 +23,34 @@ export default function CollectionsList() {
           </p>
         </div>
         <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {collections.map((c) => (
-            <Link
-              key={c.id}
-              to={c.status === "active" ? `/collections/${c.slug}` : "/collections"}
-              className={`group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] block ${c.status !== "active" ? "opacity-90" : ""}`}
-            >
-              <div className="aspect-[4/5] overflow-hidden">
-                <img src={c.hero_image} alt={c.name} className="pcard-img h-full w-full object-cover" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between">
-                  <Overline>{c.material}</Overline>
-                  <span className={`text-[10px] px-2 py-1 rounded-full ${c.status === "active" ? "bg-[color:var(--brand)] text-[color:var(--surface)]" : "bg-[color:var(--surface-2)] text-[color:var(--ink-2)]"}`}>
-                    {c.status === "active" ? "Available" : "Coming soon"}
-                  </span>
+          {collections.map((c) => {
+            const isComingSoon = c.status !== "active";
+            const CardTag = isComingSoon ? "div" : Link;
+            const cardProps = isComingSoon ? {} : { to: `/collections/${c.slug}` };
+            return (
+              <CardTag
+                key={c.id}
+                {...cardProps}
+                className={`group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)] block ${isComingSoon ? "" : ""}`}
+              >
+                <div className="aspect-[4/5] overflow-hidden relative">
+                  <img src={resolveImg(c.hero_image)} alt={c.name} className="pcard-img h-full w-full object-cover" />
+                  {isComingSoon && <div className="absolute inset-0 bg-gradient-to-t from-[rgba(20,17,16,0.35)] to-transparent" />}
                 </div>
-                <div className="mt-2 serif text-2xl leading-tight">{c.name}</div>
-                <p className="mt-2 text-sm text-[color:var(--ink-3)]">{c.subtitle}</p>
-              </div>
-            </Link>
-          ))}
+                <div className="p-6">
+                  <div className="flex items-center justify-between">
+                    <Overline>{c.material}</Overline>
+                    <span className={`text-[10px] px-2 py-1 rounded-full ${c.status === "active" ? "bg-[color:var(--brand)] text-[color:var(--surface)]" : "bg-[color:var(--surface-2)] text-[color:var(--ink-2)]"}`}>
+                      {c.status === "active" ? "Available" : "Coming soon"}
+                    </span>
+                  </div>
+                  <div className="mt-2 serif text-2xl leading-tight">{c.name}</div>
+                  <p className="mt-2 text-sm text-[color:var(--ink-3)]">{c.subtitle}</p>
+                  {isComingSoon && <NotifyMeForm slug={c.slug} name={c.name} />}
+                </div>
+              </CardTag>
+            );
+          })}
         </div>
       </Section>
     </div>

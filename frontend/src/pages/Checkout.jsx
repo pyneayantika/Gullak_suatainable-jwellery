@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api, formatINR } from "@/lib/api";
+import { api, formatINR, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 import { useCart } from "@/context/CartContext";
@@ -92,7 +92,7 @@ export default function Checkout() {
           <div className="mt-4 space-y-3 max-h-64 overflow-y-auto pr-1">
             {items.map(it => (
               <div key={it.product.id} className="flex items-center gap-3 text-sm">
-                <img src={it.product.images?.[0]} alt={it.product.name} className="h-14 w-12 rounded object-cover" />
+                <img src={resolveImg(it.product.images?.[0])} alt={it.product.name} className="h-14 w-12 rounded object-cover" />
                 <div className="flex-1 min-w-0">
                   <div className="serif text-base leading-tight">{it.product.name}</div>
                   <div className="text-xs text-[color:var(--ink-3)]">Qty {it.quantity}</div>

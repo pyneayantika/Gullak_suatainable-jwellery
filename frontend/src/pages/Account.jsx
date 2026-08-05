@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, formatINR } from "@/lib/api";
+import { api, formatINR, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 import { useAuth } from "@/context/AuthContext";
@@ -45,7 +45,7 @@ export default function Account() {
                 </div>
                 <div className="mt-3 flex gap-2 overflow-x-auto">
                   {o.items.slice(0, 4).map(it => (
-                    <img key={it.product_id} src={it.image} alt={it.name} className="h-14 w-12 rounded object-cover flex-shrink-0" />
+                    <img key={it.product_id} src={resolveImg(it.image)} alt={it.name} className="h-14 w-12 rounded object-cover flex-shrink-0" />
                   ))}
                 </div>
               </div>

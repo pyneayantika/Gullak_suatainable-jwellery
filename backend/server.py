@@ -6,8 +6,9 @@ FastAPI backend with two auth systems:
 
 REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
 """
-from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request, Response, Cookie, Header, Body, Query
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request, Response, Cookie, Header, Body, Query, UploadFile, File
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -38,6 +39,10 @@ ADMIN_TOKEN_TTL_HOURS = 24 * 7
 
 app = FastAPI(title="Gullak API")
 api = APIRouter(prefix="/api")
+
+# Uploads directory (files served via /api/uploads/<name>)
+UPLOAD_DIR = ROOT_DIR / "uploads"
+UPLOAD_DIR.mkdir(exist_ok=True)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("gullak")
@@ -708,6 +713,74 @@ async def admin_update_order_status(order_id: str, payload: Dict[str, str] = Bod
     await db.orders.update_one({"order_id": order_id}, {"$set": {"status": status}})
     doc = await db.orders.find_one({"order_id": order_id}, {"_id": 0})
     return clean_doc(doc)
+
+# ---------- Image Upload (admin only) ----------
+ALLOWED_IMG_EXT = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+MAX_UPLOAD_BYTES = 8 * 1024 * 1024  # 8MB
+
+@api.post("/admin/upload")
+async def admin_upload_image(file: UploadFile = File(...), _admin = Depends(require_admin)):
+    import os as _os
+    ext = _os.path.splitext(file.filename or "")[1].lower()
+    if ext not in ALLOWED_IMG_EXT:
+        raise HTTPException(status_code=400, detail=f"Unsupported file type. Allowed: {', '.join(sorted(ALLOWED_IMG_EXT))}")
+    contents = await file.read()
+    if len(contents) > MAX_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="File too large (max 8MB)")
+    # Optional: verify it's a real image via Pillow
+    try:
+        from PIL import Image
+        import io as _io
+        Image.open(_io.BytesIO(contents)).verify()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Not a valid image file")
+    safe_name = f"{uuid.uuid4().hex}{ext}"
+    out_path = UPLOAD_DIR / safe_name
+    with open(out_path, "wb") as f:
+        f.write(contents)
+    return {"url": f"/api/uploads/{safe_name}", "filename": safe_name, "size": len(contents)}
+
+@api.get("/uploads/{filename}")
+async def serve_upload(filename: str):
+    # Basic path traversal protection
+    if "/" in filename or "\\" in filename or ".." in filename:
+        raise HTTPException(status_code=400, detail="Invalid filename")
+    file_path = UPLOAD_DIR / filename
+    if not file_path.exists() or not file_path.is_file():
+        raise HTTPException(status_code=404, detail="Not found")
+    return FileResponse(str(file_path))
+
+# ---------- Restock / Launch Notifications ----------
+@api.post("/collections/{slug}/notify")
+async def collection_notify(slug: str, payload: Dict[str, str] = Body(...)):
+    email = (payload.get("email") or "").strip().lower()
+    if not email or "@" not in email:
+        raise HTTPException(status_code=400, detail="Please share a valid email")
+    coll = await db.collections.find_one({"slug": slug}, {"_id": 0})
+    if not coll:
+        raise HTTPException(status_code=404, detail="Collection not found")
+    existing = await db.notify_requests.find_one({"collection_slug": slug, "email": email})
+    if existing:
+        return {"ok": True, "message": "You're already on the list for " + coll["name"], "already": True}
+    await db.notify_requests.insert_one({
+        "id": f"notify_{uuid.uuid4().hex[:12]}",
+        "collection_slug": slug,
+        "collection_name": coll["name"],
+        "email": email,
+        "notified": False,
+        "created_at": iso(now_utc()),
+    })
+    return {"ok": True, "message": f"We'll write when {coll['name']} arrives"}
+
+@api.get("/admin/notifications")
+async def admin_list_notifications(_admin = Depends(require_admin)):
+    docs = await db.notify_requests.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return [clean_doc(d) for d in docs]
+
+@api.delete("/admin/notifications/{nid}")
+async def admin_delete_notification(nid: str, _admin = Depends(require_admin)):
+    await db.notify_requests.delete_one({"id": nid})
+    return {"ok": True}
 
 # ---------- Seed (idempotent) ----------
 from seed_data import SEED

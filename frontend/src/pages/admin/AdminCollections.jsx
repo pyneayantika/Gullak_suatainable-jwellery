@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import ImageUploader from "@/components/site/ImageUploader";
 
 const empty = { name: "", slug: "", subtitle: "", description: "", hero_image: "", material: "", status: "active", order: 10 };
 
@@ -42,7 +43,7 @@ export default function AdminCollections() {
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map(c => (
           <div key={c.id} className="rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
-            <div className="aspect-[4/3] overflow-hidden"><img src={c.hero_image} alt={c.name} className="h-full w-full object-cover" /></div>
+            <div className="aspect-[4/3] overflow-hidden"><img src={resolveImg(c.hero_image)} alt={c.name} className="h-full w-full object-cover" /></div>
             <div className="p-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -67,7 +68,7 @@ export default function AdminCollections() {
             <F label="Slug (optional)" value={form.slug} onChange={(v) => setForm({ ...form, slug: v })} placeholder="auto-generated" />
             <F label="Subtitle" value={form.subtitle || ""} onChange={(v) => setForm({ ...form, subtitle: v })} />
             <F label="Material" value={form.material} onChange={(v) => setForm({ ...form, material: v })} required />
-            <F label="Hero image URL" value={form.hero_image} onChange={(v) => setForm({ ...form, hero_image: v })} />
+            <ImageUploader label="Hero image" value={form.hero_image} onChange={(v) => setForm({ ...form, hero_image: v })} />
             <F label="Order" type="number" value={form.order} onChange={(v) => setForm({ ...form, order: v })} />
             <label className="block"><span className="overline block mb-1.5">Status</span>
               <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="w-full rounded-xl border border-[color:var(--border-subtle)] bg-[color:var(--bg)] px-4 py-2.5 text-sm">

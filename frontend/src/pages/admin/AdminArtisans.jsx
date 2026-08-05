@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import ImageUploader from "@/components/site/ImageUploader";
 
 const empty = { name: "", slug: "", craft: "", region: "", story: "", portrait: "", workshop_images: [], years_of_practice: 0 };
 
@@ -42,7 +43,7 @@ export default function AdminArtisans() {
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map(a => (
           <div key={a.id} className="rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
-            <div className="aspect-[3/4] overflow-hidden"><img src={a.portrait} alt={a.name} className="h-full w-full object-cover" /></div>
+            <div className="aspect-[3/4] overflow-hidden"><img src={resolveImg(a.portrait)} alt={a.name} className="h-full w-full object-cover" /></div>
             <div className="p-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -68,8 +69,8 @@ export default function AdminArtisans() {
             <F label="Craft" value={form.craft} onChange={(v) => setForm({ ...form, craft: v })} required />
             <F label="Region" value={form.region} onChange={(v) => setForm({ ...form, region: v })} required />
             <F label="Years of practice" type="number" value={form.years_of_practice} onChange={(v) => setForm({ ...form, years_of_practice: v })} />
-            <F label="Portrait URL" value={form.portrait} onChange={(v) => setForm({ ...form, portrait: v })} />
-            <F label="Workshop images (comma-separated URLs)" value={(form.workshop_images || []).join(", ")} onChange={(v) => setForm({ ...form, workshop_images: v.split(",").map(s => s.trim()).filter(Boolean) })} />
+            <ImageUploader label="Portrait" value={form.portrait} onChange={(v) => setForm({ ...form, portrait: v })} />
+            <ImageUploader label="Workshop images" multi max={6} value={form.workshop_images} onChange={(v) => setForm({ ...form, workshop_images: v })} />
             <TA label="Story" value={form.story} onChange={(v) => setForm({ ...form, story: v })} rows={5} />
             <div className="flex justify-end gap-3 pt-2">
               <button type="button" onClick={() => setOpen(false)} className="press-btn rounded-full border border-[color:var(--border-subtle)] px-5 py-2.5 text-sm hover:bg-[color:var(--surface-2)]">Cancel</button>

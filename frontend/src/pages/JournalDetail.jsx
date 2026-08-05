@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 import { TID } from "@/lib/testIds";
@@ -30,7 +30,7 @@ export default function JournalDetail() {
         </div>
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="aspect-[16/9] rounded-2xl overflow-hidden">
-            <img src={a.cover_image} alt={a.title} className="h-full w-full object-cover" />
+            <img src={resolveImg(a.cover_image)} alt={a.title} className="h-full w-full object-cover" />
           </div>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function JournalDetail() {
             {data.related.map((p) => (
               <Link key={p.id} to={`/journal/${p.slug}`} className="group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
                 <div className="aspect-[4/3] overflow-hidden">
-                  <img src={p.cover_image} alt={p.title} className="h-full w-full object-cover pcard-img" />
+                  <img src={resolveImg(p.cover_image)} alt={p.title} className="h-full w-full object-cover pcard-img" />
                 </div>
                 <div className="p-6">
                   <Overline>{p.category}</Overline>

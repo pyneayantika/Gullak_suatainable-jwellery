@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api } from "@/lib/api";
+import { api, resolveImg } from "@/lib/api";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 
@@ -25,7 +25,7 @@ export default function Journal() {
 
         <Link to={`/journal/${featured.slug}`} className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-8 rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
           <div className="aspect-[4/3] overflow-hidden">
-            <img src={featured.cover_image} alt={featured.title} className="h-full w-full object-cover pcard-img" />
+            <img src={resolveImg(featured.cover_image)} alt={featured.title} className="h-full w-full object-cover pcard-img" />
           </div>
           <div className="p-8 md:p-12 flex flex-col justify-center">
             <Overline>{featured.category} • {featured.read_time}</Overline>
@@ -39,7 +39,7 @@ export default function Journal() {
           {rest.map((p) => (
             <Link key={p.id} to={`/journal/${p.slug}`} className="group rounded-2xl overflow-hidden bg-[color:var(--surface)] border border-[color:var(--border-subtle)]">
               <div className="aspect-[4/3] overflow-hidden">
-                <img src={p.cover_image} alt={p.title} className="h-full w-full object-cover pcard-img" />
+                <img src={resolveImg(p.cover_image)} alt={p.title} className="h-full w-full object-cover pcard-img" />
               </div>
               <div className="p-6">
                 <Overline>{p.category}</Overline>

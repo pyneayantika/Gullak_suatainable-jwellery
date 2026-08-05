@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
-import { formatINR } from "@/lib/api";
+import { formatINR, resolveImg } from "@/lib/api";
 import { useWishlist } from "@/context/WishlistContext";
 import { TID } from "@/lib/testIds";
 
@@ -14,7 +14,7 @@ export default function ProductCard({ product, priority = false }) {
       <Link data-testid={TID.productCard.open} to={`/products/${product.slug}`} className="block">
         <div className="aspect-[4/5] w-full overflow-hidden bg-[color:var(--surface-2)]">
           <img
-            src={product.images?.[0]}
+            src={resolveImg(product.images?.[0])}
             alt={product.name}
             loading={priority ? "eager" : "lazy"}
             className="pcard-img h-full w-full object-cover"

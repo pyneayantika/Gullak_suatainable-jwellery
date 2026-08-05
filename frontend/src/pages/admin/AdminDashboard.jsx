@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { Link } from "react-router-dom";
-import { Package, Layers, BookOpen, Users, ScrollText } from "lucide-react";
+import { Package, Layers, BookOpen, Users, ScrollText, Bell } from "lucide-react";
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({ products: 0, collections: 0, journal: 0, artisans: 0, orders: 0 });
+  const [stats, setStats] = useState({ products: 0, collections: 0, journal: 0, artisans: 0, orders: 0, notifications: 0 });
   useEffect(() => {
     (async () => {
       try {
-        const [p, c, j, a, o] = await Promise.all([
+        const [p, c, j, a, o, n] = await Promise.all([
           api.get("/admin/products"),
           api.get("/admin/collections"),
           api.get("/admin/journal"),
           api.get("/admin/artisans"),
           api.get("/admin/orders"),
+          api.get("/admin/notifications"),
         ]);
-        setStats({ products: p.data.length, collections: c.data.length, journal: j.data.length, artisans: a.data.length, orders: o.data.length });
+        setStats({ products: p.data.length, collections: c.data.length, journal: j.data.length, artisans: a.data.length, orders: o.data.length, notifications: n.data.length });
       } catch(_) {}
     })();
   }, []);
@@ -26,6 +27,7 @@ export default function AdminDashboard() {
     { label: "Journal posts", value: stats.journal, to: "/admin/journal", Icon: BookOpen },
     { label: "Artisans", value: stats.artisans, to: "/admin/artisans", Icon: Users },
     { label: "Orders", value: stats.orders, to: "/admin/orders", Icon: ScrollText },
+    { label: "Notify-me", value: stats.notifications, to: "/admin/notifications", Icon: Bell },
   ];
 
   return (

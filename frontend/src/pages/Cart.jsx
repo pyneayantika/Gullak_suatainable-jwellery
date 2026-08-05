@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
 import { useCart } from "@/context/CartContext";
-import { formatINR } from "@/lib/api";
+import { formatINR, resolveImg } from "@/lib/api";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 export default function Cart() {
@@ -28,7 +28,7 @@ export default function Cart() {
             {items.map(it => (
               <div key={it.product.id} className="grid grid-cols-[100px_1fr_auto] gap-4 items-center rounded-2xl bg-[color:var(--surface)] border border-[color:var(--border-subtle)] p-4">
                 <Link to={`/products/${it.product.slug}`} className="block">
-                  <img src={it.product.images?.[0]} alt={it.product.name} className="h-28 w-24 rounded-lg object-cover" />
+                  <img src={resolveImg(it.product.images?.[0])} alt={it.product.name} className="h-28 w-24 rounded-lg object-cover" />
                 </Link>
                 <div className="min-w-0">
                   <Link to={`/products/${it.product.slug}`} className="serif text-xl link-underline">{it.product.name}</Link>
