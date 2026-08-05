@@ -55,8 +55,8 @@ export default function Header() {
               to={item.to}
               data-testid={item.testid}
               className={({ isActive }) =>
-                `font-sans text-[12px] uppercase tracking-[0.08em] font-normal transition-colors duration-200 ${
-                  isActive ? "text-[color:var(--brand)]" : "text-[#5A4433] hover:text-[color:var(--brand)]"
+                `font-sans text-[13px] uppercase tracking-[0.12em] font-semibold transition-colors duration-200 ${
+                  isActive ? "text-[color:var(--brand)]" : "text-[#3A2E28] hover:text-[color:var(--brand)]"
                 }`
               }
             >
