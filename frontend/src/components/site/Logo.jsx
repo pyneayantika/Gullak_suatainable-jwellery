@@ -17,12 +17,12 @@ export function GullakLogo({ className = "", testId = "", style = {} }) {
       to="/"
       data-testid={testId}
       aria-label="Gullak — home"
-      style={style}
       className="inline-flex items-center select-none hover:opacity-90 transition-opacity duration-200 flex-shrink-0"
     >
       <img
         src="/logo.png"
         alt="Gullak"
+        style={style}
         className={["w-auto object-contain", className].filter(Boolean).join(" ")}
         draggable={false}
       />
