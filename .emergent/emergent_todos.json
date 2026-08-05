@@ -1,14 +1,10 @@
 [
   {
-    "content": "Add pinned-print shadow to Studio Diary image tiles",
+    "content": "Add grain texture + DustParticles to JournalDetail hero",
     "status": "completed"
   },
   {
-    "content": "Add grain + DustParticles to ArtisanDetail page",
-    "status": "completed"
-  },
-  {
-    "content": "Add DustParticles to ProductDetail hero image area",
+    "content": "Add DustParticles atmosphere to Wishlist page hero",
     "status": "completed"
   },
   {
