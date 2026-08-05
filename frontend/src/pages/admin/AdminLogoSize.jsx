@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 const MIN = 24;
-const MAX = 64;
+const MAX = 160;
 const DEFAULT = 44;
 
 export default function AdminLogoSize() {
@@ -164,17 +164,20 @@ export default function AdminLogoSize() {
             />
             <div className="flex justify-between mt-1.5 text-[10px] text-[color:var(--ink-3)]">
               <span>{MIN}px — compact</span>
-              <span>{DEFAULT}px — balanced</span>
-              <span>{MAX}px — prominent</span>
+              <span>44px — balanced</span>
+              <span>100px — statement</span>
+              <span>{MAX}px — bold</span>
             </div>
           </div>
 
           {/* Preset buttons */}
           <div className="flex gap-2 flex-wrap">
             {[
-              { label: "Compact", val: 28 },
-              { label: "Balanced", val: 44 },
-              { label: "Prominent", val: 56 },
+              { label: "Compact",    val: 28  },
+              { label: "Balanced",   val: 44  },
+              { label: "Prominent",  val: 72  },
+              { label: "Statement",  val: 100 },
+              { label: "Bold",       val: 140 },
             ].map(p => (
               <button
                 key={p.label}

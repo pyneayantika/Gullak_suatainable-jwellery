@@ -197,7 +197,7 @@ export default function AdminSiteContent() {
                   ))}
                 </div>
               </div>
-              <p className="text-xs text-[color:var(--ink-3)]">Tip: 32–44px is the professional sweet spot for a 64px header bar.</p>
+              <p className="text-xs text-[color:var(--ink-3)]">Range: 24px (compact) → 160px (bold statement). Header height auto-adjusts to fit. Balanced is 44px.</p>
             </CardContent>
           </Card>
 

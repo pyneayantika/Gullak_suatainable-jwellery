@@ -51,7 +51,7 @@ export default function Header() {
       }`}
     >
       {/* Single row: logo left | nav center | icons right — fixed 72px height */}
-      <div className="w-full px-6 sm:px-10 lg:px-16 h-[72px] grid grid-cols-3 items-center">
+      <div className="w-full px-6 sm:px-10 lg:px-16 grid grid-cols-3 items-center" style={{ height: `${Math.max(logoSize + 20, 64)}px` }}>
 
         {/* LEFT — Logo constrained to header height */}
         <div className="flex items-center">
