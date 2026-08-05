@@ -5,10 +5,11 @@ import { TID } from "@/lib/testIds";
 import ProductCard from "@/components/site/ProductCard";
 import Section from "@/components/site/Section";
 import Overline from "@/components/site/Overline";
+import { GullakLogo } from "@/components/site/Logo";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf, Hand, Flame, Feather, Sparkles, Heart } from "lucide-react";
 
-const HERO_IMG = "https://images.unsplash.com/photo-1611085583191-a3b181a88401?auto=format&fit=crop&w=1600&q=80";
+const HERO_IMG = "https://images.unsplash.com/photo-1771573391500-64cc1cbb3e7b?auto=format&fit=crop&w=2400&q=85";
 const STORY_IMG = "https://images.unsplash.com/photo-1583135989598-8bdd0af59cb0?auto=format&fit=crop&w=1400&q=80";
 const MATERIAL_IMG = {
   terracotta: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1200&q=80",
@@ -54,56 +55,104 @@ export default function Home() {
 
   return (
     <div>
-      {/* HERO */}
-      <section className="grain-bg hero-wash relative overflow-hidden">
-        <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center py-20 sm:py-24 lg:py-32">
-          <div className="lg:col-span-6">
-            <Overline>Handcrafted — India</Overline>
-            <motion.h1
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-4 serif text-5xl sm:text-6xl lg:text-[76px] leading-[1.02] tracking-[-0.02em] text-[color:var(--ink-1)]"
+      {/* ── HERO — full-bleed cinematic ── */}
+      <section className="relative h-[92vh] min-h-[640px] flex flex-col items-center justify-center overflow-hidden">
+
+        {/* Background image */}
+        <img
+          src={HERO_IMG}
+          alt="Artisan hands crafting jewellery in a warm studio"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          fetchpriority="high"
+        />
+
+        {/* Dark gradient overlay — lighter top → darker base */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(180deg, rgba(43,36,32,0.20) 0%, rgba(43,36,32,0.68) 100%)" }}
+        />
+
+        {/* ── Main content ── */}
+        <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-8 w-full max-w-[960px] mx-auto">
+
+          {/* Large brand logo — the statement piece */}
+          <motion.div
+            initial={{ opacity: 0, y: -14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <GullakLogo
+              testId="hero-brand-logo"
+              style={{ color: "#FAF6EF" }}
+              className="text-[52px] sm:text-[70px] lg:text-[96px]"
+            />
+          </motion.div>
+
+          {/* Thin vertical separator */}
+          <div className="mt-5 sm:mt-7 w-px h-10 bg-[rgba(250,246,239,0.25)]" />
+
+          {/* Overline */}
+          <p className="mt-4 sm:mt-5 text-[10px] sm:text-[11px] tracking-[0.28em] uppercase text-[#EFE3D0]">
+            Handcrafted&nbsp;&nbsp;·&nbsp;&nbsp;Sustainable&nbsp;&nbsp;·&nbsp;&nbsp;Slow
+          </p>
+
+          {/* Hero headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-4 sm:mt-5 font-serif font-medium text-[44px] sm:text-[62px] lg:text-[82px] leading-[1.04] tracking-[-0.02em] text-[#FAF6EF]"
+          >
+            Wear Nature.<br />
+            <em style={{ color: "#D49570" }}>Wear Stories.</em><br />
+            Wear Craft.
+          </motion.h1>
+
+          {/* CTA buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 justify-center"
+          >
+            <Link
+              data-testid={TID.home.heroCta}
+              to="/collections/terracotta"
+              className="press-btn inline-flex items-center gap-2 rounded-full bg-[#B5502D] text-[#FAF6EF] px-7 py-3.5 text-[12px] sm:text-[13px] tracking-[0.08em] uppercase hover:bg-[#9B3D20] transition-colors duration-200"
             >
-              Wear Nature.<br />
-              <span className="italic text-[color:var(--brand)]">Wear Stories.</span><br />
-              Wear Craft.
-            </motion.h1>
-            <p className="mt-6 max-w-xl text-[15px] leading-[1.8] text-[color:var(--ink-2)]">
-              Gullak is a slow jewellery studio rooted in earth, memory, and the quiet dignity of the maker's hand. Our founding collection is shaped in terracotta — the oldest ornament in the world.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link data-testid={TID.home.heroCta} to="/collections/terracotta" className="press-btn inline-flex items-center gap-2 rounded-full bg-[color:var(--brand)] text-[color:var(--surface)] px-7 py-3.5 text-sm hover:bg-[color:var(--brand-2)]">
-                Shop Now <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link data-testid={TID.home.heroStoryCta} to="/craftsmanship" className="press-btn inline-flex items-center gap-2 rounded-full border border-[color:var(--border-subtle)] bg-[color:var(--surface)] px-7 py-3.5 text-sm text-[color:var(--ink-1)] hover:bg-[color:var(--surface-2)]">
-                Discover the Craft
-              </Link>
-            </div>
-            <div className="mt-10 flex items-center gap-8 text-xs text-[color:var(--ink-3)]">
-              <div><span className="serif text-2xl text-[color:var(--ink-1)]">100%</span><br />Handcrafted</div>
-              <div><span className="serif text-2xl text-[color:var(--ink-1)]">3</span><br />Artisan families</div>
-              <div><span className="serif text-2xl text-[color:var(--ink-1)]">0</span><br />Plastic in packaging</div>
-            </div>
-          </div>
-          <div className="lg:col-span-6">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-              className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(20,17,16,0.12)]"
+              Shop Now <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              data-testid={TID.home.heroStoryCta}
+              to="/craftsmanship"
+              className="press-btn inline-flex items-center gap-2 rounded-full border border-[rgba(250,246,239,0.40)] text-[#FAF6EF] px-7 py-3.5 text-[12px] sm:text-[13px] tracking-[0.08em] uppercase hover:bg-[rgba(250,246,239,0.10)] transition-colors duration-200 backdrop-blur-sm"
             >
-              <img src={HERO_IMG} alt="Handmade terracotta bangle in natural light" className="absolute inset-0 h-full w-full object-cover" />
-              <div className="absolute bottom-4 left-4 right-4 rounded-xl bg-[rgba(255,252,247,0.85)] backdrop-blur px-4 py-3 flex items-center justify-between">
-                <div>
-                  <div className="overline">Made by</div>
-                  <div className="serif text-lg text-[color:var(--ink-1)]">Kavita Devi — Molela</div>
-                </div>
-                <Link to="/artisans/kavita-devi" className="text-xs link-underline">Read her story</Link>
-              </div>
-            </motion.div>
+              Discover the Craft
+            </Link>
+          </motion.div>
+
+        </div>
+
+        {/* ── Stats strip pinned to bottom ── */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-[rgba(250,246,239,0.10)]">
+          <div className="mx-auto max-w-[1240px] px-4 sm:px-10 py-5 flex items-center justify-center gap-8 sm:gap-16">
+            <div className="text-center">
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">100%</div>
+              <div className="mt-0.5 text-[10px] tracking-[0.12em] uppercase text-[rgba(239,227,208,0.65)]">Handcrafted</div>
+            </div>
+            <div className="w-px h-8 bg-[rgba(250,246,239,0.15)]" />
+            <div className="text-center">
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">3</div>
+              <div className="mt-0.5 text-[10px] tracking-[0.12em] uppercase text-[rgba(239,227,208,0.65)]">Artisan families</div>
+            </div>
+            <div className="w-px h-8 bg-[rgba(250,246,239,0.15)]" />
+            <div className="text-center">
+              <div className="font-serif text-2xl sm:text-3xl text-[#FAF6EF]">0</div>
+              <div className="mt-0.5 text-[10px] tracking-[0.12em] uppercase text-[rgba(239,227,208,0.65)]">Plastic in packaging</div>
+            </div>
           </div>
         </div>
+
       </section>
 
       {/* SUSTAINABILITY STORY */}

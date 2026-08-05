@@ -1,18 +1,14 @@
 [
   {
-    "content": "Upgrade Login page — editorial split-screen design with brand image",
+    "content": "Update Logo.jsx — add style prop for color override (white on dark bg)",
     "status": "completed"
   },
   {
-    "content": "Update Header — show user avatar/initial when logged in",
+    "content": "Rewrite hero section in Home.jsx — full-bleed 92vh, dark image, large centred logo + headline",
     "status": "completed"
   },
   {
-    "content": "Enhance Account page — add wishlist tab alongside orders",
-    "status": "completed"
-  },
-  {
-    "content": "Screenshot and verify all three pages",
+    "content": "Verify build + screenshot",
     "status": "completed"
   }
 ]

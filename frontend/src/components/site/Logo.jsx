@@ -82,17 +82,18 @@ function PotIcon() {
 /**
  * @param {string}  className  — extra classes (e.g. font-size overrides)
  * @param {string}  testId     — data-testid forwarded to the Link
+ * @param {object}  style      — inline style overrides; use { color: '#FAF6EF' } for light-on-dark variants
  */
-export function GullakLogo({ className = "", testId = "" }) {
+export function GullakLogo({ className = "", testId = "", style = {} }) {
   return (
     <Link
       to="/"
       data-testid={testId}
       aria-label="Gullak — home"
+      style={{ color: "var(--brand)", ...style }}
       className={[
         "inline-flex items-end leading-none select-none",
         "font-serif font-semibold tracking-[0.02em]",
-        "text-[color:var(--brand)]",
         "hover:opacity-90 transition-opacity duration-200",
         className,
       ]
