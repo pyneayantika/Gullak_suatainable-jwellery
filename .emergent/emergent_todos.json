@@ -1,0 +1,30 @@
+[
+  {
+    "content": "Phase 1: POC (skipped - straightforward integration)",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 2: Design guidelines (design_agent)",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 2: Backend - models, auth, catalog, cart, wishlist, orders, admin CRUD, seed",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 2: Frontend - editorial storefront (Home, Collections, PDP, Journal, About, Craft, Artisans, Wishlist, Cart, Checkout, Order Confirmation, Account, Login, AuthCallback)",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 2: Admin panel (Login, Dashboard, Products, Collections, Journal, Artisans, Orders CRUD)",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 2: Fix broken hero images & polish",
+    "status": "in_progress"
+  },
+  {
+    "content": "Phase 2: End-to-end testing via testing_agent_v3",
+    "status": "pending"
+  }
+]

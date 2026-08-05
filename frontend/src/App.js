@@ -1,53 +1,100 @@
-import { useEffect } from "react";
+import React, { Suspense } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-import { HOME } from "@/constants/testIds";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
+import MarketingLayout from "@/layouts/MarketingLayout";
+import AdminLayout from "@/layouts/AdminLayout";
+import AuthCallback from "@/pages/AuthCallback";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import Home from "@/pages/Home";
+import CollectionsList from "@/pages/CollectionsList";
+import CollectionDetail from "@/pages/CollectionDetail";
+import ProductDetail from "@/pages/ProductDetail";
+import Journal from "@/pages/Journal";
+import JournalDetail from "@/pages/JournalDetail";
+import About from "@/pages/About";
+import Craftsmanship from "@/pages/Craftsmanship";
+import Artisans from "@/pages/Artisans";
+import ArtisanDetail from "@/pages/ArtisanDetail";
+import Wishlist from "@/pages/Wishlist";
+import Cart from "@/pages/Cart";
+import Checkout from "@/pages/Checkout";
+import OrderConfirmation from "@/pages/OrderConfirmation";
+import Account from "@/pages/Account";
+import Login from "@/pages/Login";
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminProducts from "@/pages/admin/AdminProducts";
+import AdminJournal from "@/pages/admin/AdminJournal";
+import AdminCollections from "@/pages/admin/AdminCollections";
+import AdminArtisans from "@/pages/admin/AdminArtisans";
+import AdminOrders from "@/pages/admin/AdminOrders";
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+function ProtectedCustomer({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="p-10 text-center overline">Loading…</div>;
+  if (!user) return <Navigate to="/login" replace />;
+  return children;
+}
 
+function AppRouter() {
+  const location = useLocation();
+  // Detect OAuth callback synchronously (fragment-based)
+  if (location.hash?.includes("session_id=")) {
+    return <AuthCallback />;
+  }
   return (
-    <div>
-      <header className="App-header">
-        <a
-          data-testid={HOME.emergentLink}
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
+    <Routes>
+      <Route element={<MarketingLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/collections" element={<CollectionsList />} />
+        <Route path="/collections/:slug" element={<CollectionDetail />} />
+        <Route path="/products/:slug" element={<ProductDetail />} />
+        <Route path="/journal" element={<Journal />} />
+        <Route path="/journal/:slug" element={<JournalDetail />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/craftsmanship" element={<Craftsmanship />} />
+        <Route path="/artisans" element={<Artisans />} />
+        <Route path="/artisans/:slug" element={<ArtisanDetail />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<ProtectedCustomer><Checkout /></ProtectedCustomer>} />
+        <Route path="/order-confirmation/:orderId" element={<ProtectedCustomer><OrderConfirmation /></ProtectedCustomer>} />
+        <Route path="/account" element={<ProtectedCustomer><Account /></ProtectedCustomer>} />
+        <Route path="/login" element={<Login />} />
+      </Route>
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route element={<AdminLayout />}>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/journal" element={<AdminJournal />} />
+        <Route path="/admin/collections" element={<AdminCollections />} />
+        <Route path="/admin/artisans" element={<AdminArtisans />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+      </Route>
+      <Route path="*" element={<div className="mx-auto max-w-md p-20 text-center serif text-3xl">Not found</div>} />
+    </Routes>
   );
-};
+}
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
+        <AuthProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <Suspense fallback={<div className="p-10 text-center overline">Loading…</div>}>
+                <AppRouter />
+              </Suspense>
+              <Toaster position="bottom-right" theme="light" richColors closeButton />
+            </CartProvider>
+          </WishlistProvider>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );
