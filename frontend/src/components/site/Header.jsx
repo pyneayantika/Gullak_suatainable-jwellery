@@ -5,6 +5,7 @@ import { TID } from "@/lib/testIds";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
+import { GullakLogo } from "@/components/site/Logo";
 
 const navItems = [
   { to: "/", label: "Home", testid: TID.header.navHome },
@@ -36,13 +37,10 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto max-w-[1240px] px-4 sm:px-8 lg:px-14 min-h-[72px] flex items-center justify-between gap-6">
-        <Link
-          data-testid={TID.header.logo}
-          to="/"
-          className="font-serif text-[28px] sm:text-[30px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-1)] leading-none"
-        >
-          Gullak
-        </Link>
+        <GullakLogo
+          testId={TID.header.logo}
+          className="text-[28px] sm:text-[30px]"
+        />
         <nav className="hidden md:flex items-center gap-10">
           {navItems.map(item => (
             <NavLink
