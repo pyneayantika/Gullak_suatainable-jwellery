@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Leaf, Hand, Flame, Feather, Sparkles, Heart } from "lucide-react";
 
 const HERO_IMG = "https://images.unsplash.com/photo-1771573391500-64cc1cbb3e7b?auto=format&fit=crop&w=2400&q=85";
-const STORY_IMG = "https://images.unsplash.com/photo-1583135989598-8bdd0af59cb0?auto=format&fit=crop&w=1400&q=80";
+const STORY_IMG = "https://customer-assets-0z36b82j.emergentagent.net/job_gullak-studio/artifacts/29q6zbc0_Screenshot%202026-08-06%20003310.png";
 const MATERIAL_IMG = {
   terracotta: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1200&q=80",
   wood: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1200&q=80",
