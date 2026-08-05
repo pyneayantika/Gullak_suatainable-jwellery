@@ -50,13 +50,14 @@ export default function NotifyMeForm({ slug, name, variant = "card" }) {
   }
 
   return (
-    <form onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} onSubmit={submit} className="mt-3 flex gap-1.5">
+    <form onClick={(e) => e.stopPropagation()} onSubmit={submit} className="mt-3 flex gap-1.5">
       <input
         type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
         placeholder="Notify me"
+        onClick={(e) => e.stopPropagation()}
         className="flex-1 rounded-full border border-[color:var(--border-subtle)] bg-[color:var(--bg)] px-3 py-1.5 text-xs outline-none focus:ring-2 focus:ring-[color:var(--brand-ring)]"
       />
-      <button type="submit" disabled={busy} className="press-btn rounded-full bg-[color:var(--ink-1)] text-[color:var(--surface)] px-3 py-1.5 text-xs hover:bg-[color:var(--brand)] disabled:opacity-70">
+      <button type="submit" disabled={busy} onClick={(e) => e.stopPropagation()} className="press-btn rounded-full bg-[color:var(--ink-1)] text-[color:var(--surface)] px-3 py-1.5 text-xs hover:bg-[color:var(--brand)] disabled:opacity-70">
         {busy ? "…" : "Alert me"}
       </button>
     </form>

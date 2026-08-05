@@ -1,26 +1,30 @@
 [
   {
-    "content": "Backend: Add image upload endpoint + static serving under /api/uploads",
-    "status": "in_progress"
+    "content": "Backend: Image upload endpoint + /api/uploads static serving",
+    "status": "completed"
   },
   {
-    "content": "Backend: Add restock notification endpoints (customer signup + admin list)",
-    "status": "pending"
+    "content": "Backend: Restock notification endpoints",
+    "status": "completed"
   },
   {
-    "content": "Frontend: ImageUploader component + integrate into all admin forms (products, collections, journal, artisans)",
-    "status": "pending"
+    "content": "Frontend: ImageUploader in all admin forms",
+    "status": "completed"
   },
   {
-    "content": "Frontend: Notify-me form on coming-soon collections (list + detail)",
-    "status": "pending"
+    "content": "Frontend: Notify-me form on coming-soon collections",
+    "status": "completed"
   },
   {
     "content": "Frontend: Admin Notifications page",
-    "status": "pending"
+    "status": "completed"
   },
   {
-    "content": "Testing: run testing_agent_v3 on the two new features",
-    "status": "pending"
+    "content": "Frontend: resolveImg wrapper across display components",
+    "status": "completed"
+  },
+  {
+    "content": "Testing: pass on both features (97% backend, UI bug fixed)",
+    "status": "completed"
   }
 ]
