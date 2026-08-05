@@ -86,9 +86,23 @@ export default function Header() {
             data-testid={TID.header.account}
             onClick={() => navigate(user ? "/account" : "/login")}
             aria-label="Account"
-            className="h-10 w-10 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors"
+            className="h-10 w-10 rounded-full inline-flex items-center justify-center hover:bg-[rgba(179,90,60,0.10)] transition-colors overflow-hidden"
           >
-            <User className="h-[18px] w-[18px] text-[color:var(--ink-1)]" />
+            {user?.picture ? (
+              <img
+                src={user.picture}
+                alt={user.name || "Account"}
+                className="h-8 w-8 rounded-full object-cover ring-2 ring-[color:var(--border-subtle)]"
+              />
+            ) : user ? (
+              <div className="h-8 w-8 rounded-full bg-[color:var(--brand)] flex items-center justify-center">
+                <span className="font-serif text-sm font-semibold text-[color:var(--paper-white)]">
+                  {(user.name || user.email || "G")[0].toUpperCase()}
+                </span>
+              </div>
+            ) : (
+              <User className="h-[18px] w-[18px] text-[color:var(--ink-1)]" />
+            )}
           </button>
           <button
             data-testid={TID.header.mobileMenu}

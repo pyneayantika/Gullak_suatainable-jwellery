@@ -1,18 +1,18 @@
 [
   {
-    "content": "Add Jost font to Google Fonts import in index.html",
+    "content": "Upgrade Login page — editorial split-screen design with brand image",
     "status": "completed"
   },
   {
-    "content": "Update --font-sans to Jost in index.css",
+    "content": "Update Header — show user avatar/initial when logged in",
     "status": "completed"
   },
   {
-    "content": "Update Header.jsx - logo uppercase + larger, nav items Jost uppercase",
+    "content": "Enhance Account page — add wishlist tab alongside orders",
     "status": "completed"
   },
   {
-    "content": "Screenshot and verify",
+    "content": "Screenshot and verify all three pages",
     "status": "completed"
   }
 ]
