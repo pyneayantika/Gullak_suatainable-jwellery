@@ -51,14 +51,14 @@ export default function Header() {
       }`}
     >
       {/* Single row: logo left | nav center | icons right — fixed 72px height */}
-      <div className="w-full px-6 sm:px-10 lg:px-16 h-[64px] grid grid-cols-3 items-center">
+      <div className="w-full px-6 sm:px-10 lg:px-16 h-[72px] grid grid-cols-3 items-center">
 
         {/* LEFT — Logo constrained to header height */}
         <div className="flex items-center">
           <GullakLogo
             testId={TID.header.logo}
             className={`w-auto transition-all duration-500 ${isTransparent ? "brightness-0 invert" : ""}`}
-            style={{ height: `${Math.min(logoSize, 44)}px` }}
+            style={{ height: `${logoSize}px` }}
           />
         </div>
 
