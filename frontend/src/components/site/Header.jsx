@@ -7,11 +7,10 @@ import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
 
 const navItems = [
-  { to: "/collections", label: "Shop", testid: TID.header.navShop },
-  { to: "/craftsmanship", label: "Craft", testid: TID.header.navCraft },
-  { to: "/artisans", label: "Artisans", testid: TID.header.navArtisans },
-  { to: "/journal", label: "Journal", testid: TID.header.navJournal },
+  { to: "/", label: "Home", testid: TID.header.navHome },
+  { to: "/collections", label: "Collection", testid: TID.header.navShop },
   { to: "/about", label: "About", testid: TID.header.navAbout },
+  { to: "/journal", label: "Journal", testid: TID.header.navJournal },
 ];
 
 export default function Header() {

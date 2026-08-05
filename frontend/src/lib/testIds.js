@@ -2,7 +2,8 @@ export const TID = {
   header: {
     root: "site-header",
     logo: "header-logo-link",
-    navShop: "header-nav-shop",
+    navHome: "header-nav-home",
+    navShop: "header-nav-collection",
     navJournal: "header-nav-journal",
     navAbout: "header-nav-about",
     navCraft: "header-nav-craftsmanship",
