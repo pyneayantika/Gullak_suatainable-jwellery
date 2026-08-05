@@ -109,7 +109,7 @@ export default function Home() {
         />
 
         {/* ── Main content — left-aligned to match the open terracotta space on image left ── */}
-        <div className="relative z-10 flex-1 flex flex-col items-start justify-center px-8 sm:px-16 lg:px-24 py-16 w-full max-w-[680px]">
+        <div className="text-on-dark relative z-10 flex-1 flex flex-col items-start justify-center px-8 sm:px-16 lg:px-24 py-16 w-full max-w-[680px]">
 
           {/* Large brand logo — the statement piece */}
           <motion.div

@@ -73,6 +73,19 @@
   h1, h2, h3, h4, .serif { font-family: var(--font-serif); letter-spacing: -0.01em; }
   ::selection { background: rgba(138, 63, 43, 0.22); color: var(--charcoal); }
 
+  /* ── Global text depth: subtle warm shadow on all readable text ── */
+  body {
+    text-shadow: 0 1px 2px rgba(80, 45, 25, 0.07);
+  }
+  /* Headings — slightly stronger to give them grounded presence */
+  h1, h2, h3, h4, h5, h6, .serif {
+    text-shadow: 0 2px 6px rgba(80, 45, 25, 0.13), 0 1px 2px rgba(80, 45, 25, 0.08);
+  }
+  /* Labels, overlines, small caps — crisp micro-shadow */
+  p, span, label, li, a, button {
+    text-shadow: 0 1px 2px rgba(80, 45, 25, 0.06);
+  }
+
   [data-debug-wrapper="true"] { display: contents !important; }
   [data-debug-wrapper="true"] > * {
     margin-left: inherit; margin-right: inherit; margin-top: inherit; margin-bottom: inherit;
@@ -98,6 +111,12 @@
   background:
     radial-gradient(1200px circle at 15% 10%, rgba(179, 90, 60, 0.20), transparent 55%),
     radial-gradient(900px circle at 85% 30%, rgba(143, 165, 142, 0.16), transparent 60%);
+}
+
+/* White text on dark/photo backgrounds — stronger shadow for depth */
+.text-on-dark h1, .text-on-dark h2, .text-on-dark h3,
+.text-on-dark p, .text-on-dark span, .text-on-dark a {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.30);
 }
 
 .overline {
