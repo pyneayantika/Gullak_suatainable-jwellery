@@ -61,12 +61,14 @@ export default function Header() {
       {/* 3-column layout: logo left | nav center | icons right */}
       <div className="w-full px-6 sm:px-10 lg:px-16 h-[88px] grid grid-cols-3 items-center">
 
-        {/* LEFT — Logo */}
+        {/* LEFT — Logo (hidden on homepage where the hero logo serves as brand identity) */}
         <div className="flex items-center">
-          <GullakLogo
-            testId={TID.header.logo}
-            className={`h-20 transition-all duration-300 ${isTransparent ? "brightness-0 invert" : ""}`}
-          />
+          {!isHome && (
+            <GullakLogo
+              testId={TID.header.logo}
+              className="h-20 transition-all duration-300"
+            />
+          )}
         </div>
 
         {/* CENTER — Nav links */}
