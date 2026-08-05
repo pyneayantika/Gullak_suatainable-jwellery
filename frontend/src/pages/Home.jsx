@@ -173,12 +173,12 @@ export default function Home() {
               At Gullak, luxury is not measured in metals or excess. It's measured in the hours a craftsman held a piece, in the seasons its clay dried, in the story it will carry from one wrist to another.
             </p>
             <p className="mt-4 text-[15px] leading-[1.85] text-[color:var(--ink-2)]">
-              Every piece is handmade, packaged in seed paper and cotton, and shipped in kraft — zero plastic, from earth to earlobe.
+              Every piece is handmade, packaged in paper box and cotton, and shipped in kraft — zero plastic, from earth to earlobe.
             </p>
             <div className="mt-8 grid grid-cols-3 gap-4">
               {[
                 { k: "Handmade", v: "By artisan families" },
-                { k: "Zero-plastic", v: "Seed paper + cotton" },
+                { k: "Zero-plastic", v: "Paper box + cotton" },
                 { k: "Fair-trade", v: "Direct to makers" },
               ].map(x => (
                 <div key={x.k} className="rounded-xl border border-[color:var(--border-subtle)] bg-[color:var(--surface)] p-4">
