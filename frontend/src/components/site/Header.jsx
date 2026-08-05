@@ -37,13 +37,13 @@ export default function Header() {
       }`}
     >
       {/* 3-column layout: logo left | nav center | icons right */}
-      <div className="w-full px-6 sm:px-10 lg:px-16 h-[68px] grid grid-cols-3 items-center">
+      <div className="w-full px-6 sm:px-10 lg:px-16 h-[88px] grid grid-cols-3 items-center">
 
         {/* LEFT — Logo */}
         <div className="flex items-center">
           <GullakLogo
             testId={TID.header.logo}
-            className="h-14"
+            className="h-20"
           />
         </div>
 
