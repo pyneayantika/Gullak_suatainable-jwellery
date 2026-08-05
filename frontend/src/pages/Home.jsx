@@ -170,9 +170,9 @@ export default function Home() {
       {/* CRAFTSMANSHIP JOURNEY */}
       <Section wide>
         <div className="max-w-2xl">
-          <Overline>The seven quiet steps</Overline>
-          <h2 className="mt-3 serif text-4xl sm:text-5xl tracking-[-0.02em]">From soil to shoulder.</h2>
-          <p className="mt-4 text-[15px] text-[color:var(--ink-2)] leading-[1.8]">Every Gullak piece walks the same slow path. No shortcuts. No machines that don't belong.</p>
+          <Overline>The making</Overline>
+          <h2 className="mt-3 serif text-4xl sm:text-5xl tracking-[-0.02em]">The unread story behind every statement.</h2>
+          <p className="mt-4 text-[15px] text-[color:var(--ink-2)] leading-[1.8]">Each Gullak piece travels a slow, deliberate path — seven steps, no shortcuts, no machines that don't belong.</p>
         </div>
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
           {PROCESS_STEPS.map((s, i) => (
