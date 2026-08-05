@@ -39,7 +39,7 @@ export default function Header() {
       <div className="mx-auto max-w-[1240px] px-4 sm:px-8 lg:px-14 min-h-[72px] flex items-center justify-between gap-6">
         <GullakLogo
           testId={TID.header.logo}
-          className="h-10"
+          className="h-16"
         />
         <nav className="hidden md:flex items-center gap-10">
           {navItems.map(item => (
