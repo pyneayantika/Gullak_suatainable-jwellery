@@ -1,14 +1,38 @@
 [
   {
-    "content": "Add grain texture + DustParticles to JournalDetail hero",
+    "content": "Read relevant files: AdminCollections, server.py, SiteSettingsContext, CartDrawer",
     "status": "completed"
   },
   {
-    "content": "Add DustParticles atmosphere to Wishlist page hero",
-    "status": "completed"
+    "content": "Backend: add banner_image to CollectionModel + grain_intensity to SiteContentModel",
+    "status": "in_progress"
+  },
+  {
+    "content": "CSS: add --grain-opacity vars, cart-item-card shadow class",
+    "status": "pending"
+  },
+  {
+    "content": "SiteSettingsContext: apply grain_intensity as CSS vars on load/change",
+    "status": "pending"
+  },
+  {
+    "content": "AdminCollections: add banner_image upload field",
+    "status": "pending"
+  },
+  {
+    "content": "AdminSiteContent: add Appearance tab with grain intensity toggle",
+    "status": "pending"
+  },
+  {
+    "content": "CollectionDetail: full-bleed cinematic hero when banner_image is set",
+    "status": "pending"
+  },
+  {
+    "content": "CartDrawer: earthy card-style cart item rows",
+    "status": "pending"
   },
   {
     "content": "Build check + screenshot verification",
-    "status": "completed"
+    "status": "pending"
   }
 ]

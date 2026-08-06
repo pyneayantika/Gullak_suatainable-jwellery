@@ -106,7 +106,8 @@
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.09'/></svg>");
   mix-blend-mode: multiply; opacity: 0.35; z-index: 0;
 }
-.grain-bg > * { position: relative; z-index: 1; }
+/* Only lift z-index for grain children — do NOT override position (would break absolute hero layers) */
+.grain-bg > * { z-index: 1; }
 
 /* Hero warm wash */
 .hero-wash {
