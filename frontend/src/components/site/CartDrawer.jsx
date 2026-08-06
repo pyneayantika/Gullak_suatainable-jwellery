@@ -32,30 +32,34 @@ export default function CartDrawer() {
           </div>
         ) : (
           <>
-            <div className="flex-1 overflow-y-auto py-4 space-y-4">
+            <div className="flex-1 overflow-y-auto py-4 space-y-3">
               {items.map((it) => (
-                <div key={it.product.id} className="flex gap-4 items-start">
-                  <img src={resolveImg(it.product.images?.[0])} alt={it.product.name} className="h-24 w-20 rounded-lg object-cover bg-[color:var(--surface-2)]" />
+                <div key={it.product.id} className="flex gap-3 items-start rounded-xl bg-[color:var(--surface)] border border-[color:var(--border-subtle)] p-3 cart-item-card">
+                  {/* Product thumbnail with grain overlay */}
+                  <div className="relative rounded-lg overflow-hidden h-20 w-16 flex-shrink-0">
+                    <img src={resolveImg(it.product.images?.[0])} alt={it.product.name} className="h-full w-full object-cover bg-[color:var(--surface-2)]" />
+                    <div className="grain-img-overlay" aria-hidden="true" />
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <Link to={`/products/${it.product.slug}`} onClick={() => setOpen(false)} className="serif text-lg leading-tight link-underline">{it.product.name}</Link>
+                    <Link to={`/products/${it.product.slug}`} onClick={() => setOpen(false)} className="serif text-base leading-tight link-underline">{it.product.name}</Link>
                     <div className="text-xs text-[color:var(--ink-3)] mt-0.5">{it.product.material}</div>
                     <div className="mt-2 flex items-center gap-2">
                       <div className="inline-flex items-center border border-[color:var(--border-subtle)] rounded-full">
-                        <button aria-label="Decrease" onClick={() => updateQty(it.product.id, it.quantity - 1)} className="h-8 w-8 inline-flex items-center justify-center hover:bg-[color:var(--surface-2)] rounded-l-full"><Minus className="h-3 w-3" /></button>
-                        <span className="w-8 text-center text-sm">{it.quantity}</span>
-                        <button aria-label="Increase" onClick={() => updateQty(it.product.id, it.quantity + 1)} className="h-8 w-8 inline-flex items-center justify-center hover:bg-[color:var(--surface-2)] rounded-r-full"><Plus className="h-3 w-3" /></button>
+                        <button aria-label="Decrease" onClick={() => updateQty(it.product.id, it.quantity - 1)} className="h-7 w-7 inline-flex items-center justify-center hover:bg-[color:var(--surface-2)] rounded-l-full"><Minus className="h-3 w-3" /></button>
+                        <span className="w-7 text-center text-sm">{it.quantity}</span>
+                        <button aria-label="Increase" onClick={() => updateQty(it.product.id, it.quantity + 1)} className="h-7 w-7 inline-flex items-center justify-center hover:bg-[color:var(--surface-2)] rounded-r-full"><Plus className="h-3 w-3" /></button>
                       </div>
                       <button
                         data-testid={TID.cart.remove}
                         onClick={() => removeItem(it.product.id)}
                         aria-label="Remove"
-                        className="ml-auto h-8 w-8 inline-flex items-center justify-center rounded-full hover:bg-[color:var(--surface-2)] text-[color:var(--ink-2)]"
+                        className="ml-auto h-7 w-7 inline-flex items-center justify-center rounded-full hover:bg-[color:var(--surface-2)] text-[color:var(--ink-2)]"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </div>
-                  <div className="text-sm font-medium">{formatINR(it.product.price * it.quantity)}</div>
+                  <div className="text-sm font-medium flex-shrink-0">{formatINR(it.product.price * it.quantity)}</div>
                 </div>
               ))}
             </div>

@@ -1,38 +1,26 @@
 [
   {
-    "content": "Read relevant files: AdminCollections, server.py, SiteSettingsContext, CartDrawer",
+    "content": "Backend: add banner_image field to CollectionModel",
     "status": "completed"
   },
   {
-    "content": "Backend: add banner_image to CollectionModel + grain_intensity to SiteContentModel",
-    "status": "in_progress"
+    "content": "index.css: add .cart-item-card earthy shadow class",
+    "status": "completed"
   },
   {
-    "content": "CSS: add --grain-opacity vars, cart-item-card shadow class",
-    "status": "pending"
-  },
-  {
-    "content": "SiteSettingsContext: apply grain_intensity as CSS vars on load/change",
-    "status": "pending"
-  },
-  {
-    "content": "AdminCollections: add banner_image upload field",
-    "status": "pending"
-  },
-  {
-    "content": "AdminSiteContent: add Appearance tab with grain intensity toggle",
-    "status": "pending"
+    "content": "Admin: add banner_image ImageUploader to AdminCollections form",
+    "status": "completed"
   },
   {
     "content": "CollectionDetail: full-bleed cinematic hero when banner_image is set",
-    "status": "pending"
+    "status": "completed"
   },
   {
-    "content": "CartDrawer: earthy card-style cart item rows",
-    "status": "pending"
+    "content": "CartDrawer: earthy shadow card treatment on line-item rows",
+    "status": "completed"
   },
   {
     "content": "Build check + screenshot verification",
-    "status": "pending"
+    "status": "completed"
   }
 ]

@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import ImageUploader from "@/components/site/ImageUploader";
 
-const empty = { name: "", slug: "", subtitle: "", description: "", hero_image: "", material: "", status: "active", order: 10 };
+const empty = { name: "", slug: "", subtitle: "", description: "", hero_image: "", banner_image: "", material: "", status: "active", order: 10 };
 
 export default function AdminCollections() {
   const [items, setItems] = useState([]);
@@ -69,6 +69,10 @@ export default function AdminCollections() {
             <F label="Subtitle" value={form.subtitle || ""} onChange={(v) => setForm({ ...form, subtitle: v })} />
             <F label="Material" value={form.material} onChange={(v) => setForm({ ...form, material: v })} required />
             <ImageUploader label="Hero image" value={form.hero_image} onChange={(v) => setForm({ ...form, hero_image: v })} />
+            <div className="space-y-1">
+              <ImageUploader label="Banner image — cinematic full-bleed hero" value={form.banner_image || ""} onChange={(v) => setForm({ ...form, banner_image: v })} />
+              <p className="text-[11px] text-[color:var(--ink-3)] pl-1">When uploaded, the collection page shows a full-width atmospheric hero instead of the split layout.</p>
+            </div>
             <F label="Order" type="number" value={form.order} onChange={(v) => setForm({ ...form, order: v })} />
             <label className="block"><span className="overline block mb-1.5">Status</span>
               <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="w-full rounded-xl border border-[color:var(--border-subtle)] bg-[color:var(--bg)] px-4 py-2.5 text-sm">

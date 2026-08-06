@@ -34,29 +34,69 @@ export default function CollectionDetail() {
   return (
     <div>
       {c && (
-        <section className="relative overflow-hidden grain-bg">
-          {/* Earthy dust atmosphere */}
-          <DustParticles variant="section" />
-          <div className="relative z-[5] mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-6">
-              <Overline>Collection</Overline>
-              <h1 className="mt-3 serif text-5xl sm:text-6xl tracking-[-0.02em]">{c.name}</h1>
-              <p className="mt-4 text-lg text-[color:var(--ink-2)] max-w-xl">{c.subtitle}</p>
-              <p className="mt-4 text-[15px] leading-[1.85] text-[color:var(--ink-2)] max-w-xl">{c.description}</p>
-              {c.status !== "active" && (
-                <div className="mt-6">
-                  <div className="inline-flex items-center rounded-full bg-[color:var(--surface-2)] text-[color:var(--ink-2)] px-3 py-1 text-[11px] uppercase tracking-widest">Coming soon</div>
-                  <NotifyMeForm slug={c.slug} name={c.name} variant="hero" />
-                </div>
-              )}
-            </div>
-            <div className="lg:col-span-6">
-              <div className="aspect-[5/4] rounded-2xl overflow-hidden">
-                <img src={resolveImg(c.hero_image)} alt={c.name} className="h-full w-full object-cover" />
+        c.banner_image ? (
+          /* ── CINEMATIC FULL-BLEED HERO — when banner_image is uploaded ── */
+          <section className="grain-bg relative min-h-[500px] lg:min-h-[640px] flex items-end overflow-hidden">
+            {/* Banner background */}
+            <img
+              src={resolveImg(c.banner_image)}
+              alt={c.name}
+              className="absolute inset-0 h-full w-full object-cover object-center"
+              fetchPriority="high"
+            />
+            {/* Gradient: dark at bottom for text, transparent at top to show the photo */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "linear-gradient(to top, rgba(20,14,8,0.92) 0%, rgba(20,14,8,0.52) 48%, rgba(20,14,8,0.10) 100%)" }}
+            />
+            {/* Earthy dust floats over the cinematic layer */}
+            <DustParticles variant="hero" />
+            {/* Text anchored to the bottom */}
+            <div className="relative z-[5] w-full mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 py-12 lg:py-16">
+              <div className="max-w-2xl text-on-dark">
+                <Overline>{c.material}</Overline>
+                <h1 className="mt-3 serif text-5xl sm:text-6xl lg:text-7xl tracking-[-0.02em]">{c.name}</h1>
+                {c.subtitle && (
+                  <p className="mt-4 text-lg opacity-80 max-w-lg">{c.subtitle}</p>
+                )}
+                {c.description && (
+                  <p className="mt-3 text-[15px] leading-[1.85] opacity-70 max-w-lg">{c.description}</p>
+                )}
+                {c.status !== "active" && (
+                  <div className="mt-6">
+                    <div className="inline-flex items-center rounded-full bg-white/10 text-white/75 px-3 py-1 text-[11px] uppercase tracking-widest">Coming soon</div>
+                    <NotifyMeForm slug={c.slug} name={c.name} variant="hero" />
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : (
+          /* ── DEFAULT SPLIT LAYOUT — grain bg + hero_image on right ── */
+          <section className="relative overflow-hidden grain-bg">
+            <DustParticles variant="section" />
+            <div className="relative z-[5] mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-10 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-6">
+                <Overline>Collection</Overline>
+                <h1 className="mt-3 serif text-5xl sm:text-6xl tracking-[-0.02em]">{c.name}</h1>
+                <p className="mt-4 text-lg text-[color:var(--ink-2)] max-w-xl">{c.subtitle}</p>
+                <p className="mt-4 text-[15px] leading-[1.85] text-[color:var(--ink-2)] max-w-xl">{c.description}</p>
+                {c.status !== "active" && (
+                  <div className="mt-6">
+                    <div className="inline-flex items-center rounded-full bg-[color:var(--surface-2)] text-[color:var(--ink-2)] px-3 py-1 text-[11px] uppercase tracking-widest">Coming soon</div>
+                    <NotifyMeForm slug={c.slug} name={c.name} variant="hero" />
+                  </div>
+                )}
+              </div>
+              <div className="lg:col-span-6">
+                <div className="aspect-[5/4] rounded-2xl overflow-hidden relative card-earthy">
+                  <img src={resolveImg(c.hero_image)} alt={c.name} className="h-full w-full object-cover" />
+                  <div className="grain-img-overlay" aria-hidden="true" />
+                </div>
+              </div>
+            </div>
+          </section>
+        )
       )}
 
       <Section wide>

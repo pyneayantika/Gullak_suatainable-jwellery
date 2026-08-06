@@ -210,6 +210,19 @@
   border-radius: inherit;
 }
 
+/* Cart line-item card — same earthy warmth as product/collection cards */
+.cart-item-card {
+  box-shadow:
+    0 2px 10px rgba(138, 63, 43, 0.09),
+    0 1px 3px  rgba(74, 52, 46, 0.06);
+  transition: box-shadow 250ms ease-out;
+}
+.cart-item-card:hover {
+  box-shadow:
+    0 5px 18px rgba(138, 63, 43, 0.13),
+    0 2px 6px  rgba(74, 52, 46, 0.08);
+}
+
 /* Studio Diary — pinned-print photo tiles */
 .print-tile {
   box-shadow:

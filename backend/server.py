@@ -141,6 +141,7 @@ class CollectionModel(BaseModel):
     subtitle: Optional[str] = None
     description: str = ""
     hero_image: str = ""
+    banner_image: str = ""          # full-bleed cinematic hero; when set replaces split layout
     accent_image: Optional[str] = None
     material: str
     status: str = "active"  # active | coming_soon
