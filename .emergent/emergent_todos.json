@@ -1,26 +1,18 @@
 [
   {
-    "content": "Backend: add banner_image field to CollectionModel",
+    "content": "Fix api.js to use relative URLs in deployed environments",
     "status": "completed"
   },
   {
-    "content": "index.css: add .cart-item-card earthy shadow class",
+    "content": "Fix ImageUploader.jsx to use resolveImg instead of hardcoded env var",
     "status": "completed"
   },
   {
-    "content": "Admin: add banner_image ImageUploader to AdminCollections form",
+    "content": "Fix server.py for MongoDB-backed image storage with disk fallback",
     "status": "completed"
   },
   {
-    "content": "CollectionDetail: full-bleed cinematic hero when banner_image is set",
-    "status": "completed"
-  },
-  {
-    "content": "CartDrawer: earthy shadow card treatment on line-item rows",
-    "status": "completed"
-  },
-  {
-    "content": "Build check + screenshot verification",
-    "status": "completed"
+    "content": "Test all admin save flows end-to-end in Preview",
+    "status": "in_progress"
   }
 ]

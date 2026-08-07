@@ -1,0 +1,75 @@
+{
+  "summary": "Completed comprehensive testing of Gullak Studio admin panel image upload persistence and site content editing. All root causes fixed: (1) api.js uses relative /api URLs, (2) server.py stores uploads in MongoDB + disk cache, (3) ImageUploader uses resolveImg. Image persistence and MongoDB fallback verified working correctly.",
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": [],
+    "minor_issues": [
+      {
+        "endpoint": "/api/uploads/..%2Fetc%2Fpasswd",
+        "issue": "Path traversal test expected 400 but got 404",
+        "impact": "None - path traversal is still blocked, just different status code",
+        "fix_priority": "LOW"
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "Backend: 35/36 tests passed (97.2% success rate)",
+    "Admin login works with admin@gullak.com / gullak@admin2025",
+    "Admin can view and navigate to all sections: Products, Collections, Site Content, Artisans, Studio Diary, Journal",
+    "Admin can create new Studio Diary moment with image upload",
+    "Image upload stores file in MongoDB (base64) + disk cache",
+    "Uploaded image URL is relative /api/uploads/ path (not hardcoded preview URL)",
+    "Images persist after page refresh",
+    "MongoDB fallback works: removed disk cache file, image still served from MongoDB, disk cache auto-restored",
+    "Uploaded test image appears on homepage Studio Diary section",
+    "Product images display correctly on storefront",
+    "Admin can edit Site Content (hero tagline, headline)",
+    "Site Content changes appear instantly on frontend homepage",
+    "All public catalog endpoints work (home, collections, products, journal, artisans)",
+    "Image serving endpoint GET /api/uploads/{filename} works correctly",
+    "Admin CRUD operations work for products, collections, journal, artisans, studio moments"
+  ],
+  "test_report_links": [
+    "/app/backend_test.py",
+    ".screenshots/admin_dashboard.png",
+    ".screenshots/admin_products.png",
+    ".screenshots/admin_collections.png",
+    ".screenshots/admin_site_content.png",
+    ".screenshots/admin_artisans.png",
+    ".screenshots/admin_studio_diary.png",
+    ".screenshots/admin_journal.png",
+    ".screenshots/moment_form_filled.png",
+    ".screenshots/studio_diary_updated.png",
+    ".screenshots/studio_diary_after_refresh.png",
+    ".screenshots/homepage_full.png",
+    ".screenshots/products_page.png",
+    ".screenshots/product_detail.png",
+    ".screenshots/site_content_edited.png",
+    ".screenshots/homepage_after_site_content_edit.png"
+  ],
+  "action_item_for_main_agent": "",
+  "updated_files": [],
+  "success_percentage": {
+    "backend": "97.2%",
+    "frontend": "100%",
+    "image_upload": "100%",
+    "image_persistence": "100%",
+    "mongodb_fallback": "100%",
+    "site_content_editing": "100%"
+  },
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_test_itself": false,
+  "detailed_verification": {
+    "root_cause_1_fixed": "✅ api.js now uses relative /api base URL in deployed environments (getBackendBase() returns empty string for non-localhost)",
+    "root_cause_2_fixed": "✅ server.py stores uploads in MongoDB (base64 in uploads collection) AND on disk as cache. Verified by checking MongoDB document and testing fallback.",
+    "root_cause_3_fixed": "✅ ImageUploader.jsx uses resolveImg from api.js instead of process.env.REACT_APP_BACKEND_URL",
+    "mongodb_fallback_test": "✅ Removed disk cache file /app/backend/uploads/3f2475d9dd4243c7a18e4531f453c991.png, requested image via API, got 289 bytes (same size), disk cache was auto-restored",
+    "image_persistence_test": "✅ Uploaded test image (blue square), refreshed page, image still loads correctly with relative /api/uploads/ URL",
+    "frontend_display_test": "✅ Test image appears on homepage, product images display correctly on storefront"
+  }
+}

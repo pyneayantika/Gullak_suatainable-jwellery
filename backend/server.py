@@ -719,8 +719,14 @@ async def admin_update_order_status(order_id: str, payload: Dict[str, str] = Bod
 ALLOWED_IMG_EXT = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 MAX_UPLOAD_BYTES = 8 * 1024 * 1024  # 8MB
 
+_CONTENT_TYPE_MAP = {
+    ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+    ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif",
+}
+
 @api.post("/admin/upload")
 async def admin_upload_image(file: UploadFile = File(...), _admin = Depends(require_admin)):
+    import base64 as _b64
     import os as _os
     ext = _os.path.splitext(file.filename or "")[1].lower()
     if ext not in ALLOWED_IMG_EXT:
@@ -728,28 +734,76 @@ async def admin_upload_image(file: UploadFile = File(...), _admin = Depends(requ
     contents = await file.read()
     if len(contents) > MAX_UPLOAD_BYTES:
         raise HTTPException(status_code=413, detail="File too large (max 8MB)")
-    # Optional: verify it's a real image via Pillow
+    # Verify it's a real image
     try:
-        from PIL import Image
+        from PIL import Image as _PIL
         import io as _io
-        Image.open(_io.BytesIO(contents)).verify()
+        _PIL.open(_io.BytesIO(contents)).verify()
     except Exception:
         raise HTTPException(status_code=400, detail="Not a valid image file")
+
     safe_name = f"{uuid.uuid4().hex}{ext}"
-    out_path = UPLOAD_DIR / safe_name
-    with open(out_path, "wb") as f:
-        f.write(contents)
+    content_type = _CONTENT_TYPE_MAP.get(ext, "image/jpeg")
+
+    # --- Primary storage: MongoDB (survives container restarts and redeploys) ---
+    try:
+        await db.uploads.replace_one(
+            {"filename": safe_name},
+            {
+                "filename": safe_name,
+                "content_type": content_type,
+                "data": _b64.b64encode(contents).decode("utf-8"),
+                "size": len(contents),
+                "created_at": iso(now_utc()),
+            },
+            upsert=True,
+        )
+    except Exception as e:
+        logger.error(f"Failed to store upload in MongoDB: {e}")
+        raise HTTPException(status_code=500, detail="Upload storage failed. Please try again.")
+
+    # --- Fast cache: local disk (optional; improves subsequent serve speed) ---
+    try:
+        out_path = UPLOAD_DIR / safe_name
+        with open(out_path, "wb") as f:
+            f.write(contents)
+    except Exception as e:
+        logger.warning(f"Could not write upload to disk cache: {e}")
+
     return {"url": f"/api/uploads/{safe_name}", "filename": safe_name, "size": len(contents)}
+
 
 @api.get("/uploads/{filename}")
 async def serve_upload(filename: str):
-    # Basic path traversal protection
+    import base64 as _b64
+    from fastapi.responses import Response as _Resp
+    # Path traversal protection
     if "/" in filename or "\\" in filename or ".." in filename:
         raise HTTPException(status_code=400, detail="Invalid filename")
+
+    # 1. Try local disk (fastest path)
     file_path = UPLOAD_DIR / filename
-    if not file_path.exists() or not file_path.is_file():
-        raise HTTPException(status_code=404, detail="Not found")
-    return FileResponse(str(file_path))
+    if file_path.exists() and file_path.is_file():
+        return FileResponse(str(file_path))
+
+    # 2. Fallback to MongoDB (durable storage — survives redeploys)
+    doc = await db.uploads.find_one({"filename": filename}, {"_id": 0})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    try:
+        data = _b64.b64decode(doc["data"])
+    except Exception:
+        raise HTTPException(status_code=500, detail="Corrupt image data")
+
+    # Restore to disk as cache for future requests
+    try:
+        with open(file_path, "wb") as f:
+            f.write(data)
+    except Exception as e:
+        logger.warning(f"Could not restore upload to disk cache: {e}")
+
+    return _Resp(content=data, media_type=doc.get("content_type", "image/jpeg"))
 
 # ---------- Restock / Launch Notifications ----------
 @api.post("/collections/{slug}/notify")

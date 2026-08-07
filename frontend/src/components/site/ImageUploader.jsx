@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { api, API_BASE } from "@/lib/api";
+import { api, API_BASE, resolveImg } from "@/lib/api";
 import { toast } from "sonner";
 import { Upload, X, Loader2, GripVertical } from "lucide-react";
 
@@ -61,12 +61,8 @@ export default function ImageUploader({ label, value, onChange, multi = false, m
     else onChange(url.trim());
   };
 
-  const resolveSrc = (u) => {
-    if (!u) return "";
-    if (u.startsWith("http")) return u;
-    // Convert relative /api/uploads/... to absolute using REACT_APP_BACKEND_URL
-    return `${process.env.REACT_APP_BACKEND_URL}${u}`;
-  };
+  // Use the shared resolveImg so image preview URLs are always consistent with API base
+  const resolveSrc = resolveImg;
 
   // Drag reorder (multi only)
   const dragIdx = useRef(null);
