@@ -11,10 +11,16 @@
   - Selective dust + warm mist (“mus” interpreted as mist/haze)
   - Warm terracotta-tinted card depth shadows
 
-**NEW TOP PRIORITY (GOVERNING REQUIREMENT): Admin reliability**
+**GOVERNING REQUIREMENT (COMPLETED IN PREVIEW): Admin reliability**
 - Ensure **all admin image uploads + text/field edits save reliably on every attempt** and **appear in the storefront**.
 - Prevent cross-environment data routing (Production must never write to Preview).
 - Ensure uploaded images remain available after redeploys (no broken images due to ephemeral disk).
+
+**Current deployment note (important):**
+- Fixes were implemented and verified in **Preview**.
+- To apply them to **Production** (`https://gullak-studio.emergent.host`), the user must **redeploy**.
+
+---
 
 ## 2) Implementation Steps (Phased)
 
@@ -97,7 +103,7 @@
 - Admin UI routes:
   - `/admin/login`, `/admin` dashboard, Products, Collections, Journal, Artisans, Orders, Notifications, Studio Diary, Site Content.
 
-**Phase 3 status:** *Implemented, but currently unreliable in Production due to cross-environment routing + upload durability issues (see Phase 3.1 below).*
+**Phase 3 status:** *Implemented and verified in Preview. Production requires redeploy for fixes to take effect.*
 
 **Conclude Phase 3:** testing_agent regression on admin login → create/edit product/collection/journal/artisan/moment → appears in storefront.
 
@@ -109,59 +115,52 @@
 5. As an admin, I can manage artisans and studio diary moments.
 
 ### Phase 3.1 — Admin Persistence & Upload Reliability (HOTFIX / highest priority)
-**Why:** User reports Production admin edits do not populate on the frontend. Root causes were identified.
+**Why:** Production admin edits were reported as not populating in the frontend UI across all admin sections.
 
 #### Root Causes (confirmed in code)
-1. **Cross-environment API routing:** `REACT_APP_BACKEND_URL` is baked into the frontend build. If Production is built with the Preview URL, the Production frontend will call the Preview backend, causing admin saves to go to the wrong database/environment.
-2. **Ephemeral uploads:** uploads stored on backend local disk (`/app/backend/uploads`). Redeploys wipe files → images disappear.
-3. **ImageUploader absolute URL assumption:** `ImageUploader.jsx` uses `process.env.REACT_APP_BACKEND_URL` to render relative `/api/uploads/...` URLs, compounding cross-environment issues.
+1. **Cross-environment API routing:** `REACT_APP_BACKEND_URL` was baked into the frontend build; Production could call the Preview backend, causing writes to land in the wrong environment.
+2. **Ephemeral uploads:** uploads were stored only on backend local disk (`/app/backend/uploads`), which can be wiped on redeploys.
+3. **ImageUploader absolute URL assumption:** `ImageUploader.jsx` used `process.env.REACT_APP_BACKEND_URL` for previewing uploaded images, compounding cross-environment issues.
 
-#### Fix Implementation (Preview first → user redeploys to Production)
+#### Fix Implementation (COMPLETED in Preview; user redeploy required for Production)
 **A) Frontend API base: use relative `/api` in deployed environments**
-- Update `/app/frontend/src/lib/api.js`:
-  - Prefer `baseURL: "/api"` when running on a non-localhost hostname.
-  - Keep env-based URL only for local development/testing if needed.
-  - Ensure `withCredentials: true` remains.
-  - Keep `resolveImg()` consistent: resolve relative `/api/uploads/...` against current origin.
+- Updated `/app/frontend/src/lib/api.js`:
+  - Uses a relative API base (`/api`) when hostname is not localhost.
+  - Keeps env-based URL for local development only.
+  - `resolveImg()` now resolves `/api/...` images against the current origin (or explicit backend base in local dev).
 
-**B) Fix ImageUploader to use the same resolver**
-- Update `/app/frontend/src/components/site/ImageUploader.jsx`:
-  - Replace its internal `resolveSrc()` logic.
-  - Import and use `resolveImg()` from `@/lib/api` for all previews.
-  - This ensures images render correctly regardless of environment and prevents Preview/Prod URL mixups.
+**B) ImageUploader uses shared resolver (no hardcoded backend URL)**
+- Updated `/app/frontend/src/components/site/ImageUploader.jsx`:
+  - Imports and uses `resolveImg()` from `@/lib/api` for image previews.
 
-**C) Make uploads durable across redeploys**
-- Update `/app/backend/server.py`:
-  - Add a MongoDB collection (e.g. `uploads`) to store:
-    - `id`, `filename`, `content_type`, `bytes_base64`, `sha256`, `created_at`
-  - On `POST /api/admin/upload`:
-    - Write file bytes to disk **and** store in Mongo as primary.
-    - Return URL `/api/uploads/{filename}`.
-  - On `GET /api/uploads/{filename}`:
-    - If disk file exists → serve.
-    - If missing → load from Mongo, restore to disk (cache), then serve.
-    - If neither exists → 404.
+**C) Durable uploads: MongoDB-backed storage + disk cache fallback**
+- Updated `/app/backend/server.py`:
+  - `POST /api/admin/upload` now stores uploads in MongoDB (`uploads` collection) as base64 + writes to disk as a cache.
+  - `GET /api/uploads/{filename}` now:
+    - serves from disk when present,
+    - falls back to MongoDB when disk file is missing,
+    - restores disk cache after Mongo fallback.
 
-**D) Hardening: "save means saved"**
-- For each admin PUT/POST:
-  - Validate update actually matched a document; if not, return 404.
-  - Return the persisted document from DB after update.
-- In admin UI:
-  - After save, re-fetch list/detail (already done in most pages) and show error if response missing.
+**D) Verification & regression testing**
+- Testing agent verified end-to-end in Preview:
+  - Admin CRUD works across Products, Collections, Journal, Artisans, Studio Diary, Site Content.
+  - Uploaded images persist after refresh.
+  - MongoDB fallback works after deleting disk cache file.
+  - Metrics: **97.2% backend**, **100% frontend**, **100% image persistence**.
 
 #### Verification Checklist (must pass repeatedly)
-- In Preview:
+- In Preview (✅ completed):
   1. Admin login works.
-  2. Upload image → returned URL works in new tab.
+  2. Upload image → returned URL works.
   3. Create + edit Product/Collection/Journal/Artisan/Studio Moment.
   4. Refresh admin page → values persist.
   5. Open storefront pages → values appear.
-  6. Restart backend / simulate missing disk file (delete one upload in Preview) → image still serves from Mongo.
-- In Production:
+  6. Delete disk upload → image still serves from Mongo, cache restored.
+- In Production (⏳ pending):
   - User redeploys after fixes.
   - Repeat same checklist on `https://gullak-studio.emergent.host`.
 
-**Phase 3.1 status:** *Not yet implemented; root-cause analysis completed and code locations identified.*
+**Phase 3.1 status:** *COMPLETED in Preview; Production rollout pending redeploy.*
 
 ### Phase 4 — Quality, performance, and brand polish
 - Visual refinement per design system: tokens, typography scale, spacing, motion restraint.
@@ -178,20 +177,22 @@
 
 **Conclude Phase 4:** full regression (guest + authed + admin) + fix until green.
 
+---
+
 ## 3) Next Actions (Immediate)
-1. Implement **Phase 3.1** fixes in Preview:
-   - `api.js` relative `/api` base in deployed env
-   - `ImageUploader.jsx` use `resolveImg`
-   - `server.py` Mongo-backed uploads with disk cache fallback
-2. Run end-to-end admin save tests (Products, Collections, Journal, Artisans, Studio Diary, Site Content) and storefront verification.
-3. Share redeploy instructions to user so Production picks up Preview fixes.
+1. **Production rollout:** Redeploy so Production (`https://gullak-studio.emergent.host`) picks up the Preview fixes.
+2. After redeploy, run the Phase 3.1 Production checklist:
+   - upload image, edit text, refresh admin, confirm storefront updates.
+3. Optional hardening follow-ups (if needed after production validation):
+   - Adjust upload traversal response to return `400` for encoded traversal attempts (currently can return 404; low priority).
+   - Add extra admin-save safeguards (e.g., verify matched_count for update operations and return 404 if missing).
 
 ## 4) Success Criteria
 - Customer Google login works reliably (login → session persists → logout) and user is stored in MongoDB.
 - Guests can browse and add to cart; signed-in users have DB-persisted cart/wishlist with merge-on-login.
 - Mock checkout creates an order record; confirmation page renders correctly.
 - Admin JWT login works; admin can CRUD products/collections/journal/artisans/studio diary and view orders.
-- **Admin reliability:**
+- **Admin reliability (✅ verified in Preview, pending Production redeploy):**
   - Admin edits save on every attempt and are visible after refresh.
   - Storefront always reflects saved changes.
   - Production frontend talks to Production backend only (no Preview leakage).
