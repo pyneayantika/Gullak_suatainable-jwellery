@@ -323,15 +323,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* MATERIAL LIBRARY */}
-      <Section wide className="bg-[color:var(--surface-2)]">
-        <div className="max-w-2xl">
-          <Overline>Material library</Overline>
-          <h2 className="mt-3 serif text-4xl sm:text-5xl tracking-[-0.02em]">Six earths. One promise.</h2>
-          <p className="mt-4 text-[15px] text-[color:var(--ink-2)] leading-[1.8]">Gullak began with terracotta. In the seasons ahead, we'll grow into other sustainable materials — each one chosen for how it lives on skin.</p>
-        </div>
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-
       {/* WHY GULLAK */}
       <Section wide>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
