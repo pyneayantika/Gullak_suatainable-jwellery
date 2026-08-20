@@ -331,28 +331,6 @@ export default function Home() {
           <p className="mt-4 text-[15px] text-[color:var(--ink-2)] leading-[1.8]">Gullak began with terracotta. In the seasons ahead, we'll grow into other sustainable materials — each one chosen for how it lives on skin.</p>
         </div>
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {[
-            { key: "terracotta", label: "Terracotta", active: true },
-            { key: "wood", label: "Wood" },
-            { key: "bamboo", label: "Bamboo" },
-            { key: "fabric", label: "Fabric" },
-            { key: "wool", label: "Wool" },
-            { key: "cork", label: "Cork" },
-          ].map((m) => (
-            <div key={m.key} className="rounded-xl overflow-hidden border border-[color:var(--border-subtle)] bg-[color:var(--surface)] card-earthy">
-              <div className="aspect-square overflow-hidden relative">
-                <img src={MATERIAL_IMG[m.key]} alt={m.label} className="h-full w-full object-cover pcard-img" />
-                {/* Clay grain overlay — makes each swatch feel like a real tactile material sample */}
-                <div className="grain-img-overlay" aria-hidden="true" />
-              </div>
-              <div className="p-3 flex items-center justify-between">
-                <span className="serif text-base">{m.label}</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full ${m.active ? "bg-[color:var(--brand)] text-[color:var(--surface)]" : "bg-[color:var(--surface-2)] text-[color:var(--ink-2)]"}`}>{m.active ? "Available" : "Soon"}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Section>
 
       {/* WHY GULLAK */}
       <Section wide>
